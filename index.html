@@ -8,6 +8,8 @@
 
 <link rel="stylesheet" href="style.css">
 
+<script src="https://s3.tradingview.com/tv.js"></script>
+
 </head>
 
 <body>
@@ -17,51 +19,92 @@
 <h1>💰 ถุงเงิน Exchange</h1>
 
 <div class="ticker">
+
 <marquee>
-ระบบแลกเงินออนไลน์ | รองรับหลายสกุลเงิน | ระบบชำระเงิน PromptPay ปลอดภัย | ติดต่อฝ่ายบริการลูกค้าได้ตลอด 24 ชั่วโมง
+ตลาดเงินโลกเปิด 24 ชั่วโมง | ตรวจสอบเรทก่อนแลกเงินทุกครั้ง | การกระจายสกุลเงินช่วยลดความเสี่ยง
 </marquee>
+
+</div>
+
+<div class="menu">
+
+<a href="login.html">เข้าสู่ระบบ</a>
+<a href="register.html">สมัครสมาชิก</a>
+
 </div>
 
 </header>
 
 
-<section class="container">
+<section class="owner">
 
-<div class="card">
+<h2>เจ้าของเว็บไซต์</h2>
 
-<h2>ชำระเงินผ่าน PromptPay</h2>
+<p>
+MR. PEERAPAT THONGRAMUN  
+พีระพัฒน์ ทองระมุน
+</p>
 
-<p>สแกน QR เพื่อโอนเงิน</p>
+<p class="warning">
 
-<img src="18809.png">
+⚠ "ชื่อนี้เท่านั้น" ห้ามโอนบุคคลอื่น
 
-<p class="account">บัญชี : พีระพัฒน์ ทองระมุน</p>
-
-</div>
-
-
-<div class="card">
-
-<h2>อัพโหลดสลิป</h2>
-
-<input type="file" id="slip">
-
-<button onclick="uploadSlip()">ยืนยันการชำระเงิน</button>
-
-<p id="result"></p>
-
-</div>
+</p>
 
 </section>
 
 
-<footer>
+<section class="chart">
 
-<p>© 2026 ถุงเงิน Exchange</p>
+<h2>กราฟค่าเงิน</h2>
 
-<p>ระบบชำระเงินออนไลน์ปลอดภัย</p>
+<div id="tradingview_chart"></div>
 
-</footer>
+</section>
+
+
+<section class="rates">
+
+<h2>อัตราแลกเปลี่ยน</h2>
+
+<table>
+
+<tr>
+<th>Currency</th>
+<th>Rate</th>
+</tr>
+
+<tbody id="rates"></tbody>
+
+</table>
+
+</section>
+
+
+<div class="contact-btn" onclick="openPopup()">
+
+ติดต่อแลกเงิน
+
+</div>
+
+
+<div class="popup" id="popup">
+
+<div class="popup-box">
+
+<h2>ติดต่อผ่าน Facebook</h2>
+
+<a href="https://www.facebook.com/share/1GYjXk6h8M/" target="_blank">
+
+<button>เปิด Facebook</button>
+
+</a>
+
+<button onclick="closePopup()">ปิด</button>
+
+</div>
+
+</div>
 
 <script src="app.js"></script>
 
