@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
@@ -12,65 +13,89 @@
 
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:#020617;
+font-family:system-ui;
+background:#0b1120;
 color:white;
 }
 
 /* HEADER */
 
 header{
-background:#0f172a;
-padding:15px;
+
+background:#111827;
+padding:16px;
 text-align:center;
 font-size:20px;
 font-weight:bold;
+color:#22c55e;
+
 }
 
 /* TICKER */
 
 .ticker{
-background:#111827;
+
+background:#020617;
 padding:6px;
 font-size:13px;
 overflow:hidden;
 white-space:nowrap;
+
 }
 
 .ticker span{
+
 display:inline-block;
 padding-left:100%;
-animation:scroll 18s linear infinite;
+animation:scroll 20s linear infinite;
+
 }
 
 @keyframes scroll{
+
 0%{transform:translateX(0)}
 100%{transform:translateX(-100%)}
+
 }
 
 /* CARD */
 
 .card{
-background:#0f172a;
+
+background:#111827;
+
 margin:12px;
-padding:15px;
-border-radius:10px;
-box-shadow:0 0 15px rgba(0,0,0,0.4);
+
+padding:16px;
+
+border-radius:14px;
+
+box-shadow:0 10px 20px rgba(0,0,0,0.4);
+
 }
 
 /* HEATMAP */
 
 .heatmap{
+
 display:grid;
+
 grid-template-columns:repeat(3,1fr);
+
 gap:8px;
+
 }
 
 .cell{
+
 padding:14px;
+
 text-align:center;
+
+border-radius:8px;
+
 font-weight:bold;
-border-radius:6px;
+
 }
 
 .strong{background:#22c55e}
@@ -80,101 +105,164 @@ border-radius:6px;
 /* TABLE */
 
 table{
+
 width:100%;
 border-collapse:collapse;
+
 }
 
 td{
-padding:8px;
-border-bottom:1px solid #1e293b;
+
+padding:10px;
+
+border-bottom:1px solid #1f2937;
+
 }
 
 /* INPUT */
 
 input,select{
+
 width:100%;
-padding:8px;
-margin-top:6px;
-margin-bottom:10px;
-border-radius:6px;
+padding:10px;
+
+border-radius:8px;
+
 border:none;
+
+margin-top:8px;
+
+margin-bottom:10px;
+
 }
 
-/* RESULT */
+/* BUTTON */
 
-#result{
-font-size:18px;
+button{
+
+background:#22c55e;
+
+border:none;
+
+padding:12px;
+
+border-radius:10px;
+
 font-weight:bold;
+
+color:white;
+
+width:100%;
+
 }
 
-/* CHART */
+/* CHART GRID */
+
+.charts{
+
+display:grid;
+
+grid-template-columns:1fr;
+
+gap:12px;
+
+}
 
 .chart{
+
 height:220px;
-margin-top:10px;
+
 }
 
 /* CONTACT BUTTON */
 
 .contact{
+
 position:fixed;
+
 bottom:20px;
+
 left:50%;
+
 transform:translateX(-50%);
+
 background:#22c55e;
-padding:15px 40px;
+
+padding:16px 40px;
+
 font-size:18px;
+
 font-weight:bold;
-border-radius:30px;
+
+border-radius:40px;
+
 box-shadow:0 0 20px #22c55e;
+
 cursor:pointer;
+
 }
 
-/* MUSIC BUTTON */
+/* MUSIC */
 
-.music-btn{
+.music{
+
 position:fixed;
+
 right:15px;
+
 bottom:90px;
-background:#0ea5e9;
-border:none;
-padding:10px 14px;
+
+background:#0284c7;
+
+padding:10px;
+
 border-radius:20px;
-color:white;
-font-size:14px;
-box-shadow:0 0 10px #0ea5e9;
+
 cursor:pointer;
+
 }
 
 /* FOOTER */
 
 footer{
+
 text-align:center;
+
 font-size:13px;
+
 padding:20px;
-opacity:0.8;
+
+opacity:0.7;
+
 }
 
 </style>
+
 </head>
 
 <body>
 
 <header>
+
 💰 ถุงทองแลกเปลี่ยน
+
 </header>
 
 <div class="ticker">
+
 <span>
-USD แข็งค่า | EUR อ่อนค่า | บริหารเงินอย่างฉลาด | ตลาดการเงินโลกเคลื่อนไหวตลอดเวลา
+
+USD แข็งค่า | EUR อ่อนค่า | ตลาด Forex เปิด 24 ชั่วโมง | การบริหารเงินคือกุญแจสู่ความมั่งคั่ง
+
 </span>
+
 </div>
 
 <!-- HEATMAP -->
 
 <div class="card">
 
-<h3>🌍 Currency Heatmap</h3>
+<h3>🌍 Heatmap ค่าเงิน</h3>
 
 <div class="heatmap">
 
@@ -208,7 +296,7 @@ USD แข็งค่า | EUR อ่อนค่า | บริหารเง
 
 <div class="card">
 
-<h3>🧮 คำนวณแลกเงิน</h3>
+<h3>🧮 เครื่องคำนวณแลกเงินจริง</h3>
 
 <input id="amount" placeholder="จำนวนเงิน">
 
@@ -236,11 +324,21 @@ USD แข็งค่า | EUR อ่อนค่า | บริหารเง
 
 <div class="card">
 
-<h3>📊 กราฟตลาด</h3>
+<h3>📊 กราฟค่าเงิน 9 ประเทศ</h3>
+
+<div class="charts">
 
 <div id="chart1" class="chart"></div>
 <div id="chart2" class="chart"></div>
 <div id="chart3" class="chart"></div>
+<div id="chart4" class="chart"></div>
+<div id="chart5" class="chart"></div>
+<div id="chart6" class="chart"></div>
+<div id="chart7" class="chart"></div>
+<div id="chart8" class="chart"></div>
+<div id="chart9" class="chart"></div>
+
+</div>
 
 </div>
 
@@ -248,7 +346,7 @@ USD แข็งค่า | EUR อ่อนค่า | บริหารเง
 
 เจ้าของเว็บไซต์  
 <strong>MR.PEERAPAT THONGRAMUN</strong><br>
-พีระพัฒน์ ทองระมุน  
+พีระพัฒน์ ทองระมุน
 
 <br><br>
 
@@ -256,23 +354,153 @@ USD แข็งค่า | EUR อ่อนค่า | บริหารเง
 
 </footer>
 
-<!-- CONTACT BUTTON -->
-
 <div class="contact" onclick="contact()">
+
 📩 ติดต่อแลกเงิน
+
 </div>
 
-<!-- MUSIC BUTTON -->
+<div class="music" onclick="toggleMusic()">
 
-<button onclick="toggleMusic()" class="music-btn">
-🎵 เพลง
-</button>
+🎵
+
+</div>
 
 <audio id="bgmusic" loop>
 <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+
+const API="https://v6.exchangerate-api.com/v6/4aa8ace0999fc317127c536a/latest/USD"
+
+let rates={}
+
+async function loadRates(){
+
+let r=await fetch(API)
+
+let data=await r.json()
+
+rates=data.conversion_rates
+
+let table=document.getElementById("rates")
+
+table.innerHTML=""
+
+let list=["USD","EUR","GBP","JPY","AUD","CNY","SGD","KRW","MYR"]
+
+list.forEach(c=>{
+
+let tr=document.createElement("tr")
+
+tr.innerHTML="<td>"+c+"</td><td>"+rates[c]+"</td>"
+
+table.appendChild(tr)
+
+})
+
+}
+
+function calc(){
+
+let amt=document.getElementById("amount").value
+
+let cur=document.getElementById("currency").value
+
+let result=amt*rates[cur]
+
+document.getElementById("result").innerText="≈ "+result.toFixed(2)+" "+cur
+
+}
+
+function contact(){
+
+window.open("https://www.facebook.com/share/1GYjXk6h8M/")
+
+}
+
+/* MUSIC */
+
+let music=document.getElementById("bgmusic")
+
+function toggleMusic(){
+
+if(music.paused){
+
+music.volume=0.2
+music.play()
+
+}else{
+
+music.pause()
+
+}
+
+}
+
+/* LOAD RATES */
+
+loadRates()
+
+setInterval(loadRates,60000)
+
+/* CHARTS */
+
+const pairs=[
+
+"FX:USDTHB",
+"FX:EURUSD",
+"FX:GBPUSD",
+"FX:USDJPY",
+"FX:AUDUSD",
+"FX:USDCNH",
+"FX:USDSGD",
+"FX:USDKRW",
+"FX:USDMYR"
+
+]
+
+function loadCharts(){
+
+pairs.forEach((p,i)=>{
+
+document.getElementById("chart"+(i+1)).innerHTML=""
+
+new TradingView.widget({
+
+container_id:"chart"+(i+1),
+
+width:"100%",
+
+height:220,
+
+symbol:p,
+
+interval:"5",
+
+timezone:"Asia/Bangkok",
+
+theme:"dark",
+
+style:"1",
+
+hide_top_toolbar:true
+
+})
+
+})
+
+}
+
+loadCharts()
+
+setInterval(loadCharts,60000)
+
+</script>
+
+</body>
+</html><script>
 
 const API="https://v6.exchangerate-api.com/v6/4aa8ace0999fc317127c536a/latest/USD"
 
