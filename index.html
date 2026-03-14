@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Global Exchange Platform</title>
+
+<link rel="stylesheet" href="css/main.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>💱 Global Currency Exchange</h1>
+
+<nav>
+
+<a href="#">Home</a>
+<a href="#exchange">Exchange</a>
+<a href="#rates">Rates</a>
+<a href="admin.html">Admin</a>
+
+</nav>
+
+</header>
+
+
+<section class="hero">
+
+<h2>Secure Online Exchange Platform</h2>
+
+</section>
+
+
+<section id="exchange" class="card">
+
+<h2>Exchange Form</h2>
+
+<input id="name" placeholder="ชื่อ นามสกุล">
+
+<input id="account" placeholder="เลขบัญชี">
+
+<select id="bank">
+
+<option value="KTB">Krungthai</option>
+<option value="KBANK">Kasikorn</option>
+<option value="SCB">SCB</option>
+<option value="BBL">Bangkok Bank</option>
+<option value="TTB">TTB</option>
+<option value="BAY">Krungsri</option>
+<option value="GSB">GSB</option>
+<option value="BAAC">BAAC</option>
+
+</select>
+
+
+<select id="currency">
+
+<option>USD</option>
+<option>EUR</option>
+<option>GBP</option>
+<option>JPY</option>
+<option>CNY</option>
+<option>SGD</option>
+<option>AUD</option>
+<option>HKD</option>
+<option>KRW</option>
+
+</select>
+
+
+<input id="amount" placeholder="Amount">
+
+
+<button onclick="calculate()">Calculate</button>
+
+<button onclick="createReceipt()">Create Receipt</button>
+
+<button onclick="downloadReceipt()">Download Receipt</button>
+
+<div id="result"></div>
+
+</section>
+
+
+
+<section id="rates" class="card">
+
+<h2>Exchange Rates</h2>
+
+<table id="rateTable">
+
+<tr>
+
+<th>Currency</th>
+<th>THB</th>
+
+</tr>
+
+</table>
+
+</section>
+
+
+
+<div id="receipt" class="receipt">
+
+<div class="watermark">SECURE</div>
+
+<h3>Transaction Receipt</h3>
+
+<p>ID: <span id="txid"></span></p>
+
+<div id="qrcode"></div>
+
+<p>Name: <span id="rname"></span></p>
+
+<p>Account: <span id="racc"></span></p>
+
+<p>Bank: <span id="rbank"></span></p>
+
+<p>Amount: <span id="ramount"></span></p>
+
+<p>Rate: <span id="rrate"></span></p>
+
+<p>Receive THB: <span id="rthb"></span></p>
+
+</div>
+
+
+<script src="js/exchange.js"></script>
+
+</body>
+</html>
