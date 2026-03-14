@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <title>ถุงเงิน Exchange</title>
 
 <link rel="stylesheet" href="style.css">
@@ -17,13 +16,13 @@
 
 <div class="box">
 
-<h3>สร้าง QR ชำระเงิน</h3>
+<h3>ชำระเงิน</h3>
 
-<input id="amount" placeholder="จำนวนเงิน">
+<p>สแกน QR เพื่อโอนเงิน</p>
 
-<button onclick="createQR()">สร้าง QR</button>
+<img src="18811.png" id="qr">
 
-<img id="qr">
+<p>ชื่อบัญชี: พีระพัฒน์ ทองระมุน</p>
 
 </div>
 
@@ -33,13 +32,11 @@
 
 <input type="file" id="slip">
 
-<button onclick="verifySlip()">ตรวจสอบสลิป</button>
+<button onclick="uploadSlip()">ยืนยันการชำระเงิน</button>
 
 <p id="result"></p>
 
 </div>
-
-<script src="config.js"></script>
 
 <script src="app.js"></script>
 
