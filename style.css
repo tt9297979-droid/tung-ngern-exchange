@@ -18,11 +18,10 @@ border-radius:10px;
 
 }
 
-input{
+img{
 
-width:100%;
-padding:10px;
-margin:5px;
+width:250px;
+margin-top:10px;
 
 }
 
@@ -34,12 +33,5 @@ padding:10px;
 width:100%;
 color:white;
 border-radius:6px;
-
-}
-
-img{
-
-margin-top:10px;
-width:250px;
 
 }
