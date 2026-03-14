@@ -4,109 +4,167 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>ถุงทองแลกเปลี่ยน</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://s3.tradingview.com/tv.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 
 body{
-
+margin:0;
 font-family:sans-serif;
 background:#0f172a;
 color:white;
-margin:0;
-
 }
 
 header{
-
 background:#1e3a8a;
 padding:15px;
 text-align:center;
 font-size:22px;
 font-weight:bold;
-
 }
 
 nav{
-
 display:flex;
 overflow:auto;
 background:#1e40af;
-
 }
 
 nav button{
-
 flex:1;
-padding:10px;
+padding:12px;
 border:none;
 background:none;
 color:white;
 font-size:14px;
+transition:0.3s;
+}
 
+nav button:hover{
+background:#3b82f6;
 }
 
 section{
-
 display:none;
 padding:20px;
-
 }
 
 .active{
-
 display:block;
+}
 
+.hero{
+background:url("https://images.unsplash.com/photo-1559526324-593bc073d938");
+background-size:cover;
+padding:120px 20px;
+text-align:center;
+}
+
+.hero h1{
+font-size:32px;
 }
 
 table{
-
 width:100%;
 border-collapse:collapse;
-
 }
 
 td,th{
-
 padding:10px;
 border-bottom:1px solid #333;
-
 }
 
 input,select{
-
 width:100%;
 padding:10px;
 margin:5px 0;
-
 }
 
-button{
-
-padding:10px;
-border:none;
-border-radius:8px;
-
-}
-
-.calc{
-
+button.calc{
 background:#2563eb;
 color:white;
 width:100%;
-
+padding:12px;
+border:none;
+border-radius:8px;
 }
 
 .result{
-
 background:#16a34a;
 padding:15px;
 border-radius:10px;
 margin-top:10px;
+}
 
+.security{
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+justify-content:center;
+padding:40px;
+}
+
+.sec-card{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+width:200px;
+text-align:center;
+}
+
+.sec-card img{
+width:60px;
+}
+
+.floating-contact{
+position:fixed;
+right:20px;
+bottom:90px;
+background:#2563eb;
+padding:14px;
+border-radius:40px;
+cursor:pointer;
+}
+
+.popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+justify-content:center;
+align-items:center;
+}
+
+.popup-content{
+background:white;
+color:black;
+padding:25px;
+border-radius:12px;
+width:300px;
+text-align:center;
+}
+
+.security-bar{
+position:fixed;
+bottom:0;
+width:100%;
+background:#111;
+color:#00ffcc;
+padding:10px;
+}
+
+#receipt{
+background:white;
+color:black;
+padding:20px;
+width:320px;
 }
 
 </style>
@@ -116,75 +174,78 @@ margin-top:10px;
 <body>
 
 <header>
-
 💰 ถุงทองแลกเปลี่ยน
-
 </header>
 
 <nav>
 
 <button onclick="show('home')">Home</button>
-
 <button onclick="show('exchange')">แลกเงิน</button>
-
 <button onclick="show('about')">About</button>
-
 <button onclick="show('contact')">Contact</button>
-
 <button onclick="show('policy')">Security</button>
-
 <button onclick="show('terms')">Terms</button>
 
 </nav>
 
-<!-- HOME -->
-
 <section id="home" class="active">
 
-<h2>อัตราแลกเปลี่ยนเงิน</h2>
+<div class="hero">
+<h1>ระบบแลกเงินออนไลน์</h1>
+<p>ตรวจสอบเรทค่าเงินแบบเรียลไทม์</p>
+</div>
+
+<h2>กราฟค่าเงิน</h2>
+
+<div id="chart"></div>
+
+<script>
+
+new TradingView.widget({
+
+container_id:"chart",
+width:"100%",
+height:400,
+symbol:"FX:USDTHB",
+interval:"5",
+timezone:"Asia/Bangkok",
+theme:"dark",
+style:"1"
+
+})
+
+</script>
+
+<h2>อัตราแลกเปลี่ยน</h2>
 
 <table id="rates">
-
 <tr>
-
 <th>Currency</th>
-
 <th>THB</th>
-
 </tr>
-
 </table>
 
 </section>
-
-<!-- EXCHANGE -->
 
 <section id="exchange">
 
 <h2>คำนวณแลกเงิน</h2>
 
 <input id="customer" placeholder="ชื่อลูกค้า">
+<input id="customerAcc" placeholder="เลขบัญชีลูกค้า">
 
 <input id="amount" placeholder="จำนวนเงิน">
 
 <select id="currency">
 
 <option value="USD">USD</option>
-
 <option value="EUR">EUR</option>
-
 <option value="GBP">GBP</option>
-
 <option value="JPY">JPY</option>
-
 <option value="AUD">AUD</option>
-
 <option value="CNY">CNY</option>
-
 <option value="SGD">SGD</option>
-
 <option value="KRW">KRW</option>
-
 <option value="MYR">MYR</option>
 
 </select>
@@ -193,11 +254,33 @@ margin-top:10px;
 
 <div id="result" class="result" style="display:none"></div>
 
-<button onclick="receipt()">🧾 ดาวน์โหลดใบเสร็จ</button>
+<button onclick="createReceipt()">สร้างใบเสร็จ</button>
+
+<div id="receipt" style="display:none">
+
+<h3>ใบเสร็จแลกเงิน</h3>
+
+<p id="txid"></p>
+<p id="cust"></p>
+<p id="acc"></p>
+<p id="amountEx"></p>
+<p id="rateEx"></p>
+<p id="receiveEx"></p>
+
+<p>
+
+ผู้รับเงิน<br>
+
+พีระพัฒน์ ทองระมุน<br>
+3260643737
+
+</p>
+
+</div>
+
+<button onclick="downloadPNG()">ดาวน์โหลด PNG</button>
 
 </section>
-
-<!-- ABOUT -->
 
 <section id="about">
 
@@ -205,59 +288,34 @@ margin-top:10px;
 
 <p>
 
-ถุงทองแลกเปลี่ยน เป็นบริการแลกเงินออนไลน์
+ถุงทองแลกเปลี่ยน เป็นระบบแลกเงินออนไลน์
 
-ที่ให้ลูกค้าตรวจสอบเรทและคำนวณเงินได้ก่อนทำธุรกรรม
+ให้ลูกค้าตรวจสอบอัตราแลกก่อนทำธุรกรรม
 
 </p>
 
 <p>
 
-ผู้ดูแล
-
+ผู้ดูแลระบบ  
 MR.PEERAPAT THONGRAMUN
 
 </p>
 
-<p>
-
-บัญชีรับเงิน
-
-พีระพัฒน์ ทองระมุน
-
-3260643737
-
-</p>
-
 </section>
-
-<!-- CONTACT -->
 
 <section id="contact">
 
 <h2>ติดต่อเรา</h2>
 
-<p>
+<p>📞 093-471-4311</p>
 
-📞 093-471-4311
+<a href="https://www.facebook.com/share/1GYjXk6h8M/" target="_blank">
 
-</p>
-
-<p>
-
-Facebook
-
-</p>
-
-<a href="https://www.facebook.com/share/1GYjXk6h8M/">
-
-กดเพื่อติดต่อ
+ติดต่อ Facebook
 
 </a>
 
 </section>
-
-<!-- SECURITY -->
 
 <section id="policy">
 
@@ -265,27 +323,15 @@ Facebook
 
 <p>
 
-ระบบตรวจสอบธุรกรรมทุกครั้งก่อนโอนเงิน
-
-เพื่อความปลอดภัยของลูกค้า
-
-</p>
-
-<p>
-
-โปรดโอนเฉพาะบัญชี
-
-พีระพัฒน์ ทองระมุน
+ระบบตรวจสอบธุรกรรมก่อนโอนเงินทุกครั้ง
 
 </p>
 
 </section>
 
-<!-- TERMS -->
-
 <section id="terms">
 
-<h2>Terms of Service</h2>
+<h2>Terms</h2>
 
 <p>
 
@@ -293,26 +339,64 @@ Facebook
 
 </p>
 
-<p>
-
-ธุรกรรมที่ยืนยันแล้วไม่สามารถยกเลิกได้
-
-</p>
-
 </section>
+
+<div class="floating-contact" onclick="openContact()">
+
+💬 ติดต่อแลกเงิน
+
+</div>
+
+<div id="contactPopup" class="popup">
+
+<div class="popup-content">
+
+<h2>ติดต่อแลกเงิน</h2>
+
+<p>📞 093-471-4311</p>
+
+<a href="https://www.facebook.com/share/1GYjXk6h8M/" target="_blank">
+
+Facebook
+
+</a>
+
+<br><br>
+
+<button onclick="closeContact()">ปิด</button>
+
+</div>
+
+</div>
+
+<div class="security-bar">
+
+<marquee>
+
+🔐 โปรดโอนเฉพาะบัญชี พีระพัฒน์ ทองระมุน | ธุรกรรมใช้เวลาตรวจสอบ 5-10 นาที
+
+</marquee>
+
+</div>
 
 <script>
 
 function show(id){
 
 document.querySelectorAll("section").forEach(s=>{
-
 s.classList.remove("active")
-
 })
 
 document.getElementById(id).classList.add("active")
 
+}
+
+function openContact(){
+document.getElementById("contactPopup").style.display="flex"
+}
+
+function closeContact(){
+document.getElementById("contactPopup").style.display="none"
 }
 
 const API="https://v6.exchangerate-api.com/v6/4aa8ace0999fc317127c536a/latest/USD"
@@ -372,29 +456,47 @@ result.style.display="block"
 result.innerHTML=
 
 "ได้รับ "+receive.toFixed(2)+" บาท<br>"+
-
 "เรท "+rate.toFixed(2)
 
 }
 
-function receipt(){
+function createReceipt(){
 
 let tx="TX"+Date.now()
 
-alert(
+txid.innerText="Transaction: "+tx
 
-"Transaction "+tx+
+cust.innerText="ลูกค้า: "+customer.value
 
-"\n"+customer.value+
+acc.innerText="บัญชีลูกค้า: "+customerAcc.value
 
-"\nReceive "+last.receive.toFixed(2)+" THB"
+amountEx.innerText="จำนวนแลก: "+last.amt+" "+last.cur
 
-)
+rateEx.innerText="เรท: "+last.rate.toFixed(2)
+
+receiveEx.innerText="รับ: "+last.receive.toFixed(2)+" THB"
+
+receipt.style.display="block"
+
+}
+
+function downloadPNG(){
+
+html2canvas(document.querySelector("#receipt")).then(canvas=>{
+
+let link=document.createElement("a")
+
+link.download="receipt.png"
+
+link.href=canvas.toDataURL()
+
+link.click()
+
+})
 
 }
 
 </script>
 
 </body>
-
 </html>
