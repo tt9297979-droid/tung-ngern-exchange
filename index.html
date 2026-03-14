@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>ถุงทองแลกเปลี่ยน</title>
+<title>Exchange FinTech</title>
 
-<script src="https://s3.tradingview.com/tv.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -15,7 +15,7 @@
 
 body{
 margin:0;
-font-family:Arial;
+font-family:sans-serif;
 background:#020617;
 color:white;
 overflow-x:hidden;
@@ -25,13 +25,8 @@ overflow-x:hidden;
 
 header{
 background:#0f172a;
-padding:16px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.logo{
+padding:18px;
+text-align:center;
 font-size:22px;
 font-weight:bold;
 }
@@ -39,162 +34,146 @@ font-weight:bold;
 /* hero */
 
 .hero{
-
-background:url("https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3") center/cover;
-
-height:300px;
-
+background:url("https://images.unsplash.com/photo-1565514020179-026b92b84bb6") center/cover;
+height:220px;
 display:flex;
-
 align-items:center;
-
 justify-content:center;
-
-text-align:center;
-
-font-size:30px;
-
+font-size:26px;
 font-weight:bold;
-
 }
 
 /* container */
 
 .container{
-
-max-width:1000px;
+max-width:900px;
 margin:auto;
 padding:20px;
-
 }
-
-/* card */
 
 .card{
-
 background:#0f172a;
-
 padding:20px;
-
 border-radius:14px;
-
 margin-bottom:20px;
-
-box-shadow:0 10px 40px rgba(0,0,0,.6);
-
 }
 
-/* inputs */
+/* form */
 
 input,select{
-
 width:100%;
-
 padding:12px;
-
-margin:6px 0;
-
+margin-top:6px;
 border-radius:8px;
-
 border:none;
-
 }
 
 /* buttons */
 
 button{
-
 width:100%;
-
 padding:12px;
-
-margin-top:8px;
-
+margin-top:10px;
 border:none;
-
 border-radius:10px;
-
 background:#2563eb;
-
 color:white;
-
 font-size:16px;
-
 cursor:pointer;
+}
 
+button:hover{
+background:#1d4ed8;
 }
 
 /* result */
 
 .result{
-
 background:#16a34a;
-
-padding:14px;
-
+padding:12px;
 border-radius:10px;
-
 margin-top:10px;
-
+display:none;
 }
 
 /* exchange table */
 
 table{
-
 width:100%;
-
 border-collapse:collapse;
-
 }
 
 td,th{
-
 padding:10px;
-
 border-bottom:1px solid #333;
-
 }
 
 /* receipt */
 
 .receipt{
-
 background:white;
-
 color:black;
-
 width:360px;
-
 margin:auto;
-
 padding:20px;
-
 border-radius:12px;
-
 display:none;
+position:relative;
+}
+
+.watermark{
+
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) rotate(-30deg);
+font-size:60px;
+color:rgba(0,0,0,0.08);
+font-weight:bold;
 
 }
 
-/* floating contact */
+/* floating coins */
+
+.coin{
+position:fixed;
+top:-50px;
+font-size:20px;
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+to{transform:translateY(120vh);}
+}
+
+/* contact button */
 
 .contactBtn{
 
 position:fixed;
-
 bottom:30px;
-
 right:30px;
 
-background:#2563eb;
+background:linear-gradient(135deg,#2563eb,#06b6d4);
 
-padding:18px;
+padding:16px 22px;
 
 border-radius:50px;
 
-font-size:22px;
+font-size:18px;
+font-weight:bold;
 
 cursor:pointer;
+
+animation:pulse 2s infinite;
+
+}
+
+@keyframes pulse{
+
+0%{transform:scale(1)}
+50%{transform:scale(1.07)}
+100%{transform:scale(1)}
 
 }
 
@@ -203,21 +182,13 @@ cursor:pointer;
 .popup{
 
 display:none;
-
 position:fixed;
-
 top:0;
-
 left:0;
-
 width:100%;
-
 height:100%;
-
 background:rgba(0,0,0,.7);
-
 justify-content:center;
-
 align-items:center;
 
 }
@@ -225,50 +196,24 @@ align-items:center;
 .popupBox{
 
 background:white;
-
 color:black;
-
 padding:30px;
-
-border-radius:14px;
-
-}
-
-/* coin animation */
-
-.coin{
-
-position:fixed;
-
-top:-50px;
-
-font-size:20px;
-
-animation:fall linear infinite;
-
-}
-
-@keyframes fall{
-
-to{transform:translateY(120vh);}
+border-radius:12px;
 
 }
 
 </style>
+
 </head>
 
 <body>
 
 <header>
-
-<div class="logo">💰 ถุงทองแลกเปลี่ยน</div>
-
+💰 ระบบแลกเงินออนไลน์
 </header>
 
 <div class="hero">
-
-ระบบแลกเงินออนไลน์ ปลอดภัย ตรวจสอบได้
-
+FinTech Exchange Platform
 </div>
 
 <div class="container">
@@ -279,11 +224,13 @@ to{transform:translateY(120vh);}
 
 <p>
 
-1 กรอกชื่อและบัญชี  
-2 เลือกสกุลเงิน  
-3 กดสร้างใบเสร็จ  
-4 ดาวน์โหลดใบเสร็จ  
-5 ส่งผ่าน Facebook เพื่อยืนยันธุรกรรม  
+1 กรอกชื่อและเลขบัญชี  
+2 เลือกธนาคาร  
+3 เลือกสกุลเงิน  
+4 ระบุจำนวนเงิน  
+5 กดสร้างใบเสร็จ  
+6 ดาวน์โหลดใบเสร็จ  
+7 ส่งใบเสร็จให้เจ้าหน้าที่  
 
 </p>
 
@@ -299,10 +246,14 @@ to{transform:translateY(120vh);}
 
 <select id="bank">
 
-<option>กรุงไทย</option>
-<option>กสิกรไทย</option>
-<option>ไทยพาณิชย์</option>
-<option>กรุงเทพ</option>
+<option value="KTB">กรุงไทย</option>
+<option value="KBANK">กสิกรไทย</option>
+<option value="SCB">ไทยพาณิชย์</option>
+<option value="BBL">กรุงเทพ</option>
+<option value="TTB">TTB</option>
+<option value="BAY">กรุงศรี</option>
+<option value="GSB">ออมสิน</option>
+<option value="BAAC">ธกส</option>
 
 </select>
 
@@ -310,8 +261,13 @@ to{transform:translateY(120vh);}
 
 <option value="USD">USD</option>
 <option value="EUR">EUR</option>
+<option value="GBP">GBP</option>
 <option value="JPY">JPY</option>
 <option value="CNY">CNY</option>
+<option value="SGD">SGD</option>
+<option value="AUD">AUD</option>
+<option value="HKD">HKD</option>
+<option value="KRW">KRW</option>
 
 </select>
 
@@ -319,41 +275,26 @@ to{transform:translateY(120vh);}
 
 <button onclick="calc()">คำนวณ</button>
 
-<div id="result" class="result" style="display:none"></div>
+<div id="result" class="result"></div>
 
 <button onclick="createReceipt()">สร้างใบเสร็จ</button>
 
-<button onclick="downloadPNG()">ดาวน์โหลดใบเสร็จ</button>
+<button onclick="downloadReceipt()">ดาวน์โหลดใบเสร็จ</button>
 
 </div>
 
 <div class="card">
 
-<h2>ตารางอัตราแลกเปลี่ยน</h2>
+<h2>อัตราแลกเปลี่ยน</h2>
 
-<table>
+<table id="rateTable">
 
 <tr>
-
 <th>Currency</th>
-<th>Rate THB</th>
-
+<th>THB</th>
 </tr>
 
-<tr><td>USD</td><td id="usd"></td></tr>
-<tr><td>EUR</td><td id="eur"></td></tr>
-<tr><td>JPY</td><td id="jpy"></td></tr>
-<tr><td>CNY</td><td id="cny"></td></tr>
-
 </table>
-
-</div>
-
-<div class="card">
-
-<h2>กราฟค่าเงิน</h2>
-
-<div id="chart"></div>
 
 </div>
 
@@ -361,7 +302,11 @@ to{transform:translateY(120vh);}
 
 <div id="receipt" class="receipt">
 
-<h3>ใบเสร็จแลกเงิน</h3>
+<div class="watermark">SECURE</div>
+
+<h3>ใบเสร็จธุรกรรม</h3>
+
+<img id="bankLogoImg" width="80">
 
 <p>Transaction ID : <span id="tx"></span></p>
 
@@ -379,30 +324,25 @@ to{transform:translateY(120vh);}
 
 <p>รับเงิน : <span id="receive"></span></p>
 
-<p>
-
-ผู้โอนเงิน  
-พีระพัฒน์ ทองระมุน  
-3260643737  
-ธนาคารกรุงไทย  
-
-</p>
-
 </div>
 
-<div class="contactBtn" onclick="openContact()">💬</div>
+<div class="contactBtn" onclick="openContact()">
+
+💬 ส่งใบเสร็จ
+
+</div>
 
 <div class="popup" id="contactPopup">
 
 <div class="popupBox">
 
-<h3>ติดต่อแลกเงิน</h3>
+<h2>ส่งใบเสร็จ</h2>
 
-<p>ส่งใบเสร็จผ่าน Facebook</p>
+<p>กรุณาส่งใบเสร็จให้เจ้าหน้าที่เพื่อตรวจสอบ</p>
 
-<a href="https://www.facebook.com/share/1GYjXk6h8M/">
+<a href="https://www.facebook.com/share/1GYjXk6h8M/" target="_blank">
 
-ไปยัง Facebook
+<button>ติดต่อผ่าน Facebook</button>
 
 </a>
 
@@ -416,68 +356,65 @@ to{transform:translateY(120vh);}
 
 <script>
 
-/* coin animation */
+/* floating coins */
 
-for(let i=0;i<20;i++){
+for(let i=0;i<15;i++){
 
 let c=document.createElement("div")
-
 c.className="coin"
-
 c.innerHTML="💰"
-
 c.style.left=Math.random()*100+"vw"
-
-c.style.animationDuration=(5+Math.random()*10)+"s"
-
+c.style.animationDuration=(5+Math.random()*8)+"s"
 document.body.appendChild(c)
 
 }
 
-/* chart */
+/* bank logos */
 
-new TradingView.widget({
+const bankLogo={
 
-container_id:"chart",
+KTB:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Krungthai_Bank_logo.svg",
+KBANK:"https://upload.wikimedia.org/wikipedia/commons/5/5c/Kasikornbank_logo.svg",
+SCB:"https://upload.wikimedia.org/wikipedia/commons/3/31/Siam_Commercial_Bank_logo.svg",
+BBL:"https://upload.wikimedia.org/wikipedia/commons/7/79/Bangkok_Bank_logo.svg",
+TTB:"https://upload.wikimedia.org/wikipedia/commons/4/49/TMBThanachart_logo.svg",
+BAY:"https://upload.wikimedia.org/wikipedia/commons/5/5e/Bank_of_Ayudhya_logo.svg",
+GSB:"https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Savings_Bank_logo.svg",
+BAAC:"https://upload.wikimedia.org/wikipedia/commons/e/e4/BAAC_logo.svg"
 
-width:"100%",
+}
 
-height:400,
-
-symbol:"FX:USDTHB",
-
-interval:"5",
-
-theme:"dark",
-
-timezone:"Asia/Bangkok"
-
-})
-
-/* api */
+/* rates */
 
 const API="https://open.er-api.com/v6/latest/USD"
 
 let rates={}
+let last={}
 
 async function loadRates(){
 
 let r=await fetch(API)
-
 let data=await r.json()
 
 rates=data.rates
 
-usd.innerText=data.rates.THB.toFixed(2)
-eur.innerText=(data.rates.THB/data.rates.EUR).toFixed(2)
-jpy.innerText=(data.rates.THB/data.rates.JPY).toFixed(2)
-cny.innerText=(data.rates.THB/data.rates.CNY).toFixed(2)
+let list=["USD","EUR","GBP","JPY","CNY","SGD","AUD","HKD","KRW"]
+
+list.forEach(c=>{
+
+let rate=(rates["THB"]/rates[c]).toFixed(2)
+
+let tr=document.createElement("tr")
+
+tr.innerHTML="<td>"+c+"</td><td>"+rate+"</td>"
+
+rateTable.appendChild(tr)
+
+})
 
 }
 
 loadRates()
-
-let last={}
 
 function calc(){
 
@@ -497,7 +434,7 @@ last={rate,receive}
 
 result.style.display="block"
 
-result.innerHTML="จะได้รับประมาณ "+receive.toFixed(2)+" บาท"
+result.innerHTML="ประมาณ "+receive.toFixed(2)+" บาท"
 
 }
 
@@ -519,15 +456,19 @@ rrate.innerText=last.rate.toFixed(2)
 
 receive.innerText=last.receive.toFixed(2)+" THB"
 
+bankLogoImg.src=bankLogo[bank.value]
+
 receipt.style.display="block"
+
+document.getElementById("qrcode").innerHTML=""
 
 new QRCode(qrcode,{text:txid,width:120,height:120})
 
 }
 
-function downloadPNG(){
+function downloadReceipt(){
 
-html2canvas(document.querySelector("#receipt")).then(canvas=>{
+html2canvas(receipt).then(canvas=>{
 
 let link=document.createElement("a")
 
@@ -556,4 +497,5 @@ contactPopup.style.display="none"
 </script>
 
 </body>
+
 </html>
