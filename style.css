@@ -9,9 +9,17 @@ color:white;
 
 header{
 
+text-align:center;
 background:#020617;
 padding:20px;
-text-align:center;
+
+}
+
+.menu a{
+
+color:white;
+margin:10px;
+text-decoration:none;
 
 }
 
@@ -19,35 +27,41 @@ text-align:center;
 
 background:#16a34a;
 padding:10px;
-font-weight:bold;
 
 }
 
-.container{
+.chart{
 
-display:flex;
-justify-content:center;
-gap:20px;
-margin-top:40px;
-flex-wrap:wrap;
-
-}
-
-.card{
-
-background:#1e293b;
-padding:25px;
-border-radius:10px;
-width:320px;
+padding:40px;
 text-align:center;
-box-shadow:0 0 10px rgba(0,0,0,0.5);
 
 }
 
-img{
+#tradingview_chart{
 
-width:240px;
-margin:10px 0;
+height:500px;
+
+}
+
+table{
+
+margin:auto;
+border-collapse:collapse;
+
+}
+
+th,td{
+
+border:1px solid #334155;
+padding:10px;
+
+}
+
+.login-box{
+
+width:300px;
+margin:150px auto;
+text-align:center;
 
 }
 
@@ -61,36 +75,44 @@ margin-top:10px;
 
 button{
 
-margin-top:10px;
-width:100%;
-padding:12px;
+padding:10px;
 background:#22c55e;
 border:none;
-border-radius:6px;
+margin-top:10px;
 color:white;
-font-size:16px;
+
+}
+
+.contact-btn{
+
+position:fixed;
+bottom:30px;
+right:30px;
+background:#22c55e;
+padding:15px;
+border-radius:50px;
 cursor:pointer;
 
 }
 
-button:hover{
+.popup{
 
-background:#16a34a;
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
 
 }
 
-.account{
+.popup-box{
 
-font-size:14px;
-opacity:0.8;
-
-}
-
-footer{
-
-margin-top:60px;
-background:#020617;
+background:#1e293b;
+padding:30px;
+width:300px;
+margin:200px auto;
 text-align:center;
-padding:20px;
 
 }
