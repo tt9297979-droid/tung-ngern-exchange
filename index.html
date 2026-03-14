@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>ถุงทองแลกเปลี่ยน</title>
 
@@ -15,125 +15,243 @@
 
 body{
 margin:0;
-font-family:sans-serif;
+font-family:Arial;
 background:#020617;
 color:white;
 overflow-x:hidden;
 }
 
-/* เงินลอย */
-
-.coin{
-position:fixed;
-top:-50px;
-font-size:22px;
-animation:fall linear infinite;
-opacity:.6;
-}
-
-@keyframes fall{
-to{transform:translateY(120vh);}
-}
+/* header */
 
 header{
 background:#0f172a;
-padding:18px;
-text-align:center;
+padding:16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
 font-size:22px;
 font-weight:bold;
 }
 
+/* hero */
+
 .hero{
-background:url("https://images.unsplash.com/photo-1559526324-593bc073d938") center/cover;
-height:220px;
+
+background:url("https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3") center/cover;
+
+height:300px;
+
 display:flex;
+
 align-items:center;
+
 justify-content:center;
-font-size:28px;
+
+text-align:center;
+
+font-size:30px;
+
 font-weight:bold;
-text-shadow:0 5px 20px black;
+
 }
+
+/* container */
 
 .container{
-max-width:900px;
+
+max-width:1000px;
 margin:auto;
 padding:20px;
+
 }
+
+/* card */
 
 .card{
+
 background:#0f172a;
+
 padding:20px;
+
 border-radius:14px;
+
 margin-bottom:20px;
+
 box-shadow:0 10px 40px rgba(0,0,0,.6);
+
 }
+
+/* inputs */
 
 input,select{
+
 width:100%;
+
 padding:12px;
+
 margin:6px 0;
+
 border-radius:8px;
+
 border:none;
+
 }
+
+/* buttons */
 
 button{
+
 width:100%;
+
 padding:12px;
+
 margin-top:8px;
+
 border:none;
+
 border-radius:10px;
+
 background:#2563eb;
+
 color:white;
+
 font-size:16px;
+
 cursor:pointer;
+
 }
 
-button:hover{
-background:#1d4ed8;
-}
+/* result */
 
 .result{
+
 background:#16a34a;
+
 padding:14px;
+
 border-radius:10px;
+
 margin-top:10px;
-font-size:18px;
+
 }
+
+/* exchange table */
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+td,th{
+
+padding:10px;
+
+border-bottom:1px solid #333;
+
+}
+
+/* receipt */
 
 .receipt{
+
 background:white;
+
 color:black;
+
 width:360px;
-margin:20px auto;
-padding:25px;
-border-radius:14px;
+
+margin:auto;
+
+padding:20px;
+
+border-radius:12px;
+
 display:none;
+
 }
 
-.receive{
-background:#16a34a;
-color:white;
-padding:10px;
-border-radius:8px;
-text-align:center;
-font-size:20px;
-font-weight:bold;
-}
+/* floating contact */
 
-.footer{
-background:#020617;
-padding:40px;
-text-align:center;
-color:#94a3b8;
-}
+.contactBtn{
 
-.security{
-background:#111;
-color:#00ffcc;
-padding:10px;
 position:fixed;
-bottom:0;
+
+bottom:30px;
+
+right:30px;
+
+background:#2563eb;
+
+padding:18px;
+
+border-radius:50px;
+
+font-size:22px;
+
+cursor:pointer;
+
+}
+
+/* popup */
+
+.popup{
+
+display:none;
+
+position:fixed;
+
+top:0;
+
+left:0;
+
 width:100%;
+
+height:100%;
+
+background:rgba(0,0,0,.7);
+
+justify-content:center;
+
+align-items:center;
+
+}
+
+.popupBox{
+
+background:white;
+
+color:black;
+
+padding:30px;
+
+border-radius:14px;
+
+}
+
+/* coin animation */
+
+.coin{
+
+position:fixed;
+
+top:-50px;
+
+font-size:20px;
+
+animation:fall linear infinite;
+
+}
+
+@keyframes fall{
+
+to{transform:translateY(120vh);}
+
 }
 
 </style>
@@ -142,11 +260,15 @@ width:100%;
 <body>
 
 <header>
-💰 ถุงทองแลกเปลี่ยน
+
+<div class="logo">💰 ถุงทองแลกเปลี่ยน</div>
+
 </header>
 
 <div class="hero">
-ระบบแลกเงินออนไลน์
+
+ระบบแลกเงินออนไลน์ ปลอดภัย ตรวจสอบได้
+
 </div>
 
 <div class="container">
@@ -156,13 +278,13 @@ width:100%;
 <h2>วิธีการแลกเงิน</h2>
 
 <p>
-1. กรอกชื่อ นามสกุล และเลขบัญชีลูกค้า<br>
-2. เลือกธนาคารที่จะรับเงิน<br>
-3. เลือกสกุลเงินที่ต้องการแลก<br>
-4. ระบุจำนวนเงินที่ต้องการแลก<br>
-5. กดสร้างใบเสร็จ<br>
-6. ดาวน์โหลดใบเสร็จ<br>
-7. ส่งใบเสร็จผ่าน Facebook เพื่อตรวจสอบธุรกรรม
+
+1 กรอกชื่อและบัญชี  
+2 เลือกสกุลเงิน  
+3 กดสร้างใบเสร็จ  
+4 ดาวน์โหลดใบเสร็จ  
+5 ส่งผ่าน Facebook เพื่อยืนยันธุรกรรม  
+
 </p>
 
 </div>
@@ -176,20 +298,24 @@ width:100%;
 <input id="acc" placeholder="เลขบัญชี">
 
 <select id="bank">
+
 <option>กรุงไทย</option>
 <option>กสิกรไทย</option>
 <option>ไทยพาณิชย์</option>
 <option>กรุงเทพ</option>
+
 </select>
 
 <select id="currency">
+
 <option value="USD">USD</option>
 <option value="EUR">EUR</option>
 <option value="JPY">JPY</option>
 <option value="CNY">CNY</option>
+
 </select>
 
-<input id="amount" placeholder="จำนวนเงินที่ต้องการแลก">
+<input id="amount" placeholder="จำนวนเงิน">
 
 <button onclick="calc()">คำนวณ</button>
 
@@ -199,7 +325,27 @@ width:100%;
 
 <button onclick="downloadPNG()">ดาวน์โหลดใบเสร็จ</button>
 
-<button onclick="contact()">ติดต่อส่งใบเสร็จ</button>
+</div>
+
+<div class="card">
+
+<h2>ตารางอัตราแลกเปลี่ยน</h2>
+
+<table>
+
+<tr>
+
+<th>Currency</th>
+<th>Rate THB</th>
+
+</tr>
+
+<tr><td>USD</td><td id="usd"></td></tr>
+<tr><td>EUR</td><td id="eur"></td></tr>
+<tr><td>JPY</td><td id="jpy"></td></tr>
+<tr><td>CNY</td><td id="cny"></td></tr>
+
+</table>
 
 </div>
 
@@ -211,110 +357,104 @@ width:100%;
 
 </div>
 
-<div class="card">
-
-<h2>ความปลอดภัย</h2>
-
-<p>
-ทุกธุรกรรมมี Transaction ID และ QR Code สำหรับตรวจสอบ  
-ระบบบันทึกข้อมูลเพื่อป้องกันการปลอมแปลง  
-ข้อมูลลูกค้าจะใช้เพื่อธุรกรรมเท่านั้น
-</p>
-
-</div>
-
-<div class="card">
-
-<h2>ข้อกำหนดการใช้งาน</h2>
-
-<p>
-ผู้ใช้ต้องตรวจสอบข้อมูลก่อนสร้างใบเสร็จ  
-หลังจากส่งใบเสร็จให้เจ้าหน้าที่ตรวจสอบ  
-การดำเนินการจะใช้เวลาประมาณ 5-10 นาที
-</p>
-
-</div>
-
 </div>
 
 <div id="receipt" class="receipt">
 
-<h3 style="text-align:center">ใบเสร็จแลกเงิน</h3>
+<h3>ใบเสร็จแลกเงิน</h3>
 
 <p>Transaction ID : <span id="tx"></span></p>
 
 <div id="qrcode"></div>
 
-<hr>
-
 <p>ลูกค้า : <span id="rname"></span></p>
+
 <p>บัญชี : <span id="racc"></span></p>
+
 <p>ธนาคาร : <span id="rbank"></span></p>
 
-<hr>
-
 <p>จำนวนแลก : <span id="ramount"></span></p>
+
 <p>อัตราแลก : <span id="rrate"></span></p>
 
-<div class="receive">
-รับเงิน : <span id="receive"></span>
-</div>
-
-<hr>
+<p>รับเงิน : <span id="receive"></span></p>
 
 <p>
-ผู้โอนเงิน<br>
-พีระพัฒน์ ทองระมุน<br>
-3260643737<br>
-ธนาคารกรุงไทย
+
+ผู้โอนเงิน  
+พีระพัฒน์ ทองระมุน  
+3260643737  
+ธนาคารกรุงไทย  
+
 </p>
 
 </div>
 
-<div class="footer">
+<div class="contactBtn" onclick="openContact()">💬</div>
 
-<h3>ติดต่อเรา</h3>
+<div class="popup" id="contactPopup">
 
-<a href="https://www.facebook.com/share/1GYjXk6h8M/" style="color:#38bdf8">
-ติดต่อผ่าน Facebook
+<div class="popupBox">
+
+<h3>ติดต่อแลกเงิน</h3>
+
+<p>ส่งใบเสร็จผ่าน Facebook</p>
+
+<a href="https://www.facebook.com/share/1GYjXk6h8M/">
+
+ไปยัง Facebook
+
 </a>
+
+<br><br>
+
+<button onclick="closeContact()">ปิด</button>
 
 </div>
 
-<div class="security">
-<marquee>🔐 ระบบความปลอดภัยธุรกรรม | ตรวจสอบ 5-10 นาที | ถุงทองแลกเปลี่ยน</marquee>
 </div>
 
 <script>
 
-/* animation เงิน */
+/* coin animation */
 
 for(let i=0;i<20;i++){
 
-let coin=document.createElement("div")
-coin.className="coin"
-coin.innerHTML="💰"
+let c=document.createElement("div")
 
-coin.style.left=Math.random()*100+"vw"
-coin.style.animationDuration=(5+Math.random()*10)+"s"
+c.className="coin"
 
-document.body.appendChild(coin)
+c.innerHTML="💰"
+
+c.style.left=Math.random()*100+"vw"
+
+c.style.animationDuration=(5+Math.random()*10)+"s"
+
+document.body.appendChild(c)
 
 }
 
 /* chart */
 
 new TradingView.widget({
+
 container_id:"chart",
+
 width:"100%",
+
 height:400,
+
 symbol:"FX:USDTHB",
+
 interval:"5",
+
 theme:"dark",
+
 timezone:"Asia/Bangkok"
+
 })
 
-/* api rates */
+/* api */
 
 const API="https://open.er-api.com/v6/latest/USD"
 
@@ -327,6 +467,11 @@ let r=await fetch(API)
 let data=await r.json()
 
 rates=data.rates
+
+usd.innerText=data.rates.THB.toFixed(2)
+eur.innerText=(data.rates.THB/data.rates.EUR).toFixed(2)
+jpy.innerText=(data.rates.THB/data.rates.JPY).toFixed(2)
+cny.innerText=(data.rates.THB/data.rates.CNY).toFixed(2)
 
 }
 
@@ -363,7 +508,9 @@ let txid="TX"+Date.now()
 tx.innerText=txid
 
 rname.innerText=name.value
+
 racc.innerText=acc.value
+
 rbank.innerText=bank.value
 
 ramount.innerText=amount.value+" "+currency.value
@@ -374,11 +521,7 @@ receive.innerText=last.receive.toFixed(2)+" THB"
 
 receipt.style.display="block"
 
-new QRCode(qrcode,{
-text:"TX:"+txid,
-width:120,
-height:120
-})
+new QRCode(qrcode,{text:txid,width:120,height:120})
 
 }
 
@@ -398,9 +541,15 @@ link.click()
 
 }
 
-function contact(){
+function openContact(){
 
-window.open("https://www.facebook.com/share/1GYjXk6h8M/")
+contactPopup.style.display="flex"
+
+}
+
+function closeContact(){
+
+contactPopup.style.display="none"
 
 }
 
