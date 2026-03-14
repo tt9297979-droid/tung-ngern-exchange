@@ -9,7 +9,7 @@ return
 
 }
 
-document.getElementById("result").innerText =
-"ส่งสลิปแล้ว ระบบกำลังตรวจสอบ"
+document.getElementById("result").innerText=
+"ส่งสลิปเรียบร้อย กำลังตรวจสอบ"
 
 }
