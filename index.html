@@ -1,108 +1,66 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>ถุงทองแลกเปลี่ยน</title>
 
-<script src="https://s3.tradingview.com/tv.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 body{
-margin:0;
-font-family:system-ui;
-background:#0b1120;
-color:white;
-}
 
-/* HEADER */
+font-family:sans-serif;
+background:#0f172a;
+color:white;
+margin:0;
+
+}
 
 header{
 
-background:#111827;
-padding:16px;
+background:#1e3a8a;
+padding:15px;
 text-align:center;
-font-size:20px;
-font-weight:bold;
-color:#22c55e;
-
-}
-
-/* TICKER */
-
-.ticker{
-
-background:#020617;
-padding:6px;
-font-size:13px;
-overflow:hidden;
-white-space:nowrap;
-
-}
-
-.ticker span{
-
-display:inline-block;
-padding-left:100%;
-animation:scroll 20s linear infinite;
-
-}
-
-@keyframes scroll{
-
-0%{transform:translateX(0)}
-100%{transform:translateX(-100%)}
-
-}
-
-/* CARD */
-
-.card{
-
-background:#111827;
-
-margin:12px;
-
-padding:16px;
-
-border-radius:14px;
-
-box-shadow:0 10px 20px rgba(0,0,0,0.4);
-
-}
-
-/* HEATMAP */
-
-.heatmap{
-
-display:grid;
-
-grid-template-columns:repeat(3,1fr);
-
-gap:8px;
-
-}
-
-.cell{
-
-padding:14px;
-
-text-align:center;
-
-border-radius:8px;
-
+font-size:22px;
 font-weight:bold;
 
 }
 
-.strong{background:#22c55e}
-.neutral{background:#eab308;color:black}
-.weak{background:#ef4444}
+nav{
 
-/* TABLE */
+display:flex;
+overflow:auto;
+background:#1e40af;
+
+}
+
+nav button{
+
+flex:1;
+padding:10px;
+border:none;
+background:none;
+color:white;
+font-size:14px;
+
+}
+
+section{
+
+display:none;
+padding:20px;
+
+}
+
+.active{
+
+display:block;
+
+}
 
 table{
 
@@ -111,128 +69,43 @@ border-collapse:collapse;
 
 }
 
-td{
+td,th{
 
 padding:10px;
-
-border-bottom:1px solid #1f2937;
+border-bottom:1px solid #333;
 
 }
-
-/* INPUT */
 
 input,select{
 
 width:100%;
 padding:10px;
-
-border-radius:8px;
-
-border:none;
-
-margin-top:8px;
-
-margin-bottom:10px;
+margin:5px 0;
 
 }
 
-/* BUTTON */
-
 button{
 
-background:#22c55e;
-
+padding:10px;
 border:none;
+border-radius:8px;
 
-padding:12px;
+}
 
-border-radius:10px;
+.calc{
 
-font-weight:bold;
-
+background:#2563eb;
 color:white;
-
 width:100%;
 
 }
 
-/* CHART GRID */
+.result{
 
-.charts{
-
-display:grid;
-
-grid-template-columns:1fr;
-
-gap:12px;
-
-}
-
-.chart{
-
-height:220px;
-
-}
-
-/* CONTACT BUTTON */
-
-.contact{
-
-position:fixed;
-
-bottom:20px;
-
-left:50%;
-
-transform:translateX(-50%);
-
-background:#22c55e;
-
-padding:16px 40px;
-
-font-size:18px;
-
-font-weight:bold;
-
-border-radius:40px;
-
-box-shadow:0 0 20px #22c55e;
-
-cursor:pointer;
-
-}
-
-/* MUSIC */
-
-.music{
-
-position:fixed;
-
-right:15px;
-
-bottom:90px;
-
-background:#0284c7;
-
-padding:10px;
-
-border-radius:20px;
-
-cursor:pointer;
-
-}
-
-/* FOOTER */
-
-footer{
-
-text-align:center;
-
-font-size:13px;
-
-padding:20px;
-
-opacity:0.7;
+background:#16a34a;
+padding:15px;
+border-radius:10px;
+margin-top:10px;
 
 }
 
@@ -248,259 +121,199 @@ opacity:0.7;
 
 </header>
 
-<div class="ticker">
+<nav>
 
-<span>
+<button onclick="show('home')">Home</button>
 
-USD แข็งค่า | EUR อ่อนค่า | ตลาด Forex เปิด 24 ชั่วโมง | การบริหารเงินคือกุญแจสู่ความมั่งคั่ง
+<button onclick="show('exchange')">แลกเงิน</button>
 
-</span>
+<button onclick="show('about')">About</button>
 
-</div>
+<button onclick="show('contact')">Contact</button>
 
-<!-- HEATMAP -->
+<button onclick="show('policy')">Security</button>
 
-<div class="card">
+<button onclick="show('terms')">Terms</button>
 
-<h3>🌍 Heatmap ค่าเงิน</h3>
+</nav>
 
-<div class="heatmap">
+<!-- HOME -->
 
-<div class="cell strong">USD</div>
-<div class="cell neutral">EUR</div>
-<div class="cell weak">JPY</div>
+<section id="home" class="active">
 
-<div class="cell strong">GBP</div>
-<div class="cell neutral">AUD</div>
-<div class="cell weak">CNY</div>
+<h2>อัตราแลกเปลี่ยนเงิน</h2>
 
-<div class="cell strong">SGD</div>
-<div class="cell neutral">MYR</div>
-<div class="cell weak">KRW</div>
+<table id="rates">
 
-</div>
+<tr>
 
-</div>
+<th>Currency</th>
 
-<!-- RATES -->
+<th>THB</th>
 
-<div class="card">
+</tr>
 
-<h3>💱 อัตราแลกเปลี่ยน</h3>
+</table>
 
-<table id="rates"></table>
+</section>
 
-</div>
+<!-- EXCHANGE -->
 
-<!-- CALCULATOR -->
+<section id="exchange">
 
-<div class="card">
+<h2>คำนวณแลกเงิน</h2>
 
-<h3>🧮 เครื่องคำนวณแลกเงินจริง</h3>
+<input id="customer" placeholder="ชื่อลูกค้า">
 
 <input id="amount" placeholder="จำนวนเงิน">
 
 <select id="currency">
 
 <option value="USD">USD</option>
+
 <option value="EUR">EUR</option>
+
 <option value="GBP">GBP</option>
+
 <option value="JPY">JPY</option>
+
 <option value="AUD">AUD</option>
+
 <option value="CNY">CNY</option>
+
 <option value="SGD">SGD</option>
+
 <option value="KRW">KRW</option>
+
 <option value="MYR">MYR</option>
 
 </select>
 
-<button onclick="calc()">คำนวณ</button>
+<button class="calc" onclick="calc()">คำนวณ</button>
 
-<p id="result"></p>
+<div id="result" class="result" style="display:none"></div>
 
-</div>
+<button onclick="receipt()">🧾 ดาวน์โหลดใบเสร็จ</button>
 
-<!-- CHARTS -->
+</section>
 
-<div class="card">
+<!-- ABOUT -->
 
-<h3>📊 กราฟค่าเงิน 9 ประเทศ</h3>
+<section id="about">
 
-<div class="charts">
+<h2>เกี่ยวกับร้าน</h2>
 
-<div id="chart1" class="chart"></div>
-<div id="chart2" class="chart"></div>
-<div id="chart3" class="chart"></div>
-<div id="chart4" class="chart"></div>
-<div id="chart5" class="chart"></div>
-<div id="chart6" class="chart"></div>
-<div id="chart7" class="chart"></div>
-<div id="chart8" class="chart"></div>
-<div id="chart9" class="chart"></div>
+<p>
 
-</div>
+ถุงทองแลกเปลี่ยน เป็นบริการแลกเงินออนไลน์
 
-</div>
+ที่ให้ลูกค้าตรวจสอบเรทและคำนวณเงินได้ก่อนทำธุรกรรม
 
-<footer>
+</p>
 
-เจ้าของเว็บไซต์  
-<strong>MR.PEERAPAT THONGRAMUN</strong><br>
+<p>
+
+ผู้ดูแล
+
+MR.PEERAPAT THONGRAMUN
+
+</p>
+
+<p>
+
+บัญชีรับเงิน
+
 พีระพัฒน์ ทองระมุน
 
-<br><br>
+3260643737
 
-"ชื่อนี้เท่านั้น ห้ามโอนบุคคลอื่น"
+</p>
 
-</footer>
+</section>
 
-<div class="contact" onclick="contact()">
+<!-- CONTACT -->
 
-📩 ติดต่อแลกเงิน
+<section id="contact">
 
-</div>
+<h2>ติดต่อเรา</h2>
 
-<div class="music" onclick="toggleMusic()">
+<p>
 
-🎵
+📞 093-471-4311
 
-</div>
+</p>
 
-<audio id="bgmusic" loop>
-<source src="music.mp3" type="audio/mpeg">
-</audio>
+<p>
+
+Facebook
+
+</p>
+
+<a href="https://www.facebook.com/share/1GYjXk6h8M/">
+
+กดเพื่อติดต่อ
+
+</a>
+
+</section>
+
+<!-- SECURITY -->
+
+<section id="policy">
+
+<h2>Security Policy</h2>
+
+<p>
+
+ระบบตรวจสอบธุรกรรมทุกครั้งก่อนโอนเงิน
+
+เพื่อความปลอดภัยของลูกค้า
+
+</p>
+
+<p>
+
+โปรดโอนเฉพาะบัญชี
+
+พีระพัฒน์ ทองระมุน
+
+</p>
+
+</section>
+
+<!-- TERMS -->
+
+<section id="terms">
+
+<h2>Terms of Service</h2>
+
+<p>
+
+อัตราแลกเปลี่ยนอาจเปลี่ยนแปลงตามตลาด
+
+</p>
+
+<p>
+
+ธุรกรรมที่ยืนยันแล้วไม่สามารถยกเลิกได้
+
+</p>
+
+</section>
 
 <script>
 
-const API="https://v6.exchangerate-api.com/v6/4aa8ace0999fc317127c536a/latest/USD"
+function show(id){
 
-let rates={}
+document.querySelectorAll("section").forEach(s=>{
 
-async function loadRates(){
-
-let r=await fetch(API)
-
-let data=await r.json()
-
-rates=data.conversion_rates
-
-let table=document.getElementById("rates")
-
-table.innerHTML=""
-
-let list=["USD","EUR","GBP","JPY","AUD","CNY","SGD","KRW","MYR"]
-
-list.forEach(c=>{
-
-let tr=document.createElement("tr")
-
-tr.innerHTML="<td>"+c+"</td><td>"+rates[c]+"</td>"
-
-table.appendChild(tr)
+s.classList.remove("active")
 
 })
 
-}
-
-function calc(){
-
-let amt=document.getElementById("amount").value
-
-let cur=document.getElementById("currency").value
-
-let result=amt*rates[cur]
-
-document.getElementById("result").innerText="≈ "+result.toFixed(2)+" "+cur
+document.getElementById(id).classList.add("active")
 
 }
-
-function contact(){
-
-window.open("https://www.facebook.com/share/1GYjXk6h8M/")
-
-}
-
-/* MUSIC */
-
-let music=document.getElementById("bgmusic")
-
-function toggleMusic(){
-
-if(music.paused){
-
-music.volume=0.2
-music.play()
-
-}else{
-
-music.pause()
-
-}
-
-}
-
-/* LOAD RATES */
-
-loadRates()
-
-setInterval(loadRates,60000)
-
-/* CHARTS */
-
-const pairs=[
-
-"FX:USDTHB",
-"FX:EURUSD",
-"FX:GBPUSD",
-"FX:USDJPY",
-"FX:AUDUSD",
-"FX:USDCNH",
-"FX:USDSGD",
-"FX:USDKRW",
-"FX:USDMYR"
-
-]
-
-function loadCharts(){
-
-pairs.forEach((p,i)=>{
-
-document.getElementById("chart"+(i+1)).innerHTML=""
-
-new TradingView.widget({
-
-container_id:"chart"+(i+1),
-
-width:"100%",
-
-height:220,
-
-symbol:p,
-
-interval:"5",
-
-timezone:"Asia/Bangkok",
-
-theme:"dark",
-
-style:"1",
-
-hide_top_toolbar:true
-
-})
-
-})
-
-}
-
-loadCharts()
-
-setInterval(loadCharts,60000)
-
-</script>
-
-</body>
-</html><script>
 
 const API="https://v6.exchangerate-api.com/v6/4aa8ace0999fc317127c536a/latest/USD"
 
@@ -514,17 +327,19 @@ let data=await r.json()
 
 rates=data.conversion_rates
 
-let table=document.getElementById("rates")
-
-table.innerHTML=""
+let thb=rates["THB"]
 
 let list=["USD","EUR","GBP","JPY","AUD","CNY","SGD","KRW","MYR"]
 
+let table=document.getElementById("rates")
+
 list.forEach(c=>{
+
+let rate=(thb/rates[c]).toFixed(2)
 
 let tr=document.createElement("tr")
 
-tr.innerHTML="<td>"+c+"</td><td>"+rates[c]+"</td>"
+tr.innerHTML="<td>"+c+"</td><td>"+rate+"</td>"
 
 table.appendChild(tr)
 
@@ -532,82 +347,54 @@ table.appendChild(tr)
 
 }
 
-function calc(){
-
-let amt=document.getElementById("amount").value
-
-let cur=document.getElementById("currency").value
-
-let rate=rates[cur]
-
-let result=amt*rate
-
-document.getElementById("result").innerText="≈ "+result.toFixed(2)+" "+cur
-
-}
-
-function contact(){
-
-window.open("https://www.facebook.com/share/1GYjXk6h8M/")
-
-}
-
-/* MUSIC */
-
-let music=document.getElementById("bgmusic")
-
-function toggleMusic(){
-
-if(music.paused){
-music.volume=0.2
-music.play()
-}else{
-music.pause()
-}
-
-}
-
-/* LOAD RATES */
-
 loadRates()
 
-setInterval(loadRates,60000)
+let last={}
 
-/* CHARTS */
+function calc(){
 
-const pairs=[
-"FX:USDTHB",
-"FX:EURUSD",
-"FX:GBPUSD"
-]
+let amt=parseFloat(amount.value)
 
-pairs.forEach((p,i)=>{
+let cur=currency.value
 
-new TradingView.widget({
+let rate=rates["THB"]/rates[cur]
 
-container_id:"chart"+(i+1),
+let total=amt*rate
 
-width:"100%",
+let fee=total*0.015
 
-height:220,
+let receive=total-fee
 
-symbol:p,
+last={amt,cur,rate,receive}
 
-interval:"5",
+result.style.display="block"
 
-timezone:"Asia/Bangkok",
+result.innerHTML=
 
-theme:"dark",
+"ได้รับ "+receive.toFixed(2)+" บาท<br>"+
 
-style:"1",
+"เรท "+rate.toFixed(2)
 
-hide_top_toolbar:true
+}
 
-})
+function receipt(){
 
-})
+let tx="TX"+Date.now()
+
+alert(
+
+"Transaction "+tx+
+
+"\n"+customer.value+
+
+"\nReceive "+last.receive.toFixed(2)+" THB"
+
+)
+
+}
 
 </script>
 
 </body>
+
 </html>
