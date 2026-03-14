@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
 
 <meta charset="UTF-8">
@@ -10,161 +9,232 @@
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
 
 body{
 margin:0;
 font-family:sans-serif;
-background:#0f172a;
+background:linear-gradient(135deg,#0f172a,#020617);
 color:white;
+overflow-x:hidden;
 }
 
 header{
-background:#1e3a8a;
-padding:15px;
+background:linear-gradient(90deg,#2563eb,#1e40af);
+padding:16px;
 text-align:center;
-font-size:22px;
+font-size:24px;
 font-weight:bold;
-}
-
-nav{
-display:flex;
-overflow:auto;
-background:#1e40af;
-}
-
-nav button{
-flex:1;
-padding:12px;
-border:none;
-background:none;
-color:white;
-font-size:14px;
-transition:0.3s;
-}
-
-nav button:hover{
-background:#3b82f6;
-}
-
-section{
-display:none;
-padding:20px;
-}
-
-.active{
-display:block;
+box-shadow:0 5px 20px rgba(0,0,0,0.5);
 }
 
 .hero{
-background:url("https://images.unsplash.com/photo-1559526324-593bc073d938");
-background-size:cover;
-padding:120px 20px;
-text-align:center;
+
+background:url("https://images.unsplash.com/photo-1640161704729-cbe966a08476") center/cover;
+
+height:200px;
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:28px;
+font-weight:bold;
+
+text-shadow:0 5px 20px black;
+
 }
 
-.hero h1{
-font-size:32px;
+.container{
+max-width:420px;
+margin:auto;
+padding:20px;
 }
 
-table{
-width:100%;
-border-collapse:collapse;
-}
+.card{
 
-td,th{
-padding:10px;
-border-bottom:1px solid #333;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+
+padding:18px;
+border-radius:14px;
+
+box-shadow:0 10px 40px rgba(0,0,0,0.5);
+
+margin-bottom:20px;
+
 }
 
 input,select{
-width:100%;
-padding:10px;
-margin:5px 0;
-}
 
-button.calc{
-background:#2563eb;
-color:white;
 width:100%;
 padding:12px;
-border:none;
+margin:6px 0;
 border-radius:8px;
+border:none;
+
+}
+
+button{
+
+width:100%;
+padding:12px;
+margin-top:6px;
+
+border:none;
+border-radius:10px;
+
+background:linear-gradient(90deg,#2563eb,#06b6d4);
+
+color:white;
+
+font-size:16px;
+
+cursor:pointer;
+
+box-shadow:0 0 15px #2563eb;
+
+transition:.3s;
+
+}
+
+button:hover{
+
+transform:scale(1.05);
+box-shadow:0 0 30px #38bdf8;
+
 }
 
 .result{
+
 background:#16a34a;
 padding:15px;
 border-radius:10px;
 margin-top:10px;
+font-size:18px;
+
 }
 
-.security{
-display:flex;
-flex-wrap:wrap;
-gap:20px;
-justify-content:center;
-padding:40px;
+.receipt{
+
+position:relative;
+background:white;
+color:black;
+
+width:360px;
+
+margin:20px auto;
+padding:25px;
+
+border-radius:14px;
+
+box-shadow:0 10px 40px rgba(0,0,0,0.5);
+
 }
 
-.sec-card{
-background:#1e293b;
-padding:20px;
-border-radius:12px;
-width:200px;
+.watermark{
+
+position:absolute;
+
+top:50%;
+left:50%;
+
+transform:translate(-50%,-50%) rotate(-30deg);
+
+font-size:42px;
+
+color:rgba(0,0,0,0.05);
+
+font-weight:bold;
+
+}
+
+.receive{
+
+background:#16a34a;
+color:white;
+
+padding:12px;
+
+border-radius:8px;
+
 text-align:center;
+
+font-size:20px;
+
+font-weight:bold;
+
 }
 
-.sec-card img{
-width:60px;
-}
+.floating{
 
-.floating-contact{
 position:fixed;
-right:20px;
+
 bottom:90px;
+right:20px;
+
 background:#2563eb;
-padding:14px;
-border-radius:40px;
+
+padding:16px;
+
+border-radius:50px;
+
 cursor:pointer;
+
+font-size:22px;
+
+box-shadow:0 0 20px #2563eb;
+
 }
 
 .popup{
+
 display:none;
+
 position:fixed;
+
 top:0;
 left:0;
+
 width:100%;
 height:100%;
+
 background:rgba(0,0,0,0.7);
+
 justify-content:center;
 align-items:center;
+
 }
 
-.popup-content{
+.popup-box{
+
 background:white;
+
 color:black;
+
 padding:25px;
-border-radius:12px;
-width:300px;
+
+border-radius:14px;
+
 text-align:center;
+
 }
 
 .security-bar{
-position:fixed;
-bottom:0;
-width:100%;
-background:#111;
-color:#00ffcc;
-padding:10px;
-}
 
-#receipt{
-background:white;
-color:black;
-padding:20px;
-width:320px;
+position:fixed;
+
+bottom:0;
+
+width:100%;
+
+background:#111;
+
+color:#00ffcc;
+
+padding:10px;
+
 }
 
 </style>
@@ -177,64 +247,31 @@ width:320px;
 💰 ถุงทองแลกเปลี่ยน
 </header>
 
-<nav>
-
-<button onclick="show('home')">Home</button>
-<button onclick="show('exchange')">แลกเงิน</button>
-<button onclick="show('about')">About</button>
-<button onclick="show('contact')">Contact</button>
-<button onclick="show('policy')">Security</button>
-<button onclick="show('terms')">Terms</button>
-
-</nav>
-
-<section id="home" class="active">
-
 <div class="hero">
-<h1>ระบบแลกเงินออนไลน์</h1>
-<p>ตรวจสอบเรทค่าเงินแบบเรียลไทม์</p>
+
+💱 ระบบแลกเงินออนไลน์
+
 </div>
 
-<h2>กราฟค่าเงิน</h2>
+<div class="container">
 
-<div id="chart"></div>
+<div class="card">
 
-<script>
+<h2>แลกเงินออนไลน์</h2>
 
-new TradingView.widget({
+<input id="customer" placeholder="ชื่อ นามสกุล">
 
-container_id:"chart",
-width:"100%",
-height:400,
-symbol:"FX:USDTHB",
-interval:"5",
-timezone:"Asia/Bangkok",
-theme:"dark",
-style:"1"
-
-})
-
-</script>
-
-<h2>อัตราแลกเปลี่ยน</h2>
-
-<table id="rates">
-<tr>
-<th>Currency</th>
-<th>THB</th>
-</tr>
-</table>
-
-</section>
-
-<section id="exchange">
-
-<h2>คำนวณแลกเงิน</h2>
-
-<input id="customer" placeholder="ชื่อลูกค้า">
 <input id="customerAcc" placeholder="เลขบัญชีลูกค้า">
 
-<input id="amount" placeholder="จำนวนเงิน">
+<select id="bank">
+
+<option>กรุงไทย</option>
+<option>กสิกรไทย</option>
+<option>ไทยพาณิชย์</option>
+<option>กรุงเทพ</option>
+<option>TTB</option>
+
+</select>
 
 <select id="currency">
 
@@ -246,122 +283,88 @@ style:"1"
 <option value="CNY">CNY</option>
 <option value="SGD">SGD</option>
 <option value="KRW">KRW</option>
-<option value="MYR">MYR</option>
+<option value="HKD">HKD</option>
 
 </select>
 
-<button class="calc" onclick="calc()">คำนวณ</button>
+<input id="amount" placeholder="จำนวนเงินที่ต้องการแลก">
+
+<button onclick="calc()">คำนวณค่าเงิน</button>
 
 <div id="result" class="result" style="display:none"></div>
 
-<button onclick="createReceipt()">สร้างใบเสร็จ</button>
+<button onclick="createReceipt()">🧾 สร้างใบเสร็จ</button>
 
-<div id="receipt" style="display:none">
+<button onclick="downloadPNG()">📥 ดาวน์โหลดใบเสร็จ</button>
 
-<h3>ใบเสร็จแลกเงิน</h3>
+<button onclick="openContact()">📞 ติดต่อแลกเงิน</button>
 
-<p id="txid"></p>
-<p id="cust"></p>
-<p id="acc"></p>
-<p id="amountEx"></p>
-<p id="rateEx"></p>
-<p id="receiveEx"></p>
+</div>
+
+<div class="card">
+
+<h2>📊 กราฟค่าเงิน</h2>
+
+<div id="chart"></div>
+
+</div>
+
+</div>
+
+<div id="receipt" class="receipt" style="display:none">
+
+<div class="watermark">THUNGTHONG</div>
+
+<h3 style="text-align:center">ใบเสร็จแลกเงิน</h3>
+
+<p><b>Transaction ID :</b> <span id="txid"></span></p>
+
+<div id="qrcode" style="margin:auto;width:120px"></div>
+
+<hr>
+
+<p><b>ชื่อลูกค้า :</b> <span id="cust"></span></p>
+
+<p><b>เลขบัญชี :</b> <span id="acc"></span></p>
+
+<p><b>ธนาคาร :</b> <span id="bankName"></span></p>
+
+<hr>
+
+<p><b>จำนวนแลก :</b> <span id="amountEx"></span></p>
+
+<p><b>อัตราแลก :</b> <span id="rateEx"></span></p>
+
+<p class="receive">
+
+รับเงิน : <span id="receiveEx"></span>
+
+</p>
+
+<hr>
 
 <p>
 
-ผู้รับเงิน<br>
-
+ผู้โอนเงิน<br>
 พีระพัฒน์ ทองระมุน<br>
-3260643737
+3260643737<br>
+ธนาคารกรุงไทย
 
 </p>
+
+<p id="timeNow"></p>
 
 </div>
 
-<button onclick="downloadPNG()">ดาวน์โหลด PNG</button>
+<div class="floating" onclick="openContact()">💬</div>
 
-</section>
+<div class="popup" id="contactPopup">
 
-<section id="about">
+<div class="popup-box">
 
-<h2>เกี่ยวกับร้าน</h2>
-
-<p>
-
-ถุงทองแลกเปลี่ยน เป็นระบบแลกเงินออนไลน์
-
-ให้ลูกค้าตรวจสอบอัตราแลกก่อนทำธุรกรรม
-
-</p>
-
-<p>
-
-ผู้ดูแลระบบ  
-MR.PEERAPAT THONGRAMUN
-
-</p>
-
-</section>
-
-<section id="contact">
-
-<h2>ติดต่อเรา</h2>
+<h3>ติดต่อแลกเงิน</h3>
 
 <p>📞 093-471-4311</p>
-
-<a href="https://www.facebook.com/share/1GYjXk6h8M/" target="_blank">
-
-ติดต่อ Facebook
-
-</a>
-
-</section>
-
-<section id="policy">
-
-<h2>Security Policy</h2>
-
-<p>
-
-ระบบตรวจสอบธุรกรรมก่อนโอนเงินทุกครั้ง
-
-</p>
-
-</section>
-
-<section id="terms">
-
-<h2>Terms</h2>
-
-<p>
-
-อัตราแลกเปลี่ยนอาจเปลี่ยนแปลงตามตลาด
-
-</p>
-
-</section>
-
-<div class="floating-contact" onclick="openContact()">
-
-💬 ติดต่อแลกเงิน
-
-</div>
-
-<div id="contactPopup" class="popup">
-
-<div class="popup-content">
-
-<h2>ติดต่อแลกเงิน</h2>
-
-<p>📞 093-471-4311</p>
-
-<a href="https://www.facebook.com/share/1GYjXk6h8M/" target="_blank">
-
-Facebook
-
-</a>
-
-<br><br>
 
 <button onclick="closeContact()">ปิด</button>
 
@@ -373,7 +376,7 @@ Facebook
 
 <marquee>
 
-🔐 โปรดโอนเฉพาะบัญชี พีระพัฒน์ ทองระมุน | ธุรกรรมใช้เวลาตรวจสอบ 5-10 นาที
+🔐 ระบบความปลอดภัยทางการเงิน | ตรวจสอบธุรกรรม 5-10 นาที | ถุงทองแลกเปลี่ยน
 
 </marquee>
 
@@ -381,25 +384,17 @@ Facebook
 
 <script>
 
-function show(id){
-
-document.querySelectorAll("section").forEach(s=>{
-s.classList.remove("active")
+new TradingView.widget({
+container_id:"chart",
+width:"100%",
+height:400,
+symbol:"FX:USDTHB",
+interval:"5",
+timezone:"Asia/Bangkok",
+theme:"dark"
 })
 
-document.getElementById(id).classList.add("active")
-
-}
-
-function openContact(){
-document.getElementById("contactPopup").style.display="flex"
-}
-
-function closeContact(){
-document.getElementById("contactPopup").style.display="none"
-}
-
-const API="https://v6.exchangerate-api.com/v6/4aa8ace0999fc317127c536a/latest/USD"
+const API="https://open.er-api.com/v6/latest/USD"
 
 let rates={}
 
@@ -409,25 +404,7 @@ let r=await fetch(API)
 
 let data=await r.json()
 
-rates=data.conversion_rates
-
-let thb=rates["THB"]
-
-let list=["USD","EUR","GBP","JPY","AUD","CNY","SGD","KRW","MYR"]
-
-let table=document.getElementById("rates")
-
-list.forEach(c=>{
-
-let rate=(thb/rates[c]).toFixed(2)
-
-let tr=document.createElement("tr")
-
-tr.innerHTML="<td>"+c+"</td><td>"+rate+"</td>"
-
-table.appendChild(tr)
-
-})
+rates=data.rates
 
 }
 
@@ -453,10 +430,7 @@ last={amt,cur,rate,receive}
 
 result.style.display="block"
 
-result.innerHTML=
-
-"ได้รับ "+receive.toFixed(2)+" บาท<br>"+
-"เรท "+rate.toFixed(2)
+result.innerHTML="💰 จะได้รับประมาณ "+receive.toFixed(2)+" บาท"
 
 }
 
@@ -464,19 +438,31 @@ function createReceipt(){
 
 let tx="TX"+Date.now()
 
-txid.innerText="Transaction: "+tx
+txid.innerText=tx
 
-cust.innerText="ลูกค้า: "+customer.value
+cust.innerText=customer.value
+acc.innerText=customerAcc.value
+bankName.innerText=bank.value
 
-acc.innerText="บัญชีลูกค้า: "+customerAcc.value
+amountEx.innerText=amount.value+" "+currency.value
 
-amountEx.innerText="จำนวนแลก: "+last.amt+" "+last.cur
+rateEx.innerText=last.rate.toFixed(2)
 
-rateEx.innerText="เรท: "+last.rate.toFixed(2)
+receiveEx.innerText=last.receive.toFixed(2)+" THB"
 
-receiveEx.innerText="รับ: "+last.receive.toFixed(2)+" THB"
+timeNow.innerText=new Date().toLocaleString()
 
 receipt.style.display="block"
+
+document.getElementById("qrcode").innerHTML=""
+
+new QRCode(document.getElementById("qrcode"),{
+
+text:"Transaction:"+tx,
+width:120,
+height:120
+
+})
 
 }
 
@@ -493,6 +479,18 @@ link.href=canvas.toDataURL()
 link.click()
 
 })
+
+}
+
+function openContact(){
+
+contactPopup.style.display="flex"
+
+}
+
+function closeContact(){
+
+contactPopup.style.display="none"
 
 }
 
