@@ -1,348 +1,386 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TungNgern Exchange</title>
 
-<!-- TradingView -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Global Exchange FinTech</title>
+
 <script src="https://s3.tradingview.com/tv.js"></script>
 
 <style>
-:root{
-  --bg:#020617;
-  --card:#0f172a;
-  --line:#1e293b;
-  --text:#e5e7eb;
-  --green:#22c55e;
-  --green2:#16a34a;
-}
-*{box-sizing:border-box}
+
 body{
-  margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);
+margin:0;
+font-family:Arial;
+background:#020617;
+color:white;
 }
+
 header{
-  padding:24px;text-align:center;border-bottom:1px solid var(--line);
+
+background:#0f172a;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+
 }
-h1{margin:0;color:var(--green)}
-.ticker{background:var(--green2);padding:8px;font-weight:bold}
-nav{
-  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
-  padding:12px;background:var(--card);border-bottom:1px solid var(--line)
+
+.logo{
+font-size:22px;
+font-weight:bold;
 }
-nav button{
-  background:#111827;border:1px solid var(--line);color:#fff;padding:8px 12px;cursor:pointer;border-radius:6px
+
+.ticker{
+
+background:#111827;
+padding:8px;
+overflow:hidden;
+white-space:nowrap;
+
 }
-section{padding:24px}
-.container{max-width:1100px;margin:auto}
-table{border-collapse:collapse;width:100%}
-th,td{border:1px solid var(--line);padding:10px;text-align:center}
-th{background:#111827}
-.card{
-  background:var(--card);border:1px solid var(--line);border-radius:10px;
-  padding:16px;max-width:420px;margin:auto
+
+.ticker span{
+
+display:inline-block;
+padding-right:40px;
+animation:scroll 20s linear infinite;
+
 }
-input,select{
-  width:100%;padding:10px;margin-top:10px;background:#020617;color:#fff;border:1px solid var(--line);border-radius:6px
+
+@keyframes scroll{
+
+0%{transform:translateX(100%)}
+100%{transform:translateX(-100%)}
+
 }
-button.primary{
-  background:var(--green);border:none;color:#fff;padding:10px;margin-top:10px;cursor:pointer;border-radius:6px;width:100%
+
+.container{
+
+padding:20px;
+
 }
+
 .grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:10px
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:20px;
+
 }
-.chart{height:280px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.contact{
-  position:fixed;right:20px;bottom:20px;background:var(--green);padding:12px 16px;border-radius:30px;color:#000;font-weight:bold;cursor:pointer
+
+.card{
+
+background:#0f172a;
+
+padding:20px;
+
+border-radius:10px;
+
+box-shadow:0 0 20px rgba(0,0,0,0.4);
+
 }
-.popup{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.7)
+
+.heatmap{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:10px;
+
 }
-.popup-box{
-  width:320px;margin:120px auto;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;text-align:center
+
+.cell{
+
+padding:20px;
+
+text-align:center;
+
+font-weight:bold;
+
+border-radius:6px;
+
 }
-footer{
-  text-align:center;padding:20px;border-top:1px solid var(--line)
+
+.strong{background:#22c55e}
+.neutral{background:#eab308;color:black}
+.weak{background:#ef4444}
+
+table{
+
+width:100%;
+border-collapse:collapse;
+
 }
-.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#111827;border:1px solid var(--line);font-size:12px}
-@media (max-width:900px){
-  .grid{grid-template-columns:repeat(2,1fr)}
+
+td,th{
+
+padding:8px;
+
+border-bottom:1px solid #1e293b;
+
 }
-@media (max-width:600px){
-  .grid{grid-template-columns:1fr}
+
+.chart{
+
+height:250px;
+
 }
+
+button{
+
+background:#22c55e;
+border:none;
+padding:10px 20px;
+color:white;
+border-radius:5px;
+cursor:pointer;
+
+}
+
+input{
+
+padding:8px;
+width:100%;
+margin-bottom:10px;
+
+}
+
+.footer{
+
+text-align:center;
+
+padding:30px;
+
+background:#0f172a;
+
+margin-top:40px;
+
+}
+
 </style>
+
 </head>
 
 <body>
 
 <header>
-  <h1>💰 TungNgern Exchange</h1>
-  <div class="ticker">
-    <marquee>
-      🌍 ตลาดเงินโลกเปิด 24 ชม. | 💱 ตรวจสอบเรทก่อนแลกเงินจริง | 📊 ค่าเงินอัปเดตอัตโนมัติ | ⚠ โอนเฉพาะชื่อ MR. PEERAPAT THONGRAMUN เท่านั้น
-    </marquee>
-  </div>
+
+<div class="logo">💱 GLOBAL FINTECH EXCHANGE</div>
+
+<div>Owner: MR.PEERAPAT THONGRAMUN</div>
+
 </header>
 
-<nav>
-  <button onclick="show('rates')">ค่าเงิน</button>
-  <button onclick="show('calculator')">เครื่องคำนวณ</button>
-  <button onclick="show('charts')">กราฟ 9 คู่เงิน</button>
-  <button onclick="show('member')">สมาชิก</button>
-</nav>
+<div class="ticker">
 
-<!-- RATES -->
-<section id="rates">
-  <div class="container">
-    <h2>💱 แลกเงิน 9 ประเทศ → บาทไทย (THB)</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>ประเทศ</th>
-          <th>สกุลเงิน</th>
-          <th>เรท (1 หน่วย → THB)</th>
-          <th>อัปเดต</th>
-        </tr>
-      </thead>
-      <tbody id="rateTable"></tbody>
-    </table>
+<span>
 
-    <br>
-    <div class="card">
-      <h3>💰 ค่าบริการแลกเงิน</h3>
-      <p><span class="badge">ต่ำกว่า 5,000 บาท</span> : 2%</p>
-      <p><span class="badge">5,000 – 50,000 บาท</span> : 1%</p>
-      <p><span class="badge">มากกว่า 50,000 บาท</span> : 0.5%</p>
-      <p style="font-size:12px;color:#9ca3af">* เรทอ้างอิงจากตลาดโลก อาจมีส่วนต่างตามช่องทางการชำระเงินจริง</p>
-    </div>
-  </div>
-</section>
+USD แข็งค่า | EUR อ่อนค่า | การบริหารเงินคือกุญแจสู่ความมั่งคั่ง | ลงทุนอย่างมีสติ |
 
-<!-- CALCULATOR -->
-<section id="calculator" style="display:none">
-  <div class="container">
-    <h2>🧮 เครื่องคำนวณแลกเงินจริง</h2>
-    <div class="card">
-      <select id="currency">
-        <option value="USD">USD</option>
-        <option value="EUR">EUR</option>
-        <option value="GBP">GBP</option>
-        <option value="JPY">JPY</option>
-        <option value="CNY">CNY</option>
-        <option value="KRW">KRW</option>
-        <option value="SGD">SGD</option>
-        <option value="MYR">MYR</option>
-        <option value="AUD">AUD</option>
-      </select>
+</span>
 
-      <input id="amount" type="number" placeholder="จำนวนเงิน (หน่วยสกุลเงิน)" />
-
-      <button class="primary" onclick="convert()">คำนวณ</button>
-
-      <h3 id="result"></h3>
-    </div>
-  </div>
-</section>
-
-<!-- CHARTS -->
-<section id="charts" style="display:none">
-  <div class="container">
-    <h2>📊 กราฟ 9 คู่เงิน (Real-time)</h2>
-    <div class="grid">
-      <div id="c1" class="chart"></div>
-      <div id="c2" class="chart"></div>
-      <div id="c3" class="chart"></div>
-      <div id="c4" class="chart"></div>
-      <div id="c5" class="chart"></div>
-      <div id="c6" class="chart"></div>
-      <div id="c7" class="chart"></div>
-      <div id="c8" class="chart"></div>
-      <div id="c9" class="chart"></div>
-    </div>
-  </div>
-</section>
-
-<!-- MEMBER -->
-<section id="member" style="display:none">
-  <div class="container">
-    <h2>👤 ระบบสมาชิก</h2>
-    <div class="card">
-      <input id="reg_email" placeholder="Email สมัครสมาชิก" />
-      <input id="reg_pass" type="password" placeholder="Password" />
-      <button class="primary" onclick="register()">สมัครสมาชิก</button>
-
-      <hr style="border-color:#1e293b">
-
-      <input id="login_email" placeholder="Email" />
-      <input id="login_pass" type="password" placeholder="Password" />
-      <button class="primary" onclick="login()">Login</button>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<div class="contact" onclick="openPopup()">ติดต่อแลกเงินจริง</div>
-
-<div class="popup" id="popup">
-  <div class="popup-box">
-    <h3>ติดต่อแลกเงินจริง</h3>
-    <p>
-      เจ้าของเว็บไซต์<br><br>
-      <b>MR. PEERAPAT THONGRAMUN</b><br>
-      พีระพัฒน์ ทองระมุน
-    </p>
-    <a href="https://www.facebook.com/share/1GYjXk6h8M/" target="_blank">
-      <button class="primary">เปิด Facebook ติดต่อ</button>
-    </a>
-    <br><br>
-    <button onclick="closePopup()">ปิด</button>
-  </div>
 </div>
 
-<footer>
-  <p>Owner : MR. PEERAPAT THONGRAMUN</p>
-  <p>Financial Exchange Information Platform</p>
-</footer>
+<div class="container">
+
+<div class="grid">
+
+<div class="card">
+
+<h3>🌍 Currency Heatmap</h3>
+
+<div class="heatmap">
+
+<div class="cell strong">USD</div>
+<div class="cell neutral">EUR</div>
+<div class="cell weak">JPY</div>
+
+<div class="cell strong">GBP</div>
+<div class="cell neutral">AUD</div>
+<div class="cell weak">CNY</div>
+
+<div class="cell strong">SGD</div>
+<div class="cell neutral">MYR</div>
+<div class="cell weak">KRW</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>💱 Exchange Rates</h3>
+
+<table id="rates"></table>
+
+</div>
+
+<div class="card">
+
+<h3>🧮 Exchange Calculator</h3>
+
+<input id="amount" placeholder="จำนวนเงิน">
+
+<select id="currency">
+
+<option value="USD">USD</option>
+<option value="EUR">EUR</option>
+<option value="GBP">GBP</option>
+<option value="JPY">JPY</option>
+<option value="AUD">AUD</option>
+<option value="CNY">CNY</option>
+<option value="SGD">SGD</option>
+<option value="KRW">KRW</option>
+<option value="MYR">MYR</option>
+
+</select>
+
+<button onclick="calc()">คำนวณ</button>
+
+<p id="result"></p>
+
+</div>
+
+</div>
+
+<h2>📊 Market Charts</h2>
+
+<div class="grid">
+
+<div id="chart1" class="chart"></div>
+<div id="chart2" class="chart"></div>
+<div id="chart3" class="chart"></div>
+
+<div id="chart4" class="chart"></div>
+<div id="chart5" class="chart"></div>
+<div id="chart6" class="chart"></div>
+
+<div id="chart7" class="chart"></div>
+<div id="chart8" class="chart"></div>
+<div id="chart9" class="chart"></div>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+<p>
+
+เจ้าของเว็บไซต์  
+<strong>MR.PEERAPAT THONGRAMUN</strong>  
+พีระพัฒน์ ทองระมุน  
+
+"ชื่อนี้เท่านั้น ห้ามโอนบุคคลอื่น"
+
+</p>
+
+<button onclick="contact()">ติดต่อแลกเงิน</button>
+
+</div>
 
 <script>
-/* =======================
-   RATES API
-======================= */
-const api = "https://v6.exchangerate-api.com/v6/4aa8ace0999fc317127c536a/latest/THB";
 
-const countries = [
-  ["🇺🇸 USA","USD"],
-  ["🇪🇺 EURO","EUR"],
-  ["🇬🇧 UK","GBP"],
-  ["🇯🇵 JAPAN","JPY"],
-  ["🇨🇳 CHINA","CNY"],
-  ["🇰🇷 KOREA","KRW"],
-  ["🇸🇬 SINGAPORE","SGD"],
-  ["🇲🇾 MALAYSIA","MYR"],
-  ["🇦🇺 AUSTRALIA","AUD"]
-];
+const API="https://v6.exchangerate-api.com/v6/4aa8ace0999fc317127c536a/latest/USD"
 
-let rates = {};
-let lastUpdate = "-";
+let rates={}
 
 async function loadRates(){
-  try{
-    const res = await fetch(api);
-    const data = await res.json();
-    rates = data.conversion_rates;
-    lastUpdate = new Date().toLocaleTimeString("th-TH");
-    renderRates();
-  }catch(e){
-    console.log("API error", e);
-  }
+
+let r=await fetch(API)
+
+let data=await r.json()
+
+rates=data.conversion_rates
+
+let table=document.getElementById("rates")
+
+table.innerHTML=""
+
+let list=["USD","EUR","GBP","JPY","AUD","CNY","SGD","KRW","MYR"]
+
+list.forEach(c=>{
+
+let tr=document.createElement("tr")
+
+tr.innerHTML="<td>"+c+"</td><td>"+rates[c]+"</td>"
+
+table.appendChild(tr)
+
+})
+
 }
 
-function renderRates(){
-  let html = "";
-  countries.forEach(c=>{
-    const code = c[1];
-    const thbPerUnit = (1 / rates[code]).toFixed(4);
-    html += `
-      <tr>
-        <td>${c[0]}</td>
-        <td>${code}</td>
-        <td>${thbPerUnit}</td>
-        <td>${lastUpdate}</td>
-      </tr>
-    `;
-  });
-  document.getElementById("rateTable").innerHTML = html;
+function calc(){
+
+let amt=document.getElementById("amount").value
+
+let cur=document.getElementById("currency").value
+
+let rate=rates[cur]
+
+let thb=amt/rates["THB"]*rate
+
+document.getElementById("result").innerText="≈ "+thb.toFixed(2)+" "+cur
+
 }
 
-loadRates();
-setInterval(loadRates, 60000);
+function contact(){
 
-/* =======================
-   CALCULATOR
-======================= */
-function convert(){
-  const currency = document.getElementById("currency").value;
-  const amount = parseFloat(document.getElementById("amount").value);
+window.open("https://www.facebook.com/share/1GYjXk6h8M/")
 
-  if(!amount || !rates[currency]){
-    alert("กรุณาใส่จำนวนเงิน");
-    return;
-  }
-
-  const thbRate = 1 / rates[currency];
-  let result = amount * thbRate;
-
-  let fee = 0.02;
-  if(result >= 5000 && result <= 50000) fee = 0.01;
-  if(result > 50000) fee = 0.005;
-
-  const feeAmount = result * fee;
-  const final = result - feeAmount;
-
-  document.getElementById("result").innerHTML =
-    `ประมาณ ${final.toFixed(2)} บาท<br>
-     ค่าธรรมเนียม ${feeAmount.toFixed(2)} บาท`;
 }
 
-/* =======================
-   TRADINGVIEW CHARTS
-======================= */
-const pairs = [
- "FX:USDTHB","FX:EURUSD","FX:GBPUSD",
- "FX:USDJPY","FX:AUDUSD","FX:USDCNH",
- "FX:USDSGD","FX:USDKRW","FX:USDMYR"
-];
+loadRates()
+
+setInterval(loadRates,60000)
+
+const pairs=[
+
+"FX:USDTHB",
+"FX:EURUSD",
+"FX:GBPUSD",
+"FX:USDJPY",
+"FX:AUDUSD",
+"FX:USDCNH",
+"FX:USDSGD",
+"FX:USDKRW",
+"FX:USDMYR"
+
+]
 
 pairs.forEach((p,i)=>{
-  new TradingView.widget({
-    container_id:"c"+(i+1),
-    width:"100%",
-    height:280,
-    symbol:p,
-    interval:"1",
-    timezone:"Asia/Bangkok",
-    theme:"dark",
-    style:"1",
-    locale:"th",
-    hide_top_toolbar:true
-  });
-});
 
-/* =======================
-   MEMBER
-======================= */
-function register(){
-  const email = document.getElementById("reg_email").value;
-  const pass = document.getElementById("reg_pass").value;
-  if(!email || !pass){ alert("กรอกข้อมูลให้ครบ"); return; }
-  localStorage.setItem("user_"+email, pass);
-  alert("สมัครสมาชิกสำเร็จ กรุณา Login");
-}
+new TradingView.widget({
 
-function login(){
-  const email = document.getElementById("login_email").value;
-  const pass = document.getElementById("login_pass").value;
-  if(localStorage.getItem("user_"+email) === pass){
-    alert("เข้าสู่ระบบสำเร็จ");
-  }else{
-    alert("ข้อมูลไม่ถูกต้อง");
-  }
-}
+container_id:"chart"+(i+1),
 
-/* =======================
-   UI
-======================= */
-function show(id){
-  document.querySelectorAll("section").forEach(s=>s.style.display="none");
-  document.getElementById(id).style.display="block";
-}
-function openPopup(){
-  document.getElementById("popup").style.display="block";
-}
-function closePopup(){
-  document.getElementById("popup").style.display="none";
-}
+width:"100%",
+
+height:250,
+
+symbol:p,
+
+interval:"1",
+
+timezone:"Asia/Bangkok",
+
+theme:"dark",
+
+style:"1",
+
+hide_top_toolbar:true
+
+})
+
+})
+
 </script>
 
 </body>
