@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ถุงเงิน Exchange</title>
 
+<!-- TradingView -->
 <script src="https://s3.tradingview.com/tv.js"></script>
 
 <style>
-
 body{
-font-family:Arial;
+font-family:Arial, sans-serif;
 margin:0;
 background:#0f172a;
 color:white;
@@ -36,6 +36,7 @@ text-align:center;
 table{
 margin:auto;
 border-collapse:collapse;
+min-width:320px;
 }
 
 th,td{
@@ -48,14 +49,22 @@ padding:10px 15px;
 background:#22c55e;
 border:none;
 color:white;
-margin-top:10px;
 cursor:pointer;
+margin-top:10px;
 }
 
-input{
+input,select{
 padding:10px;
-width:250px;
 margin-top:10px;
+width:250px;
+}
+
+.calc-box{
+background:#1e293b;
+padding:25px;
+border-radius:10px;
+width:320px;
+margin:auto;
 }
 
 .login-box{
@@ -67,9 +76,10 @@ position:fixed;
 bottom:30px;
 right:30px;
 background:#22c55e;
-padding:15px;
+padding:15px 20px;
 border-radius:40px;
 cursor:pointer;
+font-weight:bold;
 }
 
 .popup{
@@ -87,8 +97,8 @@ background:#1e293b;
 padding:30px;
 width:300px;
 margin:200px auto;
-text-align:center;
 border-radius:10px;
+text-align:center;
 }
 
 footer{
@@ -96,208 +106,175 @@ background:#020617;
 padding:20px;
 text-align:center;
 }
-
 </style>
-
 </head>
 
 <body>
 
 <header>
-
 <h1>💰 ถุงเงิน Exchange</h1>
 
 <div class="ticker">
-
 <marquee>
-
-🌍 ตลาดเงินโลกเปิด 24 ชั่วโมง |
-📊 ตรวจสอบอัตราแลกเปลี่ยนก่อนแลกเงิน |
-💡 การกระจายสกุลเงินช่วยลดความเสี่ยง |
-💰 ตรวจสอบผู้รับเงินก่อนโอนทุกครั้ง
-
+🌍 ตลาดเงินโลกเปิด 24 ชั่วโมง | 📊 ตรวจสอบอัตราแลกเปลี่ยนก่อนแลกเงิน | 💡 กระจายสกุลเงินช่วยลดความเสี่ยง | 💰 ติดต่อแลกเงินจริงผ่านช่องทางติดต่อเท่านั้น
 </marquee>
-
 </div>
 
 </header>
-
 
 <section>
 
 <h2>เจ้าของเว็บไซต์</h2>
 
 <p>
-
-MR. PEERAPAT THONGRAMUN  
+MR. PEERAPAT THONGRAMUN<br>
 พีระพัฒน์ ทองระมุน
-
 </p>
 
 <p style="color:#f87171">
-
-⚠ "ชื่อนี้เท่านั้น" ห้ามโอนบุคคลอื่น
-
+⚠ "ชื่อนี้เท่านั้น" ห้ามโอนบุคคลอื่น เว็บไซต์จะไม่รับผิดชอบหากโอนไปยังบุคคลอื่น
 </p>
 
 </section>
 
-
 <section>
 
-<h2>วัตถุประสงค์ของเว็บไซต์</h2>
+<h2>วัตถุประสงค์เว็บไซต์</h2>
 
 <p>
-
-เว็บไซต์นี้จัดทำขึ้นเพื่อแสดงอัตราแลกเปลี่ยนเงินตรา
-แบบเรียลไทม์จากตลาดโลก เพื่อให้ลูกค้าตรวจสอบ
-ราคาและใช้เป็นข้อมูลประกอบการตัดสินใจ
-ก่อนทำการแลกเงินจริงผ่านช่องทางติดต่อของเว็บไซต์
-
+เว็บไซต์นี้แสดงอัตราแลกเปลี่ยนเงินตราต่างประเทศแบบเรียลไทม์
+เพื่อให้ลูกค้าตรวจสอบราคาและใช้เป็นข้อมูลก่อนติดต่อแลกเงินจริง
+ผ่านช่องทางติดต่อของเว็บไซต์
 </p>
 
 </section>
 
-
 <section>
 
-<h2>กราฟค่าเงิน</h2>
+<h2>📈 กราฟค่าเงินเรียลไทม์</h2>
 
-<div id="tradingview_chart"></div>
+<div id="chart" style="height:500px"></div>
 
 </section>
 
-
 <section>
 
-<h2>อัตราแลกเปลี่ยน</h2>
+<h2>💱 อัตราแลกเปลี่ยน 9 ประเทศ</h2>
 
 <table>
-
 <tr>
 <th>Currency</th>
 <th>Rate</th>
 </tr>
-
 <tbody id="rates"></tbody>
-
 </table>
 
 </section>
-
 
 <section>
 
-<h2>ค่าบริการแลกเงิน</h2>
+<h2>💱 เครื่องคำนวณแลกเงินจริง</h2>
 
-<table>
+<div class="calc-box">
 
-<tr>
-<th>จำนวนเงิน</th>
-<th>ค่าบริการ</th>
-</tr>
+<select id="currency">
+<option value="THB">THB</option>
+<option value="EUR">EUR</option>
+<option value="GBP">GBP</option>
+<option value="JPY">JPY</option>
+<option value="CNY">CNY</option>
+<option value="KRW">KRW</option>
+<option value="SGD">SGD</option>
+<option value="MYR">MYR</option>
+<option value="AUD">AUD</option>
+</select>
 
-<tr>
-<td>ต่ำกว่า 5,000 บาท</td>
-<td>1.5%</td>
-</tr>
+<br>
 
-<tr>
-<td>5,000 - 50,000 บาท</td>
-<td>1%</td>
-</tr>
+<input type="number" id="amount" placeholder="จำนวนเงิน USD">
 
-<tr>
-<td>มากกว่า 50,000 บาท</td>
-<td>0.5%</td>
-</tr>
+<br>
 
-</table>
+<button onclick="convert()">คำนวณ</button>
+
+<h3 id="result"></h3>
+
+<p>💬 ต้องการแลกเงินจริง ติดต่อผ่านช่องทางติดต่อด้านล่าง</p>
+
+</div>
 
 </section>
-
 
 <section>
 
 <h2>สมัครสมาชิก</h2>
 
 <div class="login-box">
-
 <input id="reg_email" placeholder="Email"><br>
 <input id="reg_pass" type="password" placeholder="Password"><br>
-
 <button onclick="register()">สมัครสมาชิก</button>
-
 </div>
 
 </section>
-
 
 <section>
 
 <h2>เข้าสู่ระบบ</h2>
 
 <div class="login-box">
-
 <input id="email" placeholder="Email"><br>
 <input id="password" type="password" placeholder="Password"><br>
-
 <button onclick="login()">Login</button>
-
 </div>
 
 </section>
 
-
 <div class="contact-btn" onclick="openPopup()">
-
 ติดต่อแลกเงิน
-
 </div>
 
-
 <div class="popup" id="popup">
-
 <div class="popup-box">
 
-<h2>ติดต่อแลกเงิน</h2>
+<h2>ติดต่อแลกเงินจริง</h2>
+
+<p>สามารถติดต่อเพื่อทำรายการแลกเงินจริงได้ที่ช่องทางด้านล่าง</p>
 
 <a href="https://www.facebook.com/share/1GYjXk6h8M/" target="_blank">
-
-<button>เปิด Facebook</button>
-
+<button>เปิด Facebook ติดต่อ</button>
 </a>
 
-<br>
+<br><br>
 
 <button onclick="closePopup()">ปิด</button>
 
 </div>
-
 </div>
-
 
 <footer>
 
 <p>© 2026 Tung Ngern Exchange</p>
-
 <p>Financial Information Service Platform</p>
-
 <p>Owner : MR. PEERAPAT THONGRAMUN</p>
 
 </footer>
 
-
 <script>
+
+/* API เรทเงินจริง */
 
 const api="https://v6.exchangerate-api.com/v6/4aa8ace0999fc317127c536a/latest/USD"
 
 const currencies=["THB","EUR","GBP","JPY","CNY","KRW","SGD","MYR","AUD"]
 
+let ratesData={}
+
 async function loadRates(){
 
 let res=await fetch(api)
 let data=await res.json()
+
+ratesData=data.conversion_rates
 
 let html=""
 
@@ -306,7 +283,7 @@ currencies.forEach(c=>{
 html+=`
 <tr>
 <td>${c}</td>
-<td>${data.conversion_rates[c]}</td>
+<td>${ratesData[c]}</td>
 </tr>
 `
 
@@ -318,20 +295,55 @@ document.getElementById("rates").innerHTML=html
 
 loadRates()
 
+/* รีเฟรชเรททุก 60 วิ */
+
+setInterval(loadRates,60000)
+
+/* เครื่องคำนวณ */
+
+function convert(){
+
+let currency=document.getElementById("currency").value
+let amount=parseFloat(document.getElementById("amount").value)
+
+if(!amount){alert("กรุณาใส่จำนวนเงิน");return}
+
+let rate=ratesData[currency]
+
+let result=amount*rate
+
+let fee=0
+
+if(amount<5000) fee=0.015
+else if(amount<50000) fee=0.01
+else fee=0.005
+
+let feeAmount=result*fee
+
+let final=result-feeAmount
+
+document.getElementById("result").innerHTML=
+
+`จำนวนเงินที่ได้รับประมาณ: ${final.toFixed(2)} ${currency}
+<br>ค่าบริการ: ${feeAmount.toFixed(2)} ${currency}`
+
+}
+
+/* TradingView */
 
 new TradingView.widget({
-
-container_id:"tradingview_chart",
-width:"100%",
-height:500,
-symbol:"OANDA:USDTHB",
-interval:"30",
+container_id:"chart",
+autosize:true,
+symbol:"FX_IDC:USDTHB",
+interval:"1",
 timezone:"Asia/Bangkok",
 theme:"dark",
-style:"1"
-
+style:"1",
+locale:"th",
+allow_symbol_change:true
 })
 
+/* สมาชิก */
 
 function register(){
 
@@ -344,35 +356,27 @@ alert("สมัครสมาชิกสำเร็จ กรุณาเข
 
 }
 
-
 function login(){
 
 let email=document.getElementById("email").value
 let pass=document.getElementById("password").value
 
 if(localStorage.getItem(email)==pass){
-
 alert("เข้าสู่ระบบสำเร็จ")
-
 }else{
-
 alert("ข้อมูลไม่ถูกต้อง")
-
 }
 
 }
 
+/* popup */
 
 function openPopup(){
-
 document.getElementById("popup").style.display="block"
-
 }
 
 function closePopup(){
-
 document.getElementById("popup").style.display="none"
-
 }
 
 </script>
