@@ -1,0 +1,18 @@
+const express = require("express")
+const app = express()
+
+let orders=[]
+
+app.post("/payment",(req,res)=>{
+
+let order=req.body
+
+orders.push(order)
+
+res.json({
+status:"รอตรวจสอบ"
+})
+
+})
+
+app.listen(3000)
