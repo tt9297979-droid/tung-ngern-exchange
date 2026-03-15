@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
 
 <meta charset="UTF-8">
@@ -10,173 +9,156 @@
 
 <style>
 
-/* ===== Background ===== */
+/* ===== Background Animation ===== */
 
 body{
-
 margin:0;
-font-family:sans-serif;
-
-background:linear-gradient(270deg,#0f172a,#1e3a8a,#020617);
-
+font-family:Arial;
+background:linear-gradient(270deg,#020617,#1e3a8a,#020617);
 background-size:600% 600%;
-
-animation:bgmove 15s ease infinite;
-
+animation:bgmove 18s infinite;
 color:white;
-
 }
 
 @keyframes bgmove{
-
 0%{background-position:0% 50%}
 50%{background-position:100% 50%}
 100%{background-position:0% 50%}
-
 }
 
 /* ===== Navbar ===== */
 
 nav{
-
 display:flex;
 justify-content:space-between;
 align-items:center;
-
 padding:15px 30px;
-
-background:rgba(0,0,0,0.4);
-
-backdrop-filter:blur(10px);
-
+background:rgba(0,0,0,0.5);
 }
 
 nav ul{
-
 display:flex;
 gap:20px;
 list-style:none;
-
 }
 
 nav a{
-
 color:white;
 text-decoration:none;
+font-weight:bold;
+}
 
+/* ===== Banner ===== */
+
+.warning{
+background:#dc2626;
+text-align:center;
+padding:10px;
+font-weight:bold;
 }
 
 /* ===== Container ===== */
 
 .container{
-
 max-width:1100px;
 margin:auto;
 padding:20px;
-
 }
 
-/* ===== Card UI ===== */
+/* ===== Card ===== */
 
 .card{
-
 background:rgba(255,255,255,0.08);
-
 padding:25px;
-
 border-radius:15px;
-
 margin:30px 0;
-
-backdrop-filter:blur(10px);
-
 }
 
-/* ===== Button ===== */
-
-button{
-
-background:#22c55e;
-
-border:none;
-
-padding:12px 20px;
-
-border-radius:8px;
-
-color:white;
-
-cursor:pointer;
-
-}
-
-/* ===== Inputs ===== */
+/* ===== Form ===== */
 
 input,select{
-
 width:100%;
 padding:10px;
-
 margin:8px 0;
-
 border-radius:8px;
-
 border:none;
-
 }
 
-/* ===== Warning ===== */
+button{
+background:#22c55e;
+border:none;
+padding:12px 20px;
+border-radius:8px;
+color:white;
+cursor:pointer;
+}
 
-.warning{
+/* ===== Reviews ===== */
 
-background:#dc2626;
+.review-container{
+overflow:hidden;
+white-space:nowrap;
+animation:scroll 25s linear infinite;
+}
 
+.review{
+display:inline-block;
+background:rgba(255,255,255,0.1);
 padding:15px;
-
-text-align:center;
-
-font-weight:bold;
-
+margin:10px;
+border-radius:10px;
 }
 
-/* ===== Steps ===== */
+@keyframes scroll{
+0%{transform:translateX(100%)}
+100%{transform:translateX(-100%)}
+}
 
-.steps{
+/* ===== Banks ===== */
 
+.banks{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:20px;
-
+gap:15px;
+text-align:center;
 }
 
-.step{
-
+.bank{
 background:rgba(255,255,255,0.1);
 padding:15px;
 border-radius:10px;
+}
 
+/* ===== Receipt ===== */
+
+#receipt{
+display:none;
+background:white;
+color:black;
+padding:20px;
+width:320px;
+border-radius:10px;
+margin-top:20px;
 }
 
 /* ===== Footer ===== */
 
 footer{
-
 text-align:center;
 padding:40px;
 opacity:0.7;
-
 }
 
 /* ===== Mobile ===== */
 
 @media(max-width:700px){
 
-.steps{
-grid-template-columns:1fr;
-}
-
 nav ul{
 flex-direction:column;
+}
+
+.banks{
+grid-template-columns:1fr 1fr;
 }
 
 }
@@ -188,10 +170,12 @@ flex-direction:column;
 <body>
 
 <div class="warning">
-
-🚨 รับโอนเฉพาะบัญชีชื่อ นายพีระพัฒน์ ทองระมุน เท่านั้น ห้ามโอนบัญชีอื่น
-
+🚨 รับโอนเฉพาะบัญชีชื่อ นายพีระพัฒน์ ทองระมุน เท่านั้น
 </div>
+
+<marquee>
+💹 อัตราแลกเปลี่ยนอัปเดตตลอดเวลา | ปลอดภัย | ธุรกรรมรวดเร็ว | รองรับ 9 ประเทศ
+</marquee>
 
 <nav>
 
@@ -201,8 +185,8 @@ flex-direction:column;
 
 <li><a href="#home">หน้าแรก</a></li>
 <li><a href="#exchange">แลกเงิน</a></li>
-<li><a href="#steps">ขั้นตอน</a></li>
-<li><a href="#security">ความปลอดภัย</a></li>
+<li><a href="#banks">ธนาคาร</a></li>
+<li><a href="#reviews">รีวิว</a></li>
 <li><a href="#contact">ติดต่อ</a></li>
 
 </ul>
@@ -216,43 +200,25 @@ flex-direction:column;
 <h1>แพลตฟอร์มแลกเงินออนไลน์</h1>
 
 <p>
-
-แพลตฟอร์มสำหรับแลกเปลี่ยนสกุลเงินต่างประเทศ  
-ออกแบบมาเพื่อให้การทำธุรกรรมเป็นไปอย่างสะดวก รวดเร็ว และปลอดภัย
-
-</p>
-
-<h3>รองรับ 9 ประเทศ</h3>
-
-<p>
-
-🇸🇬 สิงคโปร์  
-🇻🇳 เวียดนาม  
-🇲🇾 มาเลเซีย  
-🇮🇩 อินโดนีเซีย  
-🇰🇭 กัมพูชา  
-🇭🇰 ฮ่องกง  
-🇱🇦 ลาว  
-🇰🇷 เกาหลีใต้  
-🇨🇳 จีน
-
+รองรับประเทศ  
+🇸🇬 🇻🇳 🇲🇾 🇮🇩 🇰🇭 🇭🇰 🇱🇦 🇰🇷 🇨🇳
 </p>
 
 </section>
 
 <section id="exchange" class="card">
 
-<h2>ระบบแลกเงิน</h2>
+<h2>💱 ระบบแลกเงิน</h2>
 
 <label>ชื่อบัญชี</label>
-<input type="text">
+<input id="name" type="text">
 
 <label>เลขบัญชี</label>
-<input type="text">
+<input id="acc" type="text">
 
 <label>ธนาคาร</label>
 
-<select>
+<select id="bank">
 
 <option>กสิกรไทย</option>
 <option>กรุงไทย</option>
@@ -263,7 +229,7 @@ flex-direction:column;
 
 <label>ประเทศ</label>
 
-<select>
+<select id="country">
 
 <option>สิงคโปร์</option>
 <option>เวียดนาม</option>
@@ -279,73 +245,64 @@ flex-direction:column;
 
 <label>จำนวนเงิน</label>
 
-<input type="number">
+<input id="amount" type="number">
 
-<button>คำนวณอัตราแลก</button>
+<button onclick="createReceipt()">สร้างใบเสร็จ</button>
 
-</section>
+<div id="receipt">
 
-<section id="steps" class="card">
+<h3>ใบเสร็จธุรกรรม</h3>
 
-<h2>ขั้นตอนการแลกเงิน</h2>
+<p id="txid"></p>
+<p id="txname"></p>
+<p id="txbank"></p>
+<p id="txcountry"></p>
+<p id="txamount"></p>
+<p id="txtime"></p>
 
-<div class="steps">
-
-<div class="step">
-1️⃣ กรอกข้อมูลบัญชี
-</div>
-
-<div class="step">
-2️⃣ เลือกประเทศและจำนวนเงิน
-</div>
-
-<div class="step">
-3️⃣ สร้างรายการแลกเงิน
-</div>
-
-<div class="step">
-4️⃣ โอนเงินตามบัญชีที่ระบบระบุ
-</div>
-
-<div class="step">
-5️⃣ ส่งใบเสร็จให้เจ้าหน้าที่ตรวจสอบ
-</div>
-
-<div class="step">
-6️⃣ รับเงินเข้าบัญชี
-</div>
+<canvas id="qr"></canvas>
 
 </div>
 
 </section>
 
-<section id="security" class="card">
+<section id="banks" class="card">
 
-<h2>ระบบความปลอดภัย</h2>
+<h2>🏦 ธนาคารที่รองรับ</h2>
 
-<ul>
+<div class="banks">
 
-<li>Transaction ID ทุกธุรกรรม</li>
-<li>ใบเสร็จมี Watermark ป้องกันปลอม</li>
-<li>ตรวจสอบข้อมูลก่อนทำธุรกรรม</li>
-<li>ระบบแจ้งเตือนบัญชีปลอม</li>
+<div class="bank">กสิกรไทย</div>
+<div class="bank">กรุงไทย</div>
+<div class="bank">ไทยพาณิชย์</div>
+<div class="bank">กรุงเทพ</div>
+<div class="bank">ออมสิน</div>
+<div class="bank">กรุงศรี</div>
 
-</ul>
+</div>
+
+</section>
+
+<section id="reviews" class="card">
+
+<h2>⭐ รีวิวลูกค้า</h2>
+
+<div class="review-container">
+
+<div class="review">⭐⭐⭐⭐⭐ โอนเร็วมาก 5 นาทีได้เงิน</div>
+<div class="review">⭐⭐⭐⭐⭐ เรทดีมาก</div>
+<div class="review">⭐⭐⭐⭐⭐ ระบบใช้ง่าย</div>
+<div class="review">⭐⭐⭐⭐⭐ บริการรวดเร็ว</div>
+
+</div>
 
 </section>
 
 <section id="contact" class="card">
 
-<h2>ติดต่อเจ้าหน้าที่</h2>
+<h2>📞 ติดต่อ</h2>
 
-<p>
-
-หากต้องการสอบถามรายละเอียดเพิ่มเติม  
-สามารถติดต่อผ่าน Facebook
-
-</p>
-
-<a href="https://www.facebook.com/share/1GYjXk6h8M/">
+<a href="https://www.facebook.com/share/1FMKP3heQ4/">
 
 <button>ติดต่อผ่าน Facebook</button>
 
@@ -361,6 +318,51 @@ flex-direction:column;
 
 </footer>
 
-</body>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 
+<script>
+
+function createReceipt(){
+
+let id="TX"+Math.floor(Math.random()*1000000)
+
+let name=document.getElementById("name").value
+let bank=document.getElementById("bank").value
+let country=document.getElementById("country").value
+let amount=document.getElementById("amount").value
+let time=new Date().toLocaleString()
+
+document.getElementById("txid").innerText="Transaction ID : "+id
+document.getElementById("txname").innerText="ชื่อบัญชี : "+name
+document.getElementById("txbank").innerText="ธนาคาร : "+bank
+document.getElementById("txcountry").innerText="ประเทศ : "+country
+document.getElementById("txamount").innerText="จำนวนเงิน : "+amount+" บาท"
+document.getElementById("txtime").innerText="เวลา : "+time
+
+document.getElementById("receipt").style.display="block"
+
+new QRious({
+element:document.getElementById("qr"),
+value:id,
+size:120
+})
+
+html2canvas(document.getElementById("receipt")).then(canvas=>{
+
+let link=document.createElement("a")
+
+link.download="receipt.png"
+
+link.href=canvas.toDataURL()
+
+link.click()
+
+})
+
+}
+
+</script>
+
+</body>
 </html>
