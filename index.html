@@ -9,7 +9,7 @@
 
 <style>
 
-/* ===== Background Animation ===== */
+/* Background */
 
 body{
 margin:0;
@@ -26,7 +26,7 @@ color:white;
 100%{background-position:0% 50%}
 }
 
-/* ===== Navbar ===== */
+/* Navbar */
 
 nav{
 display:flex;
@@ -48,7 +48,7 @@ text-decoration:none;
 font-weight:bold;
 }
 
-/* ===== Banner ===== */
+/* Warning */
 
 .warning{
 background:#dc2626;
@@ -57,7 +57,7 @@ padding:10px;
 font-weight:bold;
 }
 
-/* ===== Container ===== */
+/* Container */
 
 .container{
 max-width:1100px;
@@ -65,7 +65,7 @@ margin:auto;
 padding:20px;
 }
 
-/* ===== Card ===== */
+/* Card */
 
 .card{
 background:rgba(255,255,255,0.08);
@@ -74,7 +74,7 @@ border-radius:15px;
 margin:30px 0;
 }
 
-/* ===== Form ===== */
+/* Form */
 
 input,select{
 width:100%;
@@ -93,7 +93,7 @@ color:white;
 cursor:pointer;
 }
 
-/* ===== Reviews ===== */
+/* Reviews */
 
 .review-container{
 overflow:hidden;
@@ -114,7 +114,7 @@ border-radius:10px;
 100%{transform:translateX(-100%)}
 }
 
-/* ===== Banks ===== */
+/* Banks */
 
 .banks{
 display:grid;
@@ -129,7 +129,7 @@ padding:15px;
 border-radius:10px;
 }
 
-/* ===== Receipt ===== */
+/* Receipt */
 
 #receipt{
 display:none;
@@ -141,26 +141,46 @@ border-radius:10px;
 margin-top:20px;
 }
 
-/* ===== Footer ===== */
+/* Currency ticker */
+
+.ticker{
+background:black;
+padding:8px;
+overflow:hidden;
+white-space:nowrap;
+}
+
+.ticker span{
+display:inline-block;
+padding-left:100%;
+animation:ticker 15s linear infinite;
+}
+
+@keyframes ticker{
+0%{transform:translateX(0)}
+100%{transform:translateX(-100%)}
+}
+
+/* Contact float */
+
+#contactFloat{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#1877f2;
+padding:15px 20px;
+border-radius:50px;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 5px 20px rgba(0,0,0,0.4);
+}
+
+/* Footer */
 
 footer{
 text-align:center;
 padding:40px;
 opacity:0.7;
-}
-
-/* ===== Mobile ===== */
-
-@media(max-width:700px){
-
-nav ul{
-flex-direction:column;
-}
-
-.banks{
-grid-template-columns:1fr 1fr;
-}
-
 }
 
 </style>
@@ -170,12 +190,14 @@ grid-template-columns:1fr 1fr;
 <body>
 
 <div class="warning">
-🚨 รับโอนเฉพาะบัญชีชื่อ นายพีระพัฒน์ ทองระมุน เท่านั้น
+🚨 ห้ามโอนบัญชีอื่นที่นอกเหนือจากชื่อ นายพีระพัฒน์ ทองระมุน
 </div>
 
-<marquee>
-💹 อัตราแลกเปลี่ยนอัปเดตตลอดเวลา | ปลอดภัย | ธุรกรรมรวดเร็ว | รองรับ 9 ประเทศ
-</marquee>
+<div class="ticker">
+<span>
+💹 USD/THB 35.10 | SGD/THB 26.20 | MYR/THB 7.50 | CNY/THB 4.90 | KRW/THB 0.027
+</span>
+</div>
 
 <nav>
 
@@ -204,6 +226,10 @@ grid-template-columns:1fr 1fr;
 🇸🇬 🇻🇳 🇲🇾 🇮🇩 🇰🇭 🇭🇰 🇱🇦 🇰🇷 🇨🇳
 </p>
 
+<p>ธุรกรรมวันนี้</p>
+
+<h2 id="counter">$1,240,392</h2>
+
 </section>
 
 <section id="exchange" class="card">
@@ -211,26 +237,25 @@ grid-template-columns:1fr 1fr;
 <h2>💱 ระบบแลกเงิน</h2>
 
 <label>ชื่อบัญชี</label>
-<input id="name" type="text">
+<input id="name">
 
 <label>เลขบัญชี</label>
-<input id="acc" type="text">
+<input id="acc">
 
 <label>ธนาคาร</label>
 
 <select id="bank">
-
 <option>กสิกรไทย</option>
 <option>กรุงไทย</option>
 <option>ไทยพาณิชย์</option>
 <option>กรุงเทพ</option>
-
+<option>ออมสิน</option>
+<option>กรุงศรี</option>
 </select>
 
 <label>ประเทศ</label>
 
 <select id="country">
-
 <option>สิงคโปร์</option>
 <option>เวียดนาม</option>
 <option>มาเลเซีย</option>
@@ -240,12 +265,13 @@ grid-template-columns:1fr 1fr;
 <option>ลาว</option>
 <option>เกาหลีใต้</option>
 <option>จีน</option>
-
 </select>
 
 <label>จำนวนเงิน</label>
 
 <input id="amount" type="number">
+
+<p>ค่าบริการ 2%</p>
 
 <button onclick="createReceipt()">สร้างใบเสร็จ</button>
 
@@ -258,6 +284,8 @@ grid-template-columns:1fr 1fr;
 <p id="txbank"></p>
 <p id="txcountry"></p>
 <p id="txamount"></p>
+<p id="txfee"></p>
+<p id="txtotal"></p>
 <p id="txtime"></p>
 
 <canvas id="qr"></canvas>
@@ -303,13 +331,16 @@ grid-template-columns:1fr 1fr;
 <h2>📞 ติดต่อ</h2>
 
 <a href="https://www.facebook.com/share/1FMKP3heQ4/">
-
 <button>ติดต่อผ่าน Facebook</button>
-
 </a>
 
 </section>
 
+</div>
+
+<div id="contactFloat"
+onclick="window.open('https://www.facebook.com/share/1FMKP3heQ4/')">
+💬 ติดต่อ
 </div>
 
 <footer>
@@ -330,7 +361,11 @@ let id="TX"+Math.floor(Math.random()*1000000)
 let name=document.getElementById("name").value
 let bank=document.getElementById("bank").value
 let country=document.getElementById("country").value
-let amount=document.getElementById("amount").value
+let amount=parseFloat(document.getElementById("amount").value)
+
+let fee=amount*0.02
+let total=amount-fee
+
 let time=new Date().toLocaleString()
 
 document.getElementById("txid").innerText="Transaction ID : "+id
@@ -338,6 +373,10 @@ document.getElementById("txname").innerText="ชื่อบัญชี : "+nam
 document.getElementById("txbank").innerText="ธนาคาร : "+bank
 document.getElementById("txcountry").innerText="ประเทศ : "+country
 document.getElementById("txamount").innerText="จำนวนเงิน : "+amount+" บาท"
+
+document.getElementById("txfee").innerText="ค่าบริการ : "+fee+" บาท"
+document.getElementById("txtotal").innerText="ยอดสุทธิ : "+total+" บาท"
+
 document.getElementById("txtime").innerText="เวลา : "+time
 
 document.getElementById("receipt").style.display="block"
@@ -351,11 +390,8 @@ size:120
 html2canvas(document.getElementById("receipt")).then(canvas=>{
 
 let link=document.createElement("a")
-
 link.download="receipt.png"
-
 link.href=canvas.toDataURL()
-
 link.click()
 
 })
