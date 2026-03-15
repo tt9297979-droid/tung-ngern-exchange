@@ -1,626 +1,470 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>ถุงทองแลกเปลี่ยน | FinTech Platform</title>
+<!DOCTYPE html>  <html lang="th">  
+<head>  
+<meta charset="utf-8" />  
+<meta name="viewport" content="width=device-width,initial-scale=1" />  
+<title>ถุงทองแลกเปลี่ยน | FinTech Platform</title>  <!-- Libraries -->  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>  <style>  
+  /* ---------- Base ---------- */  
+  :root{--accent:#22c55e;--glass:rgba(255,255,255,0.06)}  
+  *{box-sizing:border-box}  
+  body{  
+    margin:0;font-family:Inter,Arial, Helvetica, sans-serif;  
+    background:linear-gradient(270deg,#020617,#0f172a,#0b1220);color:#e6eef8;  
+    background-size:600% 600%;animation:bgmove 18s infinite;  
+  }  
+  @keyframes bgmove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}  
+  
+  /* Watermark */  
+  .watermark{  
+    position:fixed;left:50%;top:50%;  
+    transform:translate(-50%,-50%) rotate(-28deg);  
+    font-size:88px;color:rgba(255,255,255,0.03);pointer-events:none;z-index:0;font-weight:700;  
+  }  
+  
+  /* Nav */  
+  nav{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:rgba(2,6,23,0.6);backdrop-filter: blur(6px);z-index:20;}  
+  nav h1{margin:0;font-size:18px}  
+  nav ul{display:flex;gap:14px;list-style:none;margin:0;padding:0}  
+  nav a{color:white;text-decoration:none;font-weight:600;font-size:14px;opacity:0.95}  
+  
+  /* Warning */  
+  .warning{background:#b91c1c;color:white;text-align:center;padding:10px;font-weight:700}  
+  
+  /* Container + cards */  
+  .container{max-width:1200px;margin:28px auto;padding:0 18px;position:relative;z-index:5}  
+  .card{background:var(--glass);padding:18px;border-radius:12px;margin-bottom:20px;box-shadow:0 6px 20px rgba(2,6,23,0.45)}  
+  .card h2{margin-top:0}  
+  
+  /* ticker */  
+  .ticker{background:#06102a;padding:10px;border-radius:8px;color:#bcd9ff;margin-bottom:14px;overflow:hidden}  
+  .ticker span{display:inline-block;white-space:nowrap;animation:ticker 20s linear infinite}  
+  @keyframes ticker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}  
+  
+  /* grid */  
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}  
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}  
+  
+  /* form */  
+  input,select{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:white}  
+  .muted{color:#bcd0ea;font-size:13px}  
+  
+  button.cta{background:var(--accent);border:none;padding:10px 16px;border-radius:8px;color:#042017;font-weight:700;cursor:pointer}  
+  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);color:white;padding:8px 12px;border-radius:8px}  
+  
+  /* banks */  
+  .banks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}  
+  .bank{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;display:flex;align-items:center;justify-content:center}  
+  .bank img{height:36px;filter:contrast(110%)}  
+  
+  /* receipt */  
+  #receipt{display:none;background:white;color:#06202a;padding:14px;border-radius:10px;width:360px}  
+  #receipt h3{margin:0 0 6px 0;color:#042017}  
+  #receipt .small{font-size:13px;color:#234}  
+  
+  /* chart */  
+  #txChart{background:white;border-radius:10px;padding:10px}  
+  
+  /* contact floating */  
+  #contactFloat{  
+    position:fixed;right:22px;bottom:22px;background:#1877f2;color:white;padding:14px 18px;border-radius:999px;font-weight:800;  
+    box-shadow:0 10px 30px rgba(24,119,242,0.18);cursor:pointer;z-index:1000;display:flex;align-items:center;gap:8px;  
+    animation:pulse 2.4s infinite;  
+  }  
+  @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}  
+  
+  /* popup */  
+  #contactPopup{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:2000;align-items:center;justify-content:center}  
+  .popupBox{background:linear-gradient(180deg,#021026,#07162a);padding:28px;border-radius:18px;color:white;max-width:540px;box-shadow:0 20px 60px rgba(2,6,23,0.6);text-align:center}  
+  .popupBox h2{margin:0 0 10px 0}  
+  .popupBox p{color:#cfe7ff}  
+  
+  /* responsive */  
+  @media(max-width:900px){  
+    .grid-3{grid-template-columns:repeat(2,1fr)}  
+    .grid-4{grid-template-columns:repeat(2,1fr)}  
+    nav ul{display:none}  
+    .container{padding:12px}  
+  }  
+</style>  </head>  
+<body>    <!-- Watermark -->    <div class="watermark">ถุงทองแลกเปลี่ยน</div>    <!-- Warning / header -->    <div class="warning">🚨 ห้ามโอนบัญชีอื่นที่นอกเหนือจากชื่อ <strong>นายพีระพัฒน์ ทองระมุน</strong> (บัญชีรับเงิน: <strong>3260643737 - กรุงไทย</strong>)</div>    <!-- ticker -->    <div style="max-width:1200px;margin:12px auto;padding:0 18px;">  
+    <div class="ticker card"><span id="rateTicker">กำลังโหลดค่าเงิน...</span></div>  
+  </div>    <!-- nav -->    <nav>  
+    <h1>💰 ถุงทองแลกเปลี่ยน</h1>  
+    <ul>  
+      <li><a href="#home">หน้าแรก</a></li>  
+      <li><a href="#steps">วิธีการแลก</a></li>  
+      <li><a href="#exchange">แลกเงิน</a></li>  
+      <li><a href="#stats">สถิติ</a></li>  
+      <li><a href="#banks">ธนาคาร</a></li>  
+    </ul>  
+  </nav>    <div class="container">  <!-- HOME (welcome + rates table + counter) -->  
+<section id="home" class="card">  
+  <h1>💰 ยินดีต้อนรับสู่ ถุงทองแลกเปลี่ยน</h1>  
+  <p class="muted">แพลตฟอร์มแลกเปลี่ยนเงินออนไลน์ที่รวดเร็ว ปลอดภัย โปร่งใส — ให้บริการแลกเงินระหว่างประเทศแบบเรียลไทม์ ทีมงานมุ่งมั่นให้บริการด้วยมาตรฐาน FinTech เพื่อความมั่นใจของคุณ</p>  
 
-<!-- Libraries -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
-/* security popup */
-#securityPopup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.92);
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:9999;
-}
+  <h3>🌏 รองรับประเทศ</h3>  
+  <div style="font-size:26px; margin-bottom:8px">🇸🇬 🇻🇳 🇲🇾 🇮🇩 🇰🇭 🇭🇰 🇱🇦 🇰🇷 🇨🇳</div>  
 
-.securityBox{
-background:#020617;
-padding:35px;
-border-radius:18px;
-max-width:420px;
-text-align:center;
-color:white;
-box-shadow:0 0 40px #22c55e;
-animation:securityGlow 2s infinite alternate;
-}
+  <h3>💹 อัตราแลกเปลี่ยน (Real-time)</h3>  
+  <table class="card" style="margin-top:10px;">  
+    <tr style="background:transparent;color:var(--accent)">  
+      <th>ประเทศ</th><th>สกุลเงิน</th><th>อัตรา (1 สกุล = ? THB)</th>  
+    </tr>  
+    <tr><td>🇸🇬 สิงคโปร์</td><td>SGD</td><td id="sgdRate">-</td></tr>  
+    <tr><td>🇻🇳 เวียดนาม</td><td>VND</td><td id="vndRate">-</td></tr>  
+    <tr><td>🇲🇾 มาเลเซีย</td><td>MYR</td><td id="myrRate">-</td></tr>  
+    <tr><td>🇮🇩 อินโดนีเซีย</td><td>IDR</td><td id="idrRate">-</td></tr>  
+    <tr><td>🇰🇭 กัมพูชา</td><td>KHR</td><td id="khrRate">-</td></tr>  
+    <tr><td>🇭🇰 ฮ่องกง</td><td>HKD</td><td id="hkdRate">-</td></tr>  
+    <tr><td>🇱🇦 ลาว</td><td>LAK</td><td id="lakRate">-</td></tr>  
+    <tr><td>🇰🇷 เกาหลีใต้</td><td>KRW</td><td id="krwRate">-</td></tr>  
+    <tr><td>🇨🇳 จีน</td><td>CNY</td><td id="cnyRate">-</td></tr>  
+  </table>  
 
-.securityBox h2{
-margin-top:0;
-color:#22c55e;
-}
+  <h3 style="margin-top:14px">📈 ธุรกรรมรวมวันนี้</h3>  
+  <h1 id="liveCounter" style="font-size:34px;margin:6px 0 0 0">$1,245,392</h1>  
+</section>  
 
-.securityBox button{
-margin-top:20px;
-padding:12px 24px;
-background:#22c55e;
-border:none;
-border-radius:8px;
-font-weight:bold;
-cursor:pointer;
-}
+<!-- Steps -->  
+<section id="steps" class="card">  
+  <h2>📌 วิธีการแลกเงิน (สั้น ๆ)</h2>  
+  <div class="steps">  
+    <div class="step">1️⃣ กรอกข้อมูล</div>  
+    <div class="step">2️⃣ ตรวจสอบอัตรา</div>  
+    <div class="step">3️⃣ สร้างใบเสร็จ</div>  
+    <div class="step">4️⃣ ดาวน์โหลดใบเสร็จ</div>  
+    <div class="step">5️⃣ ส่งใบเสร็จยืนยัน</div>  
+  </div>  
+  <p class="muted" style="margin-top:12px">หลังดาวน์โหลดใบเสร็จ กรุณาส่งไฟล์ใบเสร็จที่ช่องทางติดต่อ (ปุ่มด้านล่าง) เพื่อให้เจ้าหน้าที่ตรวจสอบและโอนเงินบาทกลับให้คุณ</p>  
+</section>  
 
-@keyframes securityGlow{
-from{box-shadow:0 0 15px #22c55e}
-to{box-shadow:0 0 50px #22c55e}
-}
-<style>
-  /* ---------- Base ---------- */
-  :root{--accent:#22c55e;--glass:rgba(255,255,255,0.06)}
-  *{box-sizing:border-box}
-  body{
-    margin:0;font-family:Inter,Arial, Helvetica, sans-serif;
-    background:linear-gradient(270deg,#020617,#0f172a,#0b1220);color:#e6eef8;
-    background-size:600% 600%;animation:bgmove 18s infinite;
-  }
-  @keyframes bgmove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+<!-- Exchange form -->  
+<section id="exchange" class="card">  
+  <h2>💱 ระบบแลกเงิน</h2>  
+  <div style="max-width:720px">  
+    <label class="muted">ชื่อ-สกุลผู้รับ (บัญชีปลายทาง)</label>  
+    <input id="name" placeholder="ชื่อบัญชีผู้รับ (ตัวอย่าง: สมชาย ใจดี)">  
 
-  /* Watermark */
-  .watermark{
-    position:fixed;left:50%;top:50%;
-    transform:translate(-50%,-50%) rotate(-28deg);
-    font-size:88px;color:rgba(255,255,255,0.03);pointer-events:none;z-index:0;font-weight:700;
-  }
+    <label class="muted">เลขบัญชีผู้รับ</label>  
+    <input id="acc" placeholder="เลขบัญชีผู้รับ">  
 
-  /* Nav */
-  nav{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:rgba(2,6,23,0.6);backdrop-filter: blur(6px);z-index:20;}
-  nav h1{margin:0;font-size:18px}
-  nav ul{display:flex;gap:14px;list-style:none;margin:0;padding:0}
-  nav a{color:white;text-decoration:none;font-weight:600;font-size:14px;opacity:0.95}
+    <label class="muted">ธนาคารผู้รับ</label>  
+    <select id="bank">  
+      <option>กสิกรไทย</option>  
+      <option>กรุงไทย</option>  
+      <option>ไทยพาณิชย์</option>  
+      <option>กรุงเทพ</option>  
+      <option>ออมสิน</option>  
+      <option>กรุงศรี</option>  
+    </select>  
 
-  /* Warning */
-  .warning{background:#b91c1c;color:white;text-align:center;padding:10px;font-weight:700}
+    <label class="muted">ประเทศสกุลเงินต้น</label>  
+    <select id="country">  
+      <option>สิงคโปร์</option>  
+      <option>เวียดนาม</option>  
+      <option>มาเลเซีย</option>  
+      <option>อินโดนีเซีย</option>  
+      <option>กัมพูชา</option>  
+      <option>ฮ่องกง</option>  
+      <option>ลาว</option>  
+      <option>เกาหลีใต้</option>  
+      <option>จีน</option>  
+    </select>  
 
-  /* Container + cards */
-  .container{max-width:1200px;margin:28px auto;padding:0 18px;position:relative;z-index:5}
-  .card{background:var(--glass);padding:18px;border-radius:12px;margin-bottom:20px;box-shadow:0 6px 20px rgba(2,6,23,0.45)}
-  .card h2{margin-top:0}
+    <label class="muted">จำนวนเงินสกุลต้น (ตัวอย่าง: 1000)</label>  
+    <input id="amount" type="number" placeholder="จำนวนเงินที่จะแลก (สกุลต้น)">  
 
-  /* ticker */
-  .ticker{background:#06102a;padding:10px;border-radius:8px;color:#bcd9ff;margin-bottom:14px;overflow:hidden}
-  .ticker span{display:inline-block;white-space:nowrap;animation:ticker 20s linear infinite}
-  @keyframes ticker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+    <p class="muted">ค่าบริการ: <strong>2%</strong> (คำนวณอัตโนมัติ)</p>  
 
-  /* grid */
-  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    <div style="display:flex;gap:10px;margin-top:12px">  
+      <button class="cta" onclick="createReceipt()">สร้างใบเสร็จ & ดาวน์โหลด</button>  
+      <button class="ghost" onclick="openPopup()">ติดต่อ/ส่งใบเสร็จ</button>  
+    </div>  
 
-  /* form */
-  input,select{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:white}
-  .muted{color:#bcd0ea;font-size:13px}
+    <!-- Receipt preview (will be rendered to PNG) -->  
+    <div id="receipt" aria-hidden="true">  
+      <h3>สลิปการแลกเงิน (Receipt)</h3>  
+      <div class="small">ผู้รับเงิน (Merchant): <strong>พีระพัฒน์ ทองระมุน</strong></div>  
+      <div class="small">บัญชีรับ: <strong>3260643737 - ธนาคารกรุงไทย</strong></div>  
+      <hr/>  
+      <p id="txid"></p>  
+      <p id="txname"></p>  
+      <p id="txbank"></p>  
+      <p id="txcountry"></p>  
+      <p id="txamount"></p>  
+      <p id="txfee"></p>  
+      <p id="txtotal"></p>  
+      <p id="txtime"></p>  
+      <canvas id="qr" style="margin-top:8px"></canvas>  
+    </div>  
 
-  button.cta{background:var(--accent);border:none;padding:10px 16px;border-radius:8px;color:#042017;font-weight:700;cursor:pointer}
-  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);color:white;padding:8px 12px;border-radius:8px}
+  </div>  
+</section>  
 
-  /* banks */
-  .banks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-  .bank{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;display:flex;align-items:center;justify-content:center}
-  .bank img{height:36px;filter:contrast(110%)}
+<!-- Stats -->  
+<section id="stats" class="card">  
+  <h2>📊 สถิติธุรกรรม (ตามประเทศ)</h2>  
+  <div style="display:flex;gap:12px;flex-wrap:wrap">  
+    <div style="flex:1;min-width:320px;background:white;padding:10px;border-radius:10px">  
+      <canvas id="txChart" height="160"></canvas>  
+    </div>  
+    <div style="width:240px">  
+      <div class="card" style="background:rgba(255,255,255,0.03)">  
+        <h4>จำนวนธุรกรรม</h4><div style="font-size:20px" id="txCount">0</div>  
+        <h4 style="margin-top:12px">ยอดเงินรวม (สกุลต้น)</h4><div style="font-size:18px" id="txVolume">0</div>  
+      </div>  
+    </div>  
+  </div>  
+</section><div class="card" style="text-align:center;margin-top:25px">
 
-  /* receipt */
-  #receipt{display:none;background:white;color:#06202a;padding:14px;border-radius:10px;width:360px}
-  #receipt h3{margin:0 0 6px 0;color:#042017}
-  #receipt .small{font-size:13px;color:#234}
-
-  /* chart */
-  #txChart{background:white;border-radius:10px;padding:10px}
-
-  /* contact floating */
-  #contactFloat{
-    position:fixed;right:22px;bottom:22px;background:#1877f2;color:white;padding:14px 18px;border-radius:999px;font-weight:800;
-    box-shadow:0 10px 30px rgba(24,119,242,0.18);cursor:pointer;z-index:1000;display:flex;align-items:center;gap:8px;
-    animation:pulse 2.4s infinite;
-  }
-  @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
-
-  /* popup */
-  #contactPopup{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);z-index:2000;align-items:center;justify-content:center}
-  .popupBox{background:linear-gradient(180deg,#021026,#07162a);padding:28px;border-radius:18px;color:white;max-width:540px;box-shadow:0 20px 60px rgba(2,6,23,0.6);text-align:center}
-  .popupBox h2{margin:0 0 10px 0}
-  .popupBox p{color:#cfe7ff}
-
-  /* responsive */
-  @media(max-width:900px){
-    .grid-3{grid-template-columns:repeat(2,1fr)}
-    .grid-4{grid-template-columns:repeat(2,1fr)}
-    nav ul{display:none}
-    .container{padding:12px}
-  }
-</style>
-</head>
-<body>
-<!-- Security Payment Popup -->
-<div id="securityPopup">
-<div class="securityBox">
-
-<h2>🛡 Official Payment Account</h2>
-
-<p><b>Verified Merchant</b></p>
-
-<hr style="opacity:0.2">
-
-<p>🔐 ร้านใช้บัญชีและ QR Code นี้เท่านั้น</p>
-
-<p>
-ชื่อบัญชี : <b>พีระพัฒน์ ทองระมุน</b><br>
-เลขบัญชี : <b>3260643737</b><br>
-ธนาคาร : <b>กรุงไทย</b>
-</p>
-
-<p style="color:#facc15">
-⚠ กรุณาติดต่อเจ้าหน้าที่ก่อนโอนเงินทุกครั้ง
-</p>
-
-<p style="color:#ef4444">
-หากพบ QR หรือบัญชีอื่น  
-ให้ถือว่าเป็นของปลอม
-</p>
-
-<button onclick="closeSecurityPopup()">เข้าใช้งานเว็บไซต์</button>
-
-</div>
-</div>
-  <!-- Watermark -->
-  <div class="watermark">ถุงทองแลกเปลี่ยน</div>
-
-  <!-- Warning / header -->
-  <div class="warning">🚨 ห้ามโอนบัญชีอื่นที่นอกเหนือจากชื่อ <strong>นายพีระพัฒน์ ทองระมุน</strong> (บัญชีรับเงิน: <strong>3260643737 - กรุงไทย</strong>)</div>
-
-  <!-- ticker -->
-  <div style="max-width:1200px;margin:12px auto;padding:0 18px;">
-    <div class="ticker card"><span id="rateTicker">กำลังโหลดค่าเงิน...</span></div>
-  </div>
-
-  <!-- nav -->
-  <nav>
-    <h1>💰 ถุงทองแลกเปลี่ยน</h1>
-    <ul>
-      <li><a href="#home">หน้าแรก</a></li>
-      <li><a href="#steps">วิธีการแลก</a></li>
-      <li><a href="#exchange">แลกเงิน</a></li>
-      <li><a href="#stats">สถิติ</a></li>
-      <li><a href="#banks">ธนาคาร</a></li>
-    </ul>
-  </nav>
-
-  <div class="container">
-
-    <!-- HOME (welcome + rates table + counter) -->
-    <section id="home" class="card">
-      <h1>💰 ยินดีต้อนรับสู่ ถุงทองแลกเปลี่ยน</h1>
-      <p class="muted">แพลตฟอร์มแลกเปลี่ยนเงินออนไลน์ที่รวดเร็ว ปลอดภัย โปร่งใส — ให้บริการแลกเงินระหว่างประเทศแบบเรียลไทม์ ทีมงานมุ่งมั่นให้บริการด้วยมาตรฐาน FinTech เพื่อความมั่นใจของคุณ</p>
-
-      <h3>🌏 รองรับประเทศ</h3>
-      <div style="font-size:26px; margin-bottom:8px">🇸🇬 🇻🇳 🇲🇾 🇮🇩 🇰🇭 🇭🇰 🇱🇦 🇰🇷 🇨🇳</div>
-
-      <h3>💹 อัตราแลกเปลี่ยน (Real-time)</h3>
-      <table class="card" style="margin-top:10px;">
-        <tr style="background:transparent;color:var(--accent)">
-          <th>ประเทศ</th><th>สกุลเงิน</th><th>อัตรา (1 สกุล = ? THB)</th>
-        </tr>
-        <tr><td>🇸🇬 สิงคโปร์</td><td>SGD</td><td id="sgdRate">-</td></tr>
-        <tr><td>🇻🇳 เวียดนาม</td><td>VND</td><td id="vndRate">-</td></tr>
-        <tr><td>🇲🇾 มาเลเซีย</td><td>MYR</td><td id="myrRate">-</td></tr>
-        <tr><td>🇮🇩 อินโดนีเซีย</td><td>IDR</td><td id="idrRate">-</td></tr>
-        <tr><td>🇰🇭 กัมพูชา</td><td>KHR</td><td id="khrRate">-</td></tr>
-        <tr><td>🇭🇰 ฮ่องกง</td><td>HKD</td><td id="hkdRate">-</td></tr>
-        <tr><td>🇱🇦 ลาว</td><td>LAK</td><td id="lakRate">-</td></tr>
-        <tr><td>🇰🇷 เกาหลีใต้</td><td>KRW</td><td id="krwRate">-</td></tr>
-        <tr><td>🇨🇳 จีน</td><td>CNY</td><td id="cnyRate">-</td></tr>
-      </table>
-
-      <h3 style="margin-top:14px">📈 ธุรกรรมรวมวันนี้</h3>
-      <h1 id="liveCounter" style="font-size:34px;margin:6px 0 0 0">$1,245,392</h1>
-    </section>
-
-    <!-- Steps -->
-    <section id="steps" class="card">
-      <h2>📌 วิธีการแลกเงิน (สั้น ๆ)</h2>
-      <div class="steps">
-        <div class="step">1️⃣ กรอกข้อมูล</div>
-        <div class="step">2️⃣ ตรวจสอบอัตรา</div>
-        <div class="step">3️⃣ สร้างใบเสร็จ</div>
-        <div class="step">4️⃣ ดาวน์โหลดใบเสร็จ</div>
-        <div class="step">5️⃣ ส่งใบเสร็จยืนยัน</div>
-      </div>
-      <p class="muted" style="margin-top:12px">หลังดาวน์โหลดใบเสร็จ กรุณาส่งไฟล์ใบเสร็จที่ช่องทางติดต่อ (ปุ่มด้านล่าง) เพื่อให้เจ้าหน้าที่ตรวจสอบและโอนเงินบาทกลับให้คุณ</p>
-    </section>
-
-    <!-- Exchange form -->
-    <section id="exchange" class="card">
-      <h2>💱 ระบบแลกเงิน</h2>
-      <div style="max-width:720px">
-        <label class="muted">ชื่อ-สกุลผู้รับ (บัญชีปลายทาง)</label>
-        <input id="name" placeholder="ชื่อบัญชีผู้รับ (ตัวอย่าง: สมชาย ใจดี)">
-
-        <label class="muted">เลขบัญชีผู้รับ</label>
-        <input id="acc" placeholder="เลขบัญชีผู้รับ">
-
-        <label class="muted">ธนาคารผู้รับ</label>
-        <select id="bank">
-          <option>กสิกรไทย</option>
-          <option>กรุงไทย</option>
-          <option>ไทยพาณิชย์</option>
-          <option>กรุงเทพ</option>
-          <option>ออมสิน</option>
-          <option>กรุงศรี</option>
-        </select>
-
-        <label class="muted">ประเทศสกุลเงินต้น</label>
-        <select id="country">
-          <option>สิงคโปร์</option>
-          <option>เวียดนาม</option>
-          <option>มาเลเซีย</option>
-          <option>อินโดนีเซีย</option>
-          <option>กัมพูชา</option>
-          <option>ฮ่องกง</option>
-          <option>ลาว</option>
-          <option>เกาหลีใต้</option>
-          <option>จีน</option>
-        </select>
-
-        <label class="muted">จำนวนเงินสกุลต้น (ตัวอย่าง: 1000)</label>
-        <input id="amount" type="number" placeholder="จำนวนเงินที่จะแลก (สกุลต้น)">
-
-        <p class="muted">ค่าบริการ: <strong>2%</strong> (คำนวณอัตโนมัติ)</p>
-
-        <div style="display:flex;gap:10px;margin-top:12px">
-          <button class="cta" onclick="createReceipt()">สร้างใบเสร็จ & ดาวน์โหลด</button>
-          <button class="ghost" onclick="openPopup()">ติดต่อ/ส่งใบเสร็จ</button>
-        </div>
-
-        <!-- Receipt preview (will be rendered to PNG) -->
-        <div id="receipt" aria-hidden="true">
-          <h3>สลิปการแลกเงิน (Receipt)</h3>
-          <div class="small">ผู้รับเงิน (Merchant): <strong>พีระพัฒน์ ทองระมุน</strong></div>
-          <div class="small">บัญชีรับ: <strong>3260643737 - ธนาคารกรุงไทย</strong></div>
-          <hr/>
-          <p id="txid"></p>
-          <p id="txname"></p>
-          <p id="txbank"></p>
-          <p id="txcountry"></p>
-          <p id="txamount"></p>
-          <p id="txfee"></p>
-          <p id="txtotal"></p>
-          <p id="txtime"></p>
-          <canvas id="qr" style="margin-top:8px"></canvas>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Stats -->
-    <section id="stats" class="card">
-      <h2>📊 สถิติธุรกรรม (ตามประเทศ)</h2>
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <div style="flex:1;min-width:320px;background:white;padding:10px;border-radius:10px">
-          <canvas id="txChart" height="160"></canvas>
-        </div>
-        <div style="width:240px">
-          <div class="card" style="background:rgba(255,255,255,0.03)">
-            <h4>จำนวนธุรกรรม</h4><div style="font-size:20px" id="txCount">0</div>
-            <h4 style="margin-top:12px">ยอดเงินรวม (สกุลต้น)</h4><div style="font-size:18px" id="txVolume">0</div>
-          </div>
-        </div>
-      </div>
-    </section><div class="card" style="text-align:center;margin-top:25px">
-
-<h2>🔐 ความปลอดภัยในการชำระเงิน</h2>
-
-<p class="muted">
-เพื่อความปลอดภัยของลูกค้า กรุณาติดต่อเจ้าหน้าที่ก่อนทำการโอนเงินทุกครั้ง
-</p>
-
-<!-- QR CODE -->
-
-<img src="qr-payment.jpg"
+<h2>🔐 ความปลอดภัยในการชำระเงิน</h2>  <p class="muted">  
+เพื่อความปลอดภัยของลูกค้า กรุณาติดต่อเจ้าหน้าที่ก่อนทำการโอนเงินทุกครั้ง  
+</p>  <!-- QR CODE -->  <img src="qr-payment.jpg"  
 style="max-width:300px;width:100%;border-radius:12px;margin-top:10px;box-shadow:0 10px 25px rgba(0,0,0,0.4)">
 
-<p style="margin-top:12px;font-size:16px">
-บัญชีรับเงิน : <b>พีระพัฒน์ ทองระมุน</b>
-</p>
+<p style="margin-top:12px;font-size:16px">  
+บัญชีรับเงิน : <b>พีระพัฒน์ ทองระมุน</b>  
+</p>  <p style="font-size:15px">  
+เลขบัญชี : <b>3260643737</b> (ธนาคารกรุงไทย)  
+</p>  <!-- SECURITY WARNING -->  <div style="  
+margin-top:18px;  
+padding:15px;  
+background:#7f1d1d;  
+border-radius:10px;  
+color:white;  
+font-weight:600;  
+line-height:1.6;  
+">  🚨 ทางร้านใช้ QR Code และบัญชีนี้เท่านั้น
 
-<p style="font-size:15px">
-เลขบัญชี : <b>3260643737</b> (ธนาคารกรุงไทย)
-</p>
-
-<!-- SECURITY WARNING -->
-
-<div style="
-margin-top:18px;
-padding:15px;
-background:#7f1d1d;
-border-radius:10px;
-color:white;
-font-weight:600;
-line-height:1.6;
-">
-
-🚨 ทางร้านใช้ QR Code และบัญชีนี้เท่านั้น  
-
-หากพบ QR Code หรือชื่อบัญชีอื่น  
+หากพบ QR Code หรือชื่อบัญชีอื่น
 ❌ ให้ถือว่าเป็นของปลอมทันที
 
-⚠ กรุณา **ติดต่อเจ้าหน้าที่ก่อนทำการโอนเงินทุกครั้ง**  
+⚠ กรุณา ติดต่อเจ้าหน้าที่ก่อนทำการโอนเงินทุกครั้ง
 เพื่อยืนยันจำนวนเงินและอัตราแลกเปลี่ยน
 
-</div>
-
-</div>
-
-
-<!-- STAFF CONTACT -->
-
-<div class="card" style="text-align:center;margin-top:20px">
-
-<h2>👨‍💼 เจ้าหน้าที่ดูแลลูกค้า</h2>
-
-<p class="muted">กรุณาติดต่อเจ้าหน้าที่ก่อนทำธุรกรรมทุกครั้ง</p>
-
-<img src="staff-profile.jpg"
-style="width:120px;height:120px;border-radius:100px;
-border:4px solid #22c55e;
-margin-top:10px;
+</div>  </div>  <!-- STAFF CONTACT -->  <div class="card" style="text-align:center;margin-top:20px">  <h2>👨‍💼 เจ้าหน้าที่ดูแลลูกค้า</h2>  <p class="muted">กรุณาติดต่อเจ้าหน้าที่ก่อนทำธุรกรรมทุกครั้ง</p>  <img src="staff-profile.jpg"  
+style="width:120px;height:120px;border-radius:100px;  
+border:4px solid #22c55e;  
+margin-top:10px;  
 box-shadow:0 10px 20px rgba(0,0,0,0.4)">
 
-<h3 style="margin-top:10px">เจ้าหน้าที่บริการลูกค้า</h3>
-
-<p class="muted">
-ช่องทางติดต่ออย่างเป็นทางการของร้าน
-</p>
-
-<button class="cta"
+<h3 style="margin-top:10px">เจ้าหน้าที่บริการลูกค้า</h3>  <p class="muted">  
+ช่องทางติดต่ออย่างเป็นทางการของร้าน  
+</p>  <button class="cta"  
 onclick="window.open('https://www.facebook.com/share/1FMKP3heQ4/')">
 📩 ติดต่อเจ้าหน้าที่
 </button>
 
-<div style="
-margin-top:15px;
-padding:12px;
-background:#1e293b;
-border-radius:10px;
-font-size:14px;
-">
-
-✔ โปรไฟล์นี้คือเจ้าหน้าที่ของร้าน  
-✔ หากเป็นบัญชีอื่นที่ไม่ใช่ช่องทางนี้  
+<div style="  
+margin-top:15px;  
+padding:12px;  
+background:#1e293b;  
+border-radius:10px;  
+font-size:14px;  
+">  ✔ โปรไฟล์นี้คือเจ้าหน้าที่ของร้าน
+✔ หากเป็นบัญชีอื่นที่ไม่ใช่ช่องทางนี้
 ❌ ให้ถือว่าเป็นการแอบอ้าง
 
-</div>
+</div>  </div>  <!-- Banks (logo) -->  
+<section id="banks" class="card">  
+  <h2>🏦 ธนาคารที่รองรับ</h2>  
+  <div class="banks">  
+    <div class="bank"><img alt="กสิกรไทย" src="https://upload.wikimedia.org/wikipedia/commons/3/33/Kasikornbank_logo.svg"></div>  
+    <div class="bank"><img alt="กรุงไทย" src="https://upload.wikimedia.org/wikipedia/commons/2/20/Krung_Thai_Bank_logo.svg"></div>  
+    <div class="bank"><img alt="ไทยพาณิชย์" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/SCB_Logo.svg"></div>  
+    <div class="bank"><img alt="กรุงเทพ" src="https://upload.wikimedia.org/wikipedia/commons/2/24/Bangkokbank_logo.svg"></div>  
+    <div class="bank"><img alt="ออมสิน" src="https://upload.wikimedia.org/wikipedia/commons/7/72/Government_Savings_Bank_logo.svg"></div>  
+    <div class="bank"><img alt="กรุงศรี" src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Bank_of_Ayudhya_logo.svg"></div>  
+  </div>  
+</section><div class="card" style="text-align:center;margin-top:20px">
 
-</div>
-
-    <!-- Banks (logo) -->
-    <section id="banks" class="card">
-      <h2>🏦 ธนาคารที่รองรับ</h2>
-      <div class="banks">
-        <div class="bank"><img alt="กสิกรไทย" src="https://upload.wikimedia.org/wikipedia/commons/3/33/Kasikornbank_logo.svg"></div>
-        <div class="bank"><img alt="กรุงไทย" src="https://upload.wikimedia.org/wikipedia/commons/2/20/Krung_Thai_Bank_logo.svg"></div>
-        <div class="bank"><img alt="ไทยพาณิชย์" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/SCB_Logo.svg"></div>
-        <div class="bank"><img alt="กรุงเทพ" src="https://upload.wikimedia.org/wikipedia/commons/2/24/Bangkokbank_logo.svg"></div>
-        <div class="bank"><img alt="ออมสิน" src="https://upload.wikimedia.org/wikipedia/commons/7/72/Government_Savings_Bank_logo.svg"></div>
-        <div class="bank"><img alt="กรุงศรี" src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Bank_of_Ayudhya_logo.svg"></div>
-      </div>
-    </section><div class="card" style="text-align:center;margin-top:20px">
-
-<h2>💳 ชำระเงินผ่าน QR PromptPay</h2>
-
-<p class="muted">สแกน QR เพื่อโอนเงินเข้าบัญชีร้าน</p>
-
-<img src="qr-payment.jpg"
+<h2>💳 ชำระเงินผ่าน QR PromptPay</h2>  <p class="muted">สแกน QR เพื่อโอนเงินเข้าบัญชีร้าน</p>  <img src="qr-payment.jpg"  
 style="max-width:320px;width:100%;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.4)">
 
-<p style="margin-top:10px;font-size:15px">
-ชื่อบัญชี : <b>พีระพัฒน์ ทองระมุน</b>
-</p>
+<p style="margin-top:10px;font-size:15px">  
+ชื่อบัญชี : <b>พีระพัฒน์ ทองระมุน</b>  
+</p>  <p class="muted">  
+รองรับ Mobile Banking ทุกธนาคาร  
+</p>  </div>
 
-<p class="muted">
-รองรับ Mobile Banking ทุกธนาคาร
-</p>
-
-    </div>
-
-  </div> <!-- container end -->
-
-  <!-- Floating Contact Button -->
-  <div id="contactFloat" onclick="openPopup()" title="ติดต่อ/ส่งใบเสร็จ">📩 ติดต่อเจ้าหน้าที่</div>
-
-  <!-- Contact Popup (big, glowing) -->
-  <div id="contactPopup">
-    <div class="popupBox">
-      <h2>📩 ส่งใบเสร็จยืนยัน</h2>
-      <p>หลังดาวน์โหลดใบเสร็จ (PNG) กรุณาส่งไฟล์ผ่านปุ่มด้านล่างหรือทาง Facebook page เพื่อให้เจ้าหน้าที่ตรวจสอบและดำเนินการโอนเงินบาทกลับให้ตามเลขบัญชีที่คุณกรอกไว้</p>
-      <div style="display:flex;gap:10px;justify-content:center;margin-top:14px">
-        <button class="cta" onclick="window.open('https://www.facebook.com/share/1FMKP3heQ4/')">ส่งผ่าน Facebook</button>
-        <button class="ghost" onclick="closePopup()">ปิด</button>
-      </div>
-      <p style="margin-top:12px;color:#9fbff0">หมายเหตุ: รับโอนเฉพาะบัญชี <strong>พีระพัฒน์ ทองระมุน</strong> เท่านั้น</p>
-    </div>
-  </div>
-
-  <footer style="margin-top:26px">© 2026 ถุงทองแลกเปลี่ยน FinTech Platform</footer>
-
-<script>
-/* ------------------ Reliable Rates: primary & fallback ------------------ */
-/* We'll try open.er-api.com (stable). If that fails, use exchangerate.host as fallback. */
-
-async function loadRates(){
-  const setErrorTicker = ()=>document.getElementById('rateTicker').innerText='❌ โหลดค่าเงินไม่สำเร็จ'
-  try {
-    // primary
-    let res = await fetch('https://open.er-api.com/v6/latest/THB');
-    if(!res.ok) throw new Error('primary failed');
-    let data = await res.json();
-    if(!data.rates) throw new Error('no rates');
-
-    // map and format
-    const get = (k, dp=4)=> (data.rates[k] ? Number(data.rates[k]).toFixed(dp) : '-');
-    const sgd = get('SGD',4), vnd = get('VND',2), myr = get('MYR',4),
-          idr = get('IDR',2), khr = get('KHR',2), hkd = get('HKD',4),
-          lak = get('LAK',2), krw = get('KRW',2), cny = get('CNY',4);
-
-    document.getElementById('rateTicker').innerHTML = `💹 SGD ${sgd} | VND ${vnd} | MYR ${myr} | IDR ${idr} | KHR ${khr} | HKD ${hkd} | LAK ${lak} | KRW ${krw} | CNY ${cny}`;
-
-    // table cells
-    const set = (id,val)=>{ const el=document.getElementById(id); if(el) el.innerText=val }
-    set('sgdRate', sgd); set('vndRate', vnd); set('myrRate', myr);
-    set('idrRate', idr); set('khrRate', khr); set('hkdRate', hkd);
-    set('lakRate', lak); set('krwRate', krw); set('cnyRate', cny);
-    return;
-  } catch(e){
-    // fallback to exchangerate.host
-    try{
-      let r2 = await fetch('https://api.exchangerate.host/latest?base=THB');
-      if(!r2.ok) throw new Error('fallback failed');
-      let data2 = await r2.json();
-      const get2 = (k, dp=4)=> (data2.rates && data2.rates[k] ? Number(data2.rates[k]).toFixed(dp) : '-');
-      const sgd = get2('SGD',4), vnd = get2('VND',2), myr = get2('MYR',4),
-            idr = get2('IDR',2), khr = get2('KHR',2), hkd = get2('HKD',4),
-            lak = get2('LAK',2), krw = get2('KRW',2), cny = get2('CNY',4);
-      document.getElementById('rateTicker').innerHTML = `💹 SGD ${sgd} | VND ${vnd} | MYR ${myr} | IDR ${idr} | KHR ${khr} | HKD ${hkd} | LAK ${lak} | KRW ${krw} | CNY ${cny}`;
-      const set = (id,val)=>{ const el=document.getElementById(id); if(el) el.innerText=val }
-      set('sgdRate', sgd); set('vndRate', vnd); set('myrRate', myr);
-      set('idrRate', idr); set('khrRate', khr); set('hkdRate', hkd);
-      set('lakRate', lak); set('krwRate', krw); set('cnyRate', cny);
-      return;
-    }catch(e2){
-      setErrorTicker();
-      console.error('Both rate providers failed', e, e2);
-    }
-  }
-}
-
-loadRates();
-setInterval(loadRates, 60000); // refresh every 60s
-
-/* ------------------ Live counter (platform style) ------------------ */
-let liveCounter = 1245392;
-setInterval(()=>{
-  liveCounter += Math.floor(Math.random()*360);
-  const el = document.getElementById('liveCounter');
-  if(el) el.innerText = '$' + liveCounter.toLocaleString();
-}, 2000);
-
-/* ------------------ Transactions & Stats ------------------ */
-let txCount = 0;
-let txVolume = 0;
-let countryStats = {"สิงคโปร์":0,"เวียดนาม":0,"มาเลเซีย":0,"อินโดนีเซีย":0,"กัมพูชา":0,"ฮ่องกง":0,"ลาว":0,"เกาหลีใต้":0,"จีน":0};
-let txChart;
-
-function initChart(){
-  const ctx = document.getElementById('txChart').getContext('2d');
-  txChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: Object.keys(countryStats),
-      datasets: [{
-        label: 'ธุรกรรม (รายการ)',
-        data: Object.values(countryStats),
-        backgroundColor: 'rgba(34,197,94,0.8)',
-        borderRadius:6
-      }]
-    },
-    options: {
-      responsive:true,
-      scales:{ y:{ beginAtZero:true } },
-      plugins:{ legend:{ display:false } }
-    }
-  });
-}
-window.addEventListener('load', initChart);
-
-/* ------------------ Receipt generation (PNG) + QR ------------------ */
-function sanitizeNumber(x){ // safe number parsing
-  const n = Number(x);
-  return Number.isFinite(n) ? n : 0;
-}
-
-function createReceipt(){
-  // gather
-  const id = 'TX' + String(Math.floor(Math.random()*900000)+100000);
-  const name = document.getElementById('name').value || 'ไม่ระบุ';
-  const acc  = document.getElementById('acc').value || 'ไม่ระบุ';
-  const bank = document.getElementById('bank').value || 'ไม่ระบุ';
-  const country = document.getElementById('country').value || 'ไม่ระบุ';
-  const amount = sanitizeNumber(document.getElementById('amount').value);
-
-  if(!amount || amount <= 0){
-    alert('กรุณาใส่จำนวนเงินที่ต้องการแลก (มากกว่า 0)');
-    return;
-  }
-
-  // fee & totals (calculate carefully)
-  const feePercent = 2.0;
-  const fee = Math.round((amount * feePercent) * 100) / 10000; // careful scaled then fix below
-  // Wait — to avoid float rounding issues, compute fee precisely:
-  const feeCalc = Math.round((amount * feePercent) * 100) / 10000; // (amount * 0.02) with rounding to 4-dec then display 2-dec
-  const feeDisplay = (amount * feePercent / 100).toFixed(2);
-  const totalDisplay = (amount - (amount * feePercent / 100)).toFixed(2);
-
-  // timestamp
-  const time = new Date().toLocaleString('th-TH');
-
-  // fill receipt preview
-  document.getElementById('txid').innerText = 'Transaction ID: ' + id;
-  document.getElementById('txname').innerText = 'ชื่อบัญชีผู้รับ (คุณ): ' + name + ' | บัญชี: ' + acc;
-  document.getElementById('txbank').innerText = 'ธนาคารผู้รับ: ' + bank;
-  document.getElementById('txcountry').innerText = 'สกุลต้น: ' + country;
-  document.getElementById('txamount').innerText = 'จำนวนเงินสกุลต้น: ' + Number(amount).toLocaleString() + ' (สกุลต้น)';
-  document.getElementById('txfee').innerText = 'ค่าบริการ (' + feePercent + '%): ' + feeDisplay + ' (คิดเป็นสกุลต้น)';
-  document.getElementById('txtotal').innerText = 'ยอดสุทธิหลังหักค่าบริการ: ' + totalDisplay;
-  document.getElementById('txtime').innerText = 'เวลา: ' + time;
-
-  // show
-  const receiptBox = document.getElementById('receipt');
-  receiptBox.style.display = 'block';
-
-  // QR - encode a simple verification JSON (id + amount)
-  const qr = new QRious({ element: document.getElementById('qr'), value: id + '|' + country + '|' + amount, size:120 });
-
-  // update stats
-  txCount++;
-  txVolume += amount;
-  if(countryStats[country] !== undefined) countryStats[country]++;
-
-  document.getElementById('txCount').innerText = txCount;
-  document.getElementById('txVolume').innerText = txVolume.toLocaleString();
-
-  // update chart
-  if(txChart){
-    txChart.data.datasets[0].data = Object.values(countryStats);
-    txChart.update();
-  }
-
-  // render to PNG and auto-download
-  html2canvas(receiptBox, { scale:2, backgroundColor:'#ffffff' }).then(canvas=>{
-    const link = document.createElement('a');
-    link.download = id + '_receipt.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-  }).catch(err=>{
-    console.error('html2canvas error', err);
-    alert('ไม่สามารถดาวน์โหลดใบเสร็จได้ขณะนี้');
-  });
-
-  // open contact popup to ask user to send receipt for verification
-  setTimeout(()=>openPopup(),800);
-}
-
-/* ------------------ Popup controls ------------------ */
-function openPopup(){ document.getElementById('contactPopup').style.display = 'flex'; }
-function closePopup(){ document.getElementById('contactPopup').style.display = 'none'; }
-function closeSecurityPopup(){
-document.getElementById("securityPopup").style.display="none";
-}
-</script>
-</body>
+  </div> <!-- container end -->    <!-- Floating Contact Button -->    <div id="contactFloat" onclick="openPopup()" title="ติดต่อ/ส่งใบเสร็จ">📩 ติดต่อเจ้าหน้าที่</div>    <!-- Contact Popup (big, glowing) -->    <div id="contactPopup">  
+    <div class="popupBox">  
+      <h2>📩 ส่งใบเสร็จยืนยัน</h2>  
+      <p>หลังดาวน์โหลดใบเสร็จ (PNG) กรุณาส่งไฟล์ผ่านปุ่มด้านล่างหรือทาง Facebook page เพื่อให้เจ้าหน้าที่ตรวจสอบและดำเนินการโอนเงินบาทกลับให้ตามเลขบัญชีที่คุณกรอกไว้</p>  
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:14px">  
+        <button class="cta" onclick="window.open('https://www.facebook.com/share/1FMKP3heQ4/')">ส่งผ่าน Facebook</button>  
+        <button class="ghost" onclick="closePopup()">ปิด</button>  
+      </div>  
+      <p style="margin-top:12px;color:#9fbff0">หมายเหตุ: รับโอนเฉพาะบัญชี <strong>พีระพัฒน์ ทองระมุน</strong> เท่านั้น</p>  
+    </div>  
+  </div>    <footer style="margin-top:26px">© 2026 ถุงทองแลกเปลี่ยน FinTech Platform</footer>  <script>  
+/* ------------------ Reliable Rates: primary & fallback ------------------ */  
+/* We'll try open.er-api.com (stable). If that fails, use exchangerate.host as fallback. */  
+  
+async function loadRates(){  
+  const setErrorTicker = ()=>document.getElementById('rateTicker').innerText='❌ โหลดค่าเงินไม่สำเร็จ'  
+  try {  
+    // primary  
+    let res = await fetch('https://open.er-api.com/v6/latest/THB');  
+    if(!res.ok) throw new Error('primary failed');  
+    let data = await res.json();  
+    if(!data.rates) throw new Error('no rates');  
+  
+    // map and format  
+    const get = (k, dp=4)=> (data.rates[k] ? Number(data.rates[k]).toFixed(dp) : '-');  
+    const sgd = get('SGD',4), vnd = get('VND',2), myr = get('MYR',4),  
+          idr = get('IDR',2), khr = get('KHR',2), hkd = get('HKD',4),  
+          lak = get('LAK',2), krw = get('KRW',2), cny = get('CNY',4);  
+  
+    document.getElementById('rateTicker').innerHTML = `💹 SGD ${sgd} | VND ${vnd} | MYR ${myr} | IDR ${idr} | KHR ${khr} | HKD ${hkd} | LAK ${lak} | KRW ${krw} | CNY ${cny}`;  
+  
+    // table cells  
+    const set = (id,val)=>{ const el=document.getElementById(id); if(el) el.innerText=val }  
+    set('sgdRate', sgd); set('vndRate', vnd); set('myrRate', myr);  
+    set('idrRate', idr); set('khrRate', khr); set('hkdRate', hkd);  
+    set('lakRate', lak); set('krwRate', krw); set('cnyRate', cny);  
+    return;  
+  } catch(e){  
+    // fallback to exchangerate.host  
+    try{  
+      let r2 = await fetch('https://api.exchangerate.host/latest?base=THB');  
+      if(!r2.ok) throw new Error('fallback failed');  
+      let data2 = await r2.json();  
+      const get2 = (k, dp=4)=> (data2.rates && data2.rates[k] ? Number(data2.rates[k]).toFixed(dp) : '-');  
+      const sgd = get2('SGD',4), vnd = get2('VND',2), myr = get2('MYR',4),  
+            idr = get2('IDR',2), khr = get2('KHR',2), hkd = get2('HKD',4),  
+            lak = get2('LAK',2), krw = get2('KRW',2), cny = get2('CNY',4);  
+      document.getElementById('rateTicker').innerHTML = `💹 SGD ${sgd} | VND ${vnd} | MYR ${myr} | IDR ${idr} | KHR ${khr} | HKD ${hkd} | LAK ${lak} | KRW ${krw} | CNY ${cny}`;  
+      const set = (id,val)=>{ const el=document.getElementById(id); if(el) el.innerText=val }  
+      set('sgdRate', sgd); set('vndRate', vnd); set('myrRate', myr);  
+      set('idrRate', idr); set('khrRate', khr); set('hkdRate', hkd);  
+      set('lakRate', lak); set('krwRate', krw); set('cnyRate', cny);  
+      return;  
+    }catch(e2){  
+      setErrorTicker();  
+      console.error('Both rate providers failed', e, e2);  
+    }  
+  }  
+}  
+  
+loadRates();  
+setInterval(loadRates, 60000); // refresh every 60s  
+  
+/* ------------------ Live counter (platform style) ------------------ */  
+let liveCounter = 1245392;  
+setInterval(()=>{  
+  liveCounter += Math.floor(Math.random()*360);  
+  const el = document.getElementById('liveCounter');  
+  if(el) el.innerText = '$' + liveCounter.toLocaleString();  
+}, 2000);  
+  
+/* ------------------ Transactions & Stats ------------------ */  
+let txCount = 0;  
+let txVolume = 0;  
+let countryStats = {"สิงคโปร์":0,"เวียดนาม":0,"มาเลเซีย":0,"อินโดนีเซีย":0,"กัมพูชา":0,"ฮ่องกง":0,"ลาว":0,"เกาหลีใต้":0,"จีน":0};  
+let txChart;  
+  
+function initChart(){  
+  const ctx = document.getElementById('txChart').getContext('2d');  
+  txChart = new Chart(ctx, {  
+    type: 'bar',  
+    data: {  
+      labels: Object.keys(countryStats),  
+      datasets: [{  
+        label: 'ธุรกรรม (รายการ)',  
+        data: Object.values(countryStats),  
+        backgroundColor: 'rgba(34,197,94,0.8)',  
+        borderRadius:6  
+      }]  
+    },  
+    options: {  
+      responsive:true,  
+      scales:{ y:{ beginAtZero:true } },  
+      plugins:{ legend:{ display:false } }  
+    }  
+  });  
+}  
+window.addEventListener('load', initChart);  
+  
+/* ------------------ Receipt generation (PNG) + QR ------------------ */  
+function sanitizeNumber(x){ // safe number parsing  
+  const n = Number(x);  
+  return Number.isFinite(n) ? n : 0;  
+}  
+  
+function createReceipt(){  
+  // gather  
+  const id = 'TX' + String(Math.floor(Math.random()*900000)+100000);  
+  const name = document.getElementById('name').value || 'ไม่ระบุ';  
+  const acc  = document.getElementById('acc').value || 'ไม่ระบุ';  
+  const bank = document.getElementById('bank').value || 'ไม่ระบุ';  
+  const country = document.getElementById('country').value || 'ไม่ระบุ';  
+  const amount = sanitizeNumber(document.getElementById('amount').value);  
+  
+  if(!amount || amount <= 0){  
+    alert('กรุณาใส่จำนวนเงินที่ต้องการแลก (มากกว่า 0)');  
+    return;  
+  }  
+  
+  // fee & totals (calculate carefully)  
+  const feePercent = 2.0;  
+  const fee = Math.round((amount * feePercent) * 100) / 10000; // careful scaled then fix below  
+  // Wait — to avoid float rounding issues, compute fee precisely:  
+  const feeCalc = Math.round((amount * feePercent) * 100) / 10000; // (amount * 0.02) with rounding to 4-dec then display 2-dec  
+  const feeDisplay = (amount * feePercent / 100).toFixed(2);  
+  const totalDisplay = (amount - (amount * feePercent / 100)).toFixed(2);  
+  
+  // timestamp  
+  const time = new Date().toLocaleString('th-TH');  
+  
+  // fill receipt preview  
+  document.getElementById('txid').innerText = 'Transaction ID: ' + id;  
+  document.getElementById('txname').innerText = 'ชื่อบัญชีผู้รับ (คุณ): ' + name + ' | บัญชี: ' + acc;  
+  document.getElementById('txbank').innerText = 'ธนาคารผู้รับ: ' + bank;  
+  document.getElementById('txcountry').innerText = 'สกุลต้น: ' + country;  
+  document.getElementById('txamount').innerText = 'จำนวนเงินสกุลต้น: ' + Number(amount).toLocaleString() + ' (สกุลต้น)';  
+  document.getElementById('txfee').innerText = 'ค่าบริการ (' + feePercent + '%): ' + feeDisplay + ' (คิดเป็นสกุลต้น)';  
+  document.getElementById('txtotal').innerText = 'ยอดสุทธิหลังหักค่าบริการ: ' + totalDisplay;  
+  document.getElementById('txtime').innerText = 'เวลา: ' + time;  
+  
+  // show  
+  const receiptBox = document.getElementById('receipt');  
+  receiptBox.style.display = 'block';  
+  
+  // QR - encode a simple verification JSON (id + amount)  
+  const qr = new QRious({ element: document.getElementById('qr'), value: id + '|' + country + '|' + amount, size:120 });  
+  
+  // update stats  
+  txCount++;  
+  txVolume += amount;  
+  if(countryStats[country] !== undefined) countryStats[country]++;  
+  
+  document.getElementById('txCount').innerText = txCount;  
+  document.getElementById('txVolume').innerText = txVolume.toLocaleString();  
+  
+  // update chart  
+  if(txChart){  
+    txChart.data.datasets[0].data = Object.values(countryStats);  
+    txChart.update();  
+  }  
+  
+  // render to PNG and auto-download  
+  html2canvas(receiptBox, { scale:2, backgroundColor:'#ffffff' }).then(canvas=>{  
+    const link = document.createElement('a');  
+    link.download = id + '_receipt.png';  
+    link.href = canvas.toDataURL('image/png');  
+    link.click();  
+  }).catch(err=>{  
+    console.error('html2canvas error', err);  
+    alert('ไม่สามารถดาวน์โหลดใบเสร็จได้ขณะนี้');  
+  });  
+  
+  // open contact popup to ask user to send receipt for verification  
+  setTimeout(()=>openPopup(),800);  
+}  
+  
+/* ------------------ Popup controls ------------------ */  
+function openPopup(){ document.getElementById('contactPopup').style.display = 'flex'; }  
+function closePopup(){ document.getElementById('contactPopup').style.display = 'none'; }  
+  
+</script>  </body>  
 </html>
