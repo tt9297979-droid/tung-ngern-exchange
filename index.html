@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ถุงทองแลกเปลี่ยน | Global Currency Exchange</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+<title>ถุงทองแลกเปลี่ยน</title>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -14,20 +12,30 @@
 <style>
 
 body{
-font-family:'Prompt',sans-serif;
-background:linear-gradient(135deg,#0f172a,#1e293b);
+font-family:sans-serif;
 margin:0;
+background:#0f172a;
 color:white;
-overflow-x:hidden;
 }
 
-header{
-padding:30px;
-text-align:center;
+/* สโลแกนวิ่ง */
+
+.ticker{
+background:#16a34a;
+padding:10px;
+overflow:hidden;
+white-space:nowrap;
 }
 
-h1{
-font-size:34px;
+.ticker-text{
+display:inline-block;
+padding-left:100%;
+animation:ticker 18s linear infinite;
+}
+
+@keyframes ticker{
+0%{transform:translateX(0)}
+100%{transform:translateX(-100%)}
 }
 
 .container{
@@ -36,57 +44,41 @@ margin:auto;
 padding:20px;
 }
 
-.glass{
-background:rgba(255,255,255,0.1);
-backdrop-filter:blur(12px);
-border-radius:15px;
-padding:25px;
-margin-bottom:25px;
-border:1px solid rgba(255,255,255,0.2);
-}
+/* การ์ด */
 
 .card{
 background:white;
 color:black;
-border-radius:12px;
 padding:20px;
-margin:15px 0;
-box-shadow:0 5px 20px rgba(0,0,0,0.3);
+border-radius:12px;
+margin:20px 0;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
 }
 
-.grid{
+/* ขั้นตอน */
+
+.steps-grid{
 display:grid;
-grid-template-columns:1fr 1fr;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 gap:20px;
 }
 
-input,select{
-width:100%;
-padding:10px;
-margin-top:5px;
-border-radius:8px;
-border:none;
+.step{
+background:white;
+color:black;
+padding:20px;
+border-radius:12px;
 }
 
-button{
-margin-top:15px;
-padding:12px 20px;
-border:none;
-border-radius:8px;
-background:#22c55e;
-color:white;
-font-size:16px;
-cursor:pointer;
+.step-icon{
+font-size:35px;
 }
 
-button:hover{
-background:#16a34a;
-}
+/* ตาราง */
 
 table{
 width:100%;
 border-collapse:collapse;
-margin-top:15px;
 }
 
 th,td{
@@ -95,12 +87,31 @@ border-bottom:1px solid #ddd;
 text-align:center;
 }
 
+/* ฟอร์ม */
+
+input,select{
+width:100%;
+padding:10px;
+margin-top:5px;
+margin-bottom:10px;
+}
+
+button{
+padding:12px 20px;
+background:#22c55e;
+border:none;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* receipt */
+
 .receipt{
 background:white;
 color:black;
-padding:30px;
+padding:25px;
 border-radius:12px;
-margin-top:20px;
 position:relative;
 }
 
@@ -109,50 +120,36 @@ position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%) rotate(-30deg);
-font-size:60px;
 opacity:0.07;
+font-size:70px;
 }
 
-.notify{
+/* เงินลอย */
+
+.money{
 position:fixed;
-top:20px;
-right:20px;
-background:#16a34a;
-padding:15px 25px;
-border-radius:8px;
-display:none;
+bottom:-40px;
+font-size:30px;
+animation:float 10s linear infinite;
 }
+
+@keyframes float{
+0%{transform:translateY(0);opacity:0}
+50%{opacity:1}
+100%{transform:translateY(-110vh);opacity:0}
+}
+
+/* ปุ่มติดต่อ */
 
 .contact{
 position:fixed;
 bottom:25px;
 right:25px;
 background:#2563eb;
-padding:15px 22px;
-border-radius:40px;
+padding:15px 20px;
+border-radius:30px;
 text-decoration:none;
 color:white;
-font-weight:bold;
-box-shadow:0 10px 25px rgba(0,0,0,0.4);
-}
-
-.money{
-position:fixed;
-bottom:-50px;
-font-size:30px;
-animation:float 8s linear infinite;
-}
-
-@keyframes float{
-0%{transform:translateY(0);opacity:0;}
-50%{opacity:1;}
-100%{transform:translateY(-100vh);opacity:0;}
-}
-
-footer{
-text-align:center;
-padding:30px;
-opacity:0.7;
 }
 
 </style>
@@ -160,36 +157,77 @@ opacity:0.7;
 
 <body>
 
-<header>
-<h1>💰 ถุงทองแลกเปลี่ยน</h1>
-<p>แพลตฟอร์มแลกเงินออนไลน์ Secure • Fast • Trusted</p>
-</header>
+<div class="ticker">
+<div class="ticker-text">
+
+💰 ถุงทองแลกเปลี่ยน | แลกเงินออนไลน์รวดเร็ว | ปลอดภัยด้วย QR Receipt และ Transaction ID | รองรับ 9 ประเทศทั่วเอเชีย
+
+</div>
+</div>
 
 <div class="container">
 
-<div class="glass">
+<h1>ถุงทองแลกเปลี่ยน</h1>
 
-<h2>วิธีการแลกเงิน</h2>
+<!-- ขั้นตอน -->
 
-<ol>
-<li>กรอกข้อมูลบัญชี</li>
-<li>เลือกสกุลเงิน</li>
-<li>สร้างใบเสร็จ</li>
-<li>ดาวน์โหลดใบเสร็จ</li>
-<li>ส่งใบเสร็จให้เจ้าหน้าที่</li>
-</ol>
+<div class="card">
+
+<h2>ขั้นตอนการแลกเงิน</h2>
+
+<div class="steps-grid">
+
+<div class="step">
+<div class="step-icon">📝</div>
+กรอกชื่อและเลขบัญชี
+</div>
+
+<div class="step">
+<div class="step-icon">🌏</div>
+เลือกประเทศ
+</div>
+
+<div class="step">
+<div class="step-icon">💰</div>
+ระบุจำนวนเงิน
+</div>
+
+<div class="step">
+<div class="step-icon">🧾</div>
+สร้างใบเสร็จ
+</div>
+
+<div class="step">
+<div class="step-icon">📥</div>
+ดาวน์โหลดใบเสร็จ
+</div>
+
+<div class="step">
+<div class="step-icon">💬</div>
+ส่งใบเสร็จให้เจ้าหน้าที่
+</div>
+
+<div class="step">
+<div class="step-icon">🔍</div>
+รอการตรวจสอบ 5-10 นาที
+</div>
+
+<div class="step">
+<div class="step-icon">🏦</div>
+รับเงินไทยเข้าบัญชี
+</div>
 
 </div>
 
-<div class="glass">
+</div>
+
+<!-- ฟอร์มแลกเงิน -->
+
+<div class="card">
 
 <h2>แลกเงิน</h2>
 
-<div class="grid">
-
-<div>
-
-<label>ชื่อ-นามสกุล</label>
+<label>ชื่อ</label>
 <input id="name">
 
 <label>เลขบัญชี</label>
@@ -197,64 +235,72 @@ opacity:0.7;
 
 <label>ธนาคาร</label>
 <select id="bank">
-<option>กรุงไทย</option>
-<option>กสิกรไทย</option>
-<option>ไทยพาณิชย์</option>
-<option>กรุงเทพ</option>
+
+<option>Krungthai</option>
+<option>Kasikorn</option>
+<option>SCB</option>
+<option>Bangkok Bank</option>
+<option>Krungsri</option>
+
 </select>
 
-</div>
+<label>ประเทศ</label>
 
-<div>
-
-<label>สกุลเงิน</label>
 <select id="currency">
 
-<option value="36.5">USD</option>
-<option value="39">EUR</option>
-<option value="45">GBP</option>
-<option value="0.25">JPY</option>
-<option value="24">CNY</option>
-<option value="27">HKD</option>
-<option value="8">SGD</option>
-<option value="1.1">MYR</option>
-<option value="1">THB</option>
+<option value="25">🇸🇬 สิงคโปร์ SGD</option>
+<option value="0.0013">🇻🇳 เวียดนาม VND</option>
+<option value="7.7">🇲🇾 มาเลเซีย MYR</option>
+<option value="0.0023">🇮🇩 อินโดนีเซีย IDR</option>
+<option value="0.009">🇰🇭 กัมพูชา KHR</option>
+<option value="4.6">🇭🇰 ฮ่องกง HKD</option>
+<option value="0.0017">🇱🇦 ลาว LAK</option>
+<option value="0.027">🇰🇷 เกาหลีใต้ KRW</option>
+<option value="5">🇨🇳 จีน CNY</option>
 
 </select>
 
 <label>จำนวนเงิน</label>
 <input id="amount" type="number">
 
+<label>ค่าธรรมเนียม</label>
+
+<select id="fee">
+<option value="0.01">1%</option>
+<option value="0.02" selected>2%</option>
+<option value="0.03">3%</option>
+</select>
+
 <button onclick="calculate()">คำนวณ</button>
 <button onclick="createReceipt()">สร้างใบเสร็จ</button>
-
-</div>
-
-</div>
 
 <div id="result"></div>
 
 </div>
 
-<div class="glass">
+<!-- ตารางเรท -->
+
+<div class="card">
 
 <h2>อัตราแลกเปลี่ยน</h2>
 
 <table>
 
 <tr>
-<th>Currency</th>
-<th>THB Rate</th>
+<th>ประเทศ</th>
+<th>สกุลเงิน</th>
+<th>THB</th>
 </tr>
 
-<tr><td>USD</td><td>36.5</td></tr>
-<tr><td>EUR</td><td>39</td></tr>
-<tr><td>GBP</td><td>45</td></tr>
-<tr><td>JPY</td><td>0.25</td></tr>
-<tr><td>CNY</td><td>24</td></tr>
-<tr><td>HKD</td><td>27</td></tr>
-<tr><td>SGD</td><td>8</td></tr>
-<tr><td>MYR</td><td>1.1</td></tr>
+<tr><td>🇸🇬 สิงคโปร์</td><td>SGD</td><td>25</td></tr>
+<tr><td>🇻🇳 เวียดนาม</td><td>VND</td><td>0.0013</td></tr>
+<tr><td>🇲🇾 มาเลเซีย</td><td>MYR</td><td>7.7</td></tr>
+<tr><td>🇮🇩 อินโดนีเซีย</td><td>IDR</td><td>0.0023</td></tr>
+<tr><td>🇰🇭 กัมพูชา</td><td>KHR</td><td>0.009</td></tr>
+<tr><td>🇭🇰 ฮ่องกง</td><td>HKD</td><td>4.6</td></tr>
+<tr><td>🇱🇦 ลาว</td><td>LAK</td><td>0.0017</td></tr>
+<tr><td>🇰🇷 เกาหลีใต้</td><td>KRW</td><td>0.027</td></tr>
+<tr><td>🇨🇳 จีน</td><td>CNY</td><td>5</td></tr>
 
 </table>
 
@@ -264,15 +310,9 @@ opacity:0.7;
 
 </div>
 
-<div id="notify" class="notify"></div>
-
 <a class="contact" href="https://www.facebook.com/share/1GYjXk6h8M/" target="_blank">
-💬 ติดต่อเจ้าหน้าที่
+ติดต่อเจ้าหน้าที่
 </a>
-
-<footer>
-© 2026 ถุงทองแลกเปลี่ยน
-</footer>
 
 <div class="money">💸</div>
 <div class="money">💰</div>
@@ -280,32 +320,23 @@ opacity:0.7;
 
 <script>
 
-function notify(msg){
-
-let n=document.getElementById("notify")
-
-n.innerText=msg
-n.style.display="block"
-
-setTimeout(()=>{
-
-n.style.display="none"
-
-},3000)
-
-}
-
 function calculate(){
 
-let rate=document.getElementById("currency").value
-let amount=document.getElementById("amount").value
+let rate = parseFloat(document.getElementById("currency").value)
+let amount = parseFloat(document.getElementById("amount").value)
+let feeRate = parseFloat(document.getElementById("fee").value)
 
-let thb=rate*amount
+let thb = rate * amount
+let fee = thb * feeRate
+let total = thb - fee
 
-document.getElementById("result").innerHTML=
-"<h3>จะได้รับประมาณ "+thb.toFixed(2)+" บาท</h3>"
+document.getElementById("result").innerHTML =
 
-notify("คำนวณสำเร็จ")
+`
+<h3>เงินบาทก่อนหัก ${thb.toFixed(2)}</h3>
+<h3>ค่าธรรมเนียม ${fee.toFixed(2)}</h3>
+<h2>รับสุทธิ ${total.toFixed(2)} บาท</h2>
+`
 
 }
 
@@ -327,7 +358,7 @@ document.getElementById("receiptArea").innerHTML=
 
 <div class="watermark">ถุงทอง</div>
 
-<h2>ใบเสร็จแลกเงิน</h2>
+<h2>ใบเสร็จ</h2>
 
 <p>Transaction ID: ${tx}</p>
 
@@ -337,11 +368,9 @@ document.getElementById("receiptArea").innerHTML=
 
 <p>ธนาคาร: ${bank}</p>
 
-<p>จำนวน: ${amount}</p>
+<p>จำนวนเงิน: ${amount}</p>
 
-<p>เรท: ${rate}</p>
-
-<h3>รับเงิน: ${thb.toFixed(2)} บาท</h3>
+<p>รับเงิน: ${thb}</p>
 
 <canvas id="qrcode"></canvas>
 
@@ -350,8 +379,6 @@ document.getElementById("receiptArea").innerHTML=
 </div>`
 
 QRCode.toCanvas(document.getElementById("qrcode"),tx)
-
-notify("สร้างใบเสร็จสำเร็จ")
 
 }
 
@@ -362,13 +389,12 @@ html2canvas(document.getElementById("receipt")).then(canvas=>{
 let a=document.createElement("a")
 
 a.href=canvas.toDataURL()
+
 a.download="receipt.png"
 
 a.click()
 
 })
-
-notify("ดาวน์โหลดใบเสร็จแล้ว")
 
 }
 
