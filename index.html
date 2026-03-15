@@ -7,6 +7,7 @@
 <title>ถุงทองแลกเปลี่ยน | FinTech Exchange</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
 <style>
 
@@ -32,7 +33,13 @@ margin:auto;
 padding:20px;
 }
 
-/* HERO VIDEO */
+.card{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(10px);
+padding:25px;
+border-radius:15px;
+margin:30px 0;
+}
 
 .hero{
 position:relative;
@@ -59,31 +66,19 @@ text-align:center;
 background:rgba(0,0,0,0.4);
 padding:30px;
 border-radius:12px;
-backdrop-filter:blur(8px);
 }
 
 .hero-overlay h1{
-font-size:40px;
-margin:0;
+font-size:42px;
 color:#22c55e;
-}
-
-/* GLASS CARD */
-
-.card{
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(10px);
-padding:20px;
-border-radius:14px;
-margin:30px 0;
 }
 
 /* COUNTER */
 
 .counter{
-font-size:48px;
-color:#22c55e;
+font-size:50px;
 text-align:center;
+color:#22c55e;
 }
 
 /* FLAGS */
@@ -92,14 +87,8 @@ text-align:center;
 font-size:38px;
 display:flex;
 justify-content:center;
-gap:20px;
+gap:18px;
 margin-top:10px;
-animation:float 4s infinite alternate;
-}
-
-@keyframes float{
-0%{transform:translateY(0)}
-100%{transform:translateY(-8px)}
 }
 
 /* BANK */
@@ -108,22 +97,18 @@ animation:float 4s infinite alternate;
 display:flex;
 align-items:center;
 gap:10px;
-padding:8px;
 background:white;
 color:black;
-margin:5px 0;
+padding:10px;
 border-radius:8px;
+margin:5px 0;
 }
 
-/* REVIEWS */
-
-.review-slider{
-overflow:hidden;
-}
+/* REVIEW */
 
 .review-track{
 display:flex;
-gap:30px;
+gap:25px;
 animation:scroll 20s linear infinite;
 }
 
@@ -132,7 +117,7 @@ background:white;
 color:black;
 padding:20px;
 border-radius:10px;
-min-width:220px;
+min-width:230px;
 }
 
 @keyframes scroll{
@@ -140,7 +125,7 @@ min-width:220px;
 100%{transform:translateX(-50%)}
 }
 
-/* MONEY FLOAT */
+/* FLOAT MONEY */
 
 .money{
 position:fixed;
@@ -150,14 +135,28 @@ animation:money 10s linear infinite;
 opacity:0.5;
 }
 
-.money:nth-child(1){left:10%}
-.money:nth-child(2){left:40%}
-.money:nth-child(3){left:70%}
+.money:nth-child(1){left:15%}
+.money:nth-child(2){left:45%}
+.money:nth-child(3){left:75%}
 
 @keyframes money{
 0%{transform:translateY(0);opacity:0}
 50%{opacity:1}
 100%{transform:translateY(-120vh);opacity:0}
+}
+
+input,select,button{
+padding:10px;
+margin:5px 0;
+width:100%;
+border-radius:8px;
+border:none;
+}
+
+button{
+background:#22c55e;
+color:white;
+cursor:pointer;
 }
 
 canvas{
@@ -197,43 +196,67 @@ border-radius:10px;
 
 <div class="card">
 <h2>Live Currency Market</h2>
-<canvas id="fxChart"></canvas>
+<canvas id="chart"></canvas>
 </div>
 
 <div class="card">
 
-<h2>เลือกธนาคาร</h2>
+<h2>แลกเงิน</h2>
 
-<div class="bank-item">
-<img width="30" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Kasikornbank_logo.svg/512px-Kasikornbank_logo.svg.png">
-Kasikorn Bank
-</div>
+<label>ชื่อ</label>
+<input id="name">
 
-<div class="bank-item">
-<img width="30" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/SCB_Logo.svg/512px-SCB_Logo.svg.png">
-SCB
-</div>
+<label>บัญชี</label>
+<input id="account">
 
-<div class="bank-item">
-<img width="30" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Krungthai_Bank_logo.svg/512px-Krungthai_Bank_logo.svg.png">
-Krungthai Bank
-</div>
+<label>ประเทศ</label>
+
+<select id="rate">
+
+<option value="25">สิงคโปร์ SGD</option>
+<option value="0.0013">เวียดนาม VND</option>
+<option value="7.7">มาเลเซีย MYR</option>
+<option value="0.0023">อินโดนีเซีย IDR</option>
+<option value="0.009">กัมพูชา KHR</option>
+<option value="4.6">ฮ่องกง HKD</option>
+<option value="0.0017">ลาว LAK</option>
+<option value="0.027">เกาหลี KRW</option>
+<option value="5">จีน CNY</option>
+
+</select>
+
+<label>จำนวนเงิน</label>
+<input id="amount">
+
+<label>ค่าธรรมเนียม</label>
+
+<select id="fee">
+<option value="0.01">1%</option>
+<option value="0.02">2%</option>
+<option value="0.03">3%</option>
+</select>
+
+<button onclick="calc()">คำนวณ</button>
+
+<div id="result"></div>
 
 </div>
 
 <div class="card">
 
-<h2 style="text-align:center">รีวิวลูกค้า</h2>
+<h2>รีวิวลูกค้า</h2>
 
-<div class="review-slider">
+<div style="overflow:hidden">
+
 <div class="review-track">
 
 <div class="review">⭐⭐⭐⭐⭐ โอนเร็วมาก 5 นาทีได้เงิน</div>
-<div class="review">⭐⭐⭐⭐⭐ อัตราแลกดีมาก</div>
-<div class="review">⭐⭐⭐⭐⭐ ระบบปลอดภัยมาก</div>
-<div class="review">⭐⭐⭐⭐⭐ ใช้ง่ายเหมือนแอปธนาคาร</div>
+<div class="review">⭐⭐⭐⭐⭐ ใช้งานง่าย</div>
+<div class="review">⭐⭐⭐⭐⭐ ระบบปลอดภัย</div>
+<div class="review">⭐⭐⭐⭐⭐ อัตราแลกดี</div>
 
 </div>
+
 </div>
 
 </div>
@@ -243,13 +266,15 @@ Krungthai Bank
 <h2>ขั้นตอนการแลกเงิน</h2>
 
 <ol>
-<li>กรอกข้อมูลบัญชีธนาคาร</li>
-<li>เลือกประเทศและสกุลเงิน</li>
+
+<li>กรอกข้อมูลบัญชี</li>
+<li>เลือกประเทศ</li>
 <li>ระบุจำนวนเงิน</li>
-<li>สร้างใบเสร็จ Transaction</li>
-<li>ส่งใบเสร็จให้เจ้าหน้าที่</li>
-<li>รอการตรวจสอบ</li>
-<li>รับเงินเข้าบัญชี</li>
+<li>สร้างธุรกรรม</li>
+<li>ส่งใบเสร็จ</li>
+<li>ตรวจสอบ</li>
+<li>รับเงิน</li>
+
 </ol>
 
 </div>
@@ -265,29 +290,50 @@ Krungthai Bank
 let target=1240392
 let count=0
 
-let counter=setInterval(()=>{
+let c=setInterval(()=>{
 
 count+=8000
 
 if(count>=target){
+
 count=target
-clearInterval(counter)
+clearInterval(c)
+
 }
 
 document.getElementById("counter").innerText="$"+count.toLocaleString()
 
 },30)
 
+function calc(){
+
+let rate=document.getElementById("rate").value
+let amount=document.getElementById("amount").value
+let fee=document.getElementById("fee").value
+
+let thb=rate*amount
+let f=thb*fee
+
+let total=thb-f
+
+document.getElementById("result").innerHTML=
+
+"รับเงินสุทธิ "+total.toFixed(2)+" บาท"
+
+}
+
 /* CHART */
 
-const ctx=document.getElementById("fxChart")
+const ctx=document.getElementById("chart")
 
 let labels=[]
 let data=[]
 
 for(let i=0;i<20;i++){
+
 labels.push(i)
 data.push(35+Math.random())
+
 }
 
 const chart=new Chart(ctx,{
@@ -300,10 +346,6 @@ data:data,
 borderColor:'#22c55e',
 tension:0.4
 }]
-},
-options:{
-plugins:{legend:{display:true}},
-scales:{x:{display:false}}
 }
 })
 
