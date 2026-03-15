@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>ถุงทองแลกเปลี่ยน | FinTech Platform</title>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
-
-<style>
+<!DOCTYPE html><html lang="th">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ถุงทองแลกเปลี่ยน | FinTech Platform</title><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script><script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script><style>
 
 body{
 margin:0;
@@ -134,8 +123,8 @@ height:40px;
 
 .steps{
 display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:20px;
+grid-template-columns:repeat(5,1fr);
+gap:15px;
 }
 
 .step{
@@ -201,76 +190,66 @@ padding:40px;
 opacity:0.7;
 }
 
-</style>
+/* POPUP */
 
-</head>
+#contactPopup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+justify-content:center;
+align-items:center;
+z-index:999;
+}
 
-<body>
+.popupBox{
+background:#020617;
+padding:40px;
+border-radius:20px;
+text-align:center;
+max-width:500px;
+box-shadow:0 0 40px #22c55e;
+animation:glow 2s infinite alternate;
+}
 
-<div class="watermark">ถุงทองแลกเปลี่ยน</div>
+@keyframes glow{
+from{box-shadow:0 0 20px #22c55e}
+to{box-shadow:0 0 60px #22c55e}
+}
 
-<div class="warning">
+</style></head><body><div class="watermark">ถุงทองแลกเปลี่ยน</div><div class="warning">
 🚨 ห้ามโอนบัญชีอื่นที่นอกเหนือจากชื่อ นายพีระพัฒน์ ทองระมุน
-</div>
-
-<div class="ticker">
+</div><div class="ticker">
 <span id="rateTicker">กำลังโหลดค่าเงิน...</span>
-</div>
-
-<nav>
-
-<h2>💰 ถุงทองแลกเปลี่ยน</h2>
-
-<ul>
+</div><nav><h2>💰 ถุงทองแลกเปลี่ยน</h2><ul>
 <li><a href="#home">หน้าแรก</a></li>
 <li><a href="#steps">วิธีการแลก</a></li>
 <li><a href="#exchange">แลกเงิน</a></li>
 <li><a href="#stats">สถิติ</a></li>
 <li><a href="#banks">ธนาคาร</a></li>
 <li><a href="#reviews">รีวิว</a></li>
-<li><a href="#contact">ติดต่อ</a></li>
-</ul>
+</ul></nav><div class="container"><section id="home" class="card"><h1>แพลตฟอร์มแลกเงินออนไลน์</h1><p>รองรับประเทศ 🇸🇬 🇻🇳 🇲🇾 🇮🇩 🇰🇭 🇭🇰 🇱🇦 🇰🇷 🇨🇳</p><h2>💹 อัตราแลกเปลี่ยน</h2><p>USD : <span id="usdRate">-</span></p>
+<p>SGD : <span id="sgdRate">-</span></p>
+<p>MYR : <span id="myrRate">-</span></p>
+<p>CNY : <span id="cnyRate">-</span></p><h2>📈 ธุรกรรมรวมวันนี้</h2><h1 id="liveCounter">$1,245,392</h1></section><section id="steps" class="card"><h2>📌 วิธีการแลกเงิน</h2><div class="steps"><div class="step">1️⃣ กรอกข้อมูล</div>
+<div class="step">2️⃣ ตรวจสอบอัตราแลก</div>
+<div class="step">3️⃣ สร้างใบเสร็จ</div>
+<div class="step">4️⃣ ดาวน์โหลดใบเสร็จ</div>
+<div class="step">5️⃣ ส่งใบเสร็จยืนยัน</div></div><p style="color:#facc15;margin-top:20px">หลังจากดาวน์โหลดใบเสร็จ กรุณาส่งใบเสร็จมาที่ช่องทางติดต่อ
+เพื่อให้เจ้าหน้าที่ตรวจสอบและโอนเงินจริง
 
-</nav>
-
-<div class="container">
-
-<section id="home" class="card">
-<h1>แพลตฟอร์มแลกเงินออนไลน์</h1>
-<p>รองรับประเทศ 🇸🇬 🇻🇳 🇲🇾 🇮🇩 🇰🇭 🇭🇰 🇱🇦 🇰🇷 🇨🇳</p>
-
-<h2>📈 ธุรกรรมรวมวันนี้</h2>
-<h1 id="liveCounter">$1,245,392</h1>
-
-</section>
-
-<section id="steps" class="card">
-<h2>📌 วิธีการแลกเงิน</h2>
-<div class="steps">
-<div class="step">1️⃣ กรอกข้อมูล</div>
-<div class="step">2️⃣ ตรวจสอบเรท</div>
-<div class="step">3️⃣ โอนเงิน</div>
-<div class="step">4️⃣ รับเงินปลายทาง</div>
-</div>
-</section>
-
-<section id="exchange" class="card">
-
-<h2>💱 ระบบแลกเงิน</h2>
-
-<input id="name" placeholder="ชื่อบัญชี">
-<input id="acc" placeholder="เลขบัญชี">
-
-<select id="bank">
+</p></section><!-- ระบบแลกเงิน --><section id="exchange" class="card"><h2>💱 ระบบแลกเงิน</h2><input id="name" placeholder="ชื่อบัญชี">
+<input id="acc" placeholder="เลขบัญชี"><select id="bank">
 <option>กสิกรไทย</option>
 <option>กรุงไทย</option>
 <option>ไทยพาณิชย์</option>
 <option>กรุงเทพ</option>
 <option>ออมสิน</option>
 <option>กรุงศรี</option>
-</select>
-
-<select id="country">
+</select><select id="country">
 <option>สิงคโปร์</option>
 <option>เวียดนาม</option>
 <option>มาเลเซีย</option>
@@ -280,117 +259,30 @@ opacity:0.7;
 <option>ลาว</option>
 <option>เกาหลีใต้</option>
 <option>จีน</option>
-</select>
+</select><input id="amount" type="number" placeholder="จำนวนเงิน"><p>ค่าบริการ 2%</p><button onclick="createReceipt()">สร้างใบเสร็จ</button>
 
-<input id="amount" type="number" placeholder="จำนวนเงิน">
-
-<p>ค่าบริการ 2%</p>
-
-<button onclick="createReceipt()">สร้างใบเสร็จ</button>
-
-<div id="receipt">
-
-<h3>ใบเสร็จธุรกรรม</h3>
-
-<p id="txid"></p>
+<div id="receipt"><h3>ใบเสร็จธุรกรรม</h3><p id="txid"></p>
 <p id="txname"></p>
 <p id="txbank"></p>
 <p id="txcountry"></p>
 <p id="txamount"></p>
 <p id="txfee"></p>
 <p id="txtotal"></p>
-<p id="txtime"></p>
+<p id="txtime"></p><canvas id="qr"></canvas>
 
-<canvas id="qr"></canvas>
+</div></section></div><div id="contactPopup"><div class="popupBox"><h1>📩 ส่งใบเสร็จยืนยัน</h1><p>ดาวน์โหลดใบเสร็จแล้ว
+กรุณาส่งใบเสร็จที่ช่องทางติดต่อด้านล่าง
 
-</div>
+</p><button onclick="window.open('https://www.facebook.com/share/1FMKP3heQ4/')">📩 ส่งใบเสร็จที่นี่
 
-</section>
+</button><br><br>
 
-<section id="stats" class="card">
+<button onclick="closePopup()" style="background:#ef4444">ปิด
 
-<h2>📈 สถิติธุรกรรม</h2>
+</button></div></div><footer>© 2026 ถุงทองแลกเปลี่ยน FinTech Platform
 
-<canvas id="txChart"></canvas>
+</footer><script>
 
-<p>จำนวนธุรกรรม : <span id="txCount">0</span></p>
-<p>ยอดเงินรวม : <span id="txVolume">0</span></p>
-
-</section>
-
-<section id="banks" class="card">
-
-<h2>🏦 ธนาคารที่รองรับ</h2>
-
-<div class="banks">
-
-<div class="bank">
-<img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Kasikornbank_logo.svg">
-</div>
-
-<div class="bank">
-<img src="https://upload.wikimedia.org/wikipedia/commons/2/20/Krung_Thai_Bank_logo.svg">
-</div>
-
-<div class="bank">
-<img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/SCB_Logo.svg">
-</div>
-
-<div class="bank">
-<img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Bangkokbank_logo.svg">
-</div>
-
-<div class="bank">
-<img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Government_Savings_Bank_logo.svg">
-</div>
-
-<div class="bank">
-<img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Bank_of_Ayudhya_logo.svg">
-</div>
-
-</div>
-
-</section>
-
-<section id="reviews" class="card">
-
-<h2>⭐ รีวิวลูกค้า</h2>
-
-<div class="review-container">
-
-<div class="review">⭐⭐⭐⭐⭐ โอนเร็วมาก 5 นาทีได้เงิน</div>
-<div class="review">⭐⭐⭐⭐⭐ เรทดีมาก</div>
-<div class="review">⭐⭐⭐⭐⭐ ระบบใช้ง่าย</div>
-<div class="review">⭐⭐⭐⭐⭐ บริการรวดเร็ว</div>
-
-</div>
-
-</section>
-
-<section id="contact" class="card">
-
-<h2>📞 ติดต่อ</h2>
-
-<button onclick="window.open('https://www.facebook.com/share/1FMKP3heQ4/')">
-ติดต่อผ่าน Facebook
-</button>
-
-</section>
-
-</div>
-
-<div id="contactFloat"
-onclick="window.open('https://www.facebook.com/share/1FMKP3heQ4/')">
-💬 ติดต่อ
-</div>
-
-<footer>
-© 2026 ถุงทองแลกเปลี่ยน FinTech Platform
-</footer>
-
-<script>
-
-// ค่าเงิน API
 async function loadRates(){
 
 try{
@@ -406,16 +298,17 @@ let cny=(1/data.rates.CNY).toFixed(2)
 document.getElementById("rateTicker").innerHTML=
 `💹 USD/THB ${usd} | SGD/THB ${sgd} | MYR/THB ${myr} | CNY/THB ${cny}`
 
-}catch{
-document.getElementById("rateTicker").innerText="กำลังโหลดค่าเงิน..."
-}
+document.getElementById("usdRate").innerText=usd
+document.getElementById("sgdRate").innerText=sgd
+document.getElementById("myrRate").innerText=myr
+document.getElementById("cnyRate").innerText=cny
+
+}catch{}
 
 }
 
 loadRates()
-setInterval(loadRates,60000)
 
-// Counter
 let liveCounter=1245392
 
 setInterval(()=>{
@@ -427,38 +320,12 @@ document.getElementById("liveCounter").innerText=
 
 },2000)
 
-let txCount=0
-let txVolume=0
-
-let countryStats={
-"สิงคโปร์":0,
-"เวียดนาม":0,
-"มาเลเซีย":0,
-"อินโดนีเซีย":0,
-"กัมพูชา":0,
-"ฮ่องกง":0,
-"ลาว":0,
-"เกาหลีใต้":0,
-"จีน":0
+function openPopup(){
+document.getElementById("contactPopup").style.display="flex"
 }
 
-let txChart
-
-window.onload=function(){
-
-let ctx=document.getElementById("txChart").getContext("2d")
-
-txChart=new Chart(ctx,{
-type:"bar",
-data:{
-labels:Object.keys(countryStats),
-datasets:[{
-label:"ธุรกรรม",
-data:Object.values(countryStats)
-}]
-}
-})
-
+function closePopup(){
+document.getElementById("contactPopup").style.display="none"
 }
 
 function createReceipt(){
@@ -480,10 +347,8 @@ document.getElementById("txname").innerText="ชื่อบัญชี : "+nam
 document.getElementById("txbank").innerText="ธนาคาร : "+bank
 document.getElementById("txcountry").innerText="ประเทศ : "+country
 document.getElementById("txamount").innerText="จำนวนเงิน : "+amount+" บาท"
-
 document.getElementById("txfee").innerText="ค่าบริการ : "+fee+" บาท"
 document.getElementById("txtotal").innerText="ยอดสุทธิ : "+total+" บาท"
-
 document.getElementById("txtime").innerText="เวลา : "+time
 
 document.getElementById("receipt").style.display="block"
@@ -494,17 +359,6 @@ value:id,
 size:120
 })
 
-txCount++
-txVolume+=amount
-
-countryStats[country]++
-
-document.getElementById("txCount").innerText=txCount
-document.getElementById("txVolume").innerText=txVolume
-
-txChart.data.datasets[0].data=Object.values(countryStats)
-txChart.update()
-
 html2canvas(document.getElementById("receipt")).then(canvas=>{
 
 let link=document.createElement("a")
@@ -514,9 +368,11 @@ link.click()
 
 })
 
+setTimeout(()=>{
+openPopup()
+},1200)
+
 }
 
-</script>
-
-</body>
+</script></body>
 </html>
