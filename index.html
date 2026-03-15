@@ -1,141 +1,378 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Global Exchange Platform</title>
+<title>ถุงทองแลกเปลี่ยน | Global Currency Exchange</title>
 
-<link rel="stylesheet" href="css/main.css">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
+<style>
+
+body{
+font-family:'Prompt',sans-serif;
+background:linear-gradient(135deg,#0f172a,#1e293b);
+margin:0;
+color:white;
+overflow-x:hidden;
+}
+
+header{
+padding:30px;
+text-align:center;
+}
+
+h1{
+font-size:34px;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:20px;
+}
+
+.glass{
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(12px);
+border-radius:15px;
+padding:25px;
+margin-bottom:25px;
+border:1px solid rgba(255,255,255,0.2);
+}
+
+.card{
+background:white;
+color:black;
+border-radius:12px;
+padding:20px;
+margin:15px 0;
+box-shadow:0 5px 20px rgba(0,0,0,0.3);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin-top:5px;
+border-radius:8px;
+border:none;
+}
+
+button{
+margin-top:15px;
+padding:12px 20px;
+border:none;
+border-radius:8px;
+background:#22c55e;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#16a34a;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th,td{
+padding:10px;
+border-bottom:1px solid #ddd;
+text-align:center;
+}
+
+.receipt{
+background:white;
+color:black;
+padding:30px;
+border-radius:12px;
+margin-top:20px;
+position:relative;
+}
+
+.watermark{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) rotate(-30deg);
+font-size:60px;
+opacity:0.07;
+}
+
+.notify{
+position:fixed;
+top:20px;
+right:20px;
+background:#16a34a;
+padding:15px 25px;
+border-radius:8px;
+display:none;
+}
+
+.contact{
+position:fixed;
+bottom:25px;
+right:25px;
+background:#2563eb;
+padding:15px 22px;
+border-radius:40px;
+text-decoration:none;
+color:white;
+font-weight:bold;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+.money{
+position:fixed;
+bottom:-50px;
+font-size:30px;
+animation:float 8s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0);opacity:0;}
+50%{opacity:1;}
+100%{transform:translateY(-100vh);opacity:0;}
+}
+
+footer{
+text-align:center;
+padding:30px;
+opacity:0.7;
+}
+
+</style>
 </head>
 
 <body>
 
 <header>
-
-<h1>💱 Global Currency Exchange</h1>
-
-<nav>
-
-<a href="#">Home</a>
-<a href="#exchange">Exchange</a>
-<a href="#rates">Rates</a>
-<a href="admin.html">Admin</a>
-
-</nav>
-
+<h1>💰 ถุงทองแลกเปลี่ยน</h1>
+<p>แพลตฟอร์มแลกเงินออนไลน์ Secure • Fast • Trusted</p>
 </header>
 
+<div class="container">
 
-<section class="hero">
+<div class="glass">
 
-<h2>Secure Online Exchange Platform</h2>
+<h2>วิธีการแลกเงิน</h2>
 
-</section>
-
-
-<section id="exchange" class="card">
-
-<h2>Exchange Form</h2>
-
-<input id="name" placeholder="ชื่อ นามสกุล">
-
-<input id="account" placeholder="เลขบัญชี">
-
-<select id="bank">
-
-<option value="KTB">Krungthai</option>
-<option value="KBANK">Kasikorn</option>
-<option value="SCB">SCB</option>
-<option value="BBL">Bangkok Bank</option>
-<option value="TTB">TTB</option>
-<option value="BAY">Krungsri</option>
-<option value="GSB">GSB</option>
-<option value="BAAC">BAAC</option>
-
-</select>
-
-
-<select id="currency">
-
-<option>USD</option>
-<option>EUR</option>
-<option>GBP</option>
-<option>JPY</option>
-<option>CNY</option>
-<option>SGD</option>
-<option>AUD</option>
-<option>HKD</option>
-<option>KRW</option>
-
-</select>
-
-
-<input id="amount" placeholder="Amount">
-
-
-<button onclick="calculate()">Calculate</button>
-
-<button onclick="createReceipt()">Create Receipt</button>
-
-<button onclick="downloadReceipt()">Download Receipt</button>
-
-<div id="result"></div>
-
-</section>
-
-
-
-<section id="rates" class="card">
-
-<h2>Exchange Rates</h2>
-
-<table id="rateTable">
-
-<tr>
-
-<th>Currency</th>
-<th>THB</th>
-
-</tr>
-
-</table>
-
-</section>
-
-
-
-<div id="receipt" class="receipt">
-
-<div class="watermark">SECURE</div>
-
-<h3>Transaction Receipt</h3>
-
-<p>ID: <span id="txid"></span></p>
-
-<div id="qrcode"></div>
-
-<p>Name: <span id="rname"></span></p>
-
-<p>Account: <span id="racc"></span></p>
-
-<p>Bank: <span id="rbank"></span></p>
-
-<p>Amount: <span id="ramount"></span></p>
-
-<p>Rate: <span id="rrate"></span></p>
-
-<p>Receive THB: <span id="rthb"></span></p>
+<ol>
+<li>กรอกข้อมูลบัญชี</li>
+<li>เลือกสกุลเงิน</li>
+<li>สร้างใบเสร็จ</li>
+<li>ดาวน์โหลดใบเสร็จ</li>
+<li>ส่งใบเสร็จให้เจ้าหน้าที่</li>
+</ol>
 
 </div>
 
+<div class="glass">
 
-<script src="js/exchange.js"></script>
+<h2>แลกเงิน</h2>
+
+<div class="grid">
+
+<div>
+
+<label>ชื่อ-นามสกุล</label>
+<input id="name">
+
+<label>เลขบัญชี</label>
+<input id="account">
+
+<label>ธนาคาร</label>
+<select id="bank">
+<option>กรุงไทย</option>
+<option>กสิกรไทย</option>
+<option>ไทยพาณิชย์</option>
+<option>กรุงเทพ</option>
+</select>
+
+</div>
+
+<div>
+
+<label>สกุลเงิน</label>
+<select id="currency">
+
+<option value="36.5">USD</option>
+<option value="39">EUR</option>
+<option value="45">GBP</option>
+<option value="0.25">JPY</option>
+<option value="24">CNY</option>
+<option value="27">HKD</option>
+<option value="8">SGD</option>
+<option value="1.1">MYR</option>
+<option value="1">THB</option>
+
+</select>
+
+<label>จำนวนเงิน</label>
+<input id="amount" type="number">
+
+<button onclick="calculate()">คำนวณ</button>
+<button onclick="createReceipt()">สร้างใบเสร็จ</button>
+
+</div>
+
+</div>
+
+<div id="result"></div>
+
+</div>
+
+<div class="glass">
+
+<h2>อัตราแลกเปลี่ยน</h2>
+
+<table>
+
+<tr>
+<th>Currency</th>
+<th>THB Rate</th>
+</tr>
+
+<tr><td>USD</td><td>36.5</td></tr>
+<tr><td>EUR</td><td>39</td></tr>
+<tr><td>GBP</td><td>45</td></tr>
+<tr><td>JPY</td><td>0.25</td></tr>
+<tr><td>CNY</td><td>24</td></tr>
+<tr><td>HKD</td><td>27</td></tr>
+<tr><td>SGD</td><td>8</td></tr>
+<tr><td>MYR</td><td>1.1</td></tr>
+
+</table>
+
+</div>
+
+<div id="receiptArea"></div>
+
+</div>
+
+<div id="notify" class="notify"></div>
+
+<a class="contact" href="https://www.facebook.com/share/1GYjXk6h8M/" target="_blank">
+💬 ติดต่อเจ้าหน้าที่
+</a>
+
+<footer>
+© 2026 ถุงทองแลกเปลี่ยน
+</footer>
+
+<div class="money">💸</div>
+<div class="money">💰</div>
+<div class="money">💵</div>
+
+<script>
+
+function notify(msg){
+
+let n=document.getElementById("notify")
+
+n.innerText=msg
+n.style.display="block"
+
+setTimeout(()=>{
+
+n.style.display="none"
+
+},3000)
+
+}
+
+function calculate(){
+
+let rate=document.getElementById("currency").value
+let amount=document.getElementById("amount").value
+
+let thb=rate*amount
+
+document.getElementById("result").innerHTML=
+"<h3>จะได้รับประมาณ "+thb.toFixed(2)+" บาท</h3>"
+
+notify("คำนวณสำเร็จ")
+
+}
+
+function createReceipt(){
+
+let name=document.getElementById("name").value
+let account=document.getElementById("account").value
+let bank=document.getElementById("bank").value
+let rate=document.getElementById("currency").value
+let amount=document.getElementById("amount").value
+
+let thb=rate*amount
+
+let tx="TX"+Math.floor(Math.random()*99999999)
+
+document.getElementById("receiptArea").innerHTML=
+
+`<div id="receipt" class="receipt">
+
+<div class="watermark">ถุงทอง</div>
+
+<h2>ใบเสร็จแลกเงิน</h2>
+
+<p>Transaction ID: ${tx}</p>
+
+<p>ชื่อ: ${name}</p>
+
+<p>บัญชี: ${account}</p>
+
+<p>ธนาคาร: ${bank}</p>
+
+<p>จำนวน: ${amount}</p>
+
+<p>เรท: ${rate}</p>
+
+<h3>รับเงิน: ${thb.toFixed(2)} บาท</h3>
+
+<canvas id="qrcode"></canvas>
+
+<button onclick="downloadReceipt()">ดาวน์โหลด PNG</button>
+
+</div>`
+
+QRCode.toCanvas(document.getElementById("qrcode"),tx)
+
+notify("สร้างใบเสร็จสำเร็จ")
+
+}
+
+function downloadReceipt(){
+
+html2canvas(document.getElementById("receipt")).then(canvas=>{
+
+let a=document.createElement("a")
+
+a.href=canvas.toDataURL()
+a.download="receipt.png"
+
+a.click()
+
+})
+
+notify("ดาวน์โหลดใบเสร็จแล้ว")
+
+}
+
+</script>
 
 </body>
 </html>
