@@ -6,44 +6,360 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ถุงทองแลกเปลี่ยน</title>
+<title>ถุงทองแลกเปลี่ยน | FinTech Platform</title>
 
-<link rel="stylesheet" href="style.css">
+<style>
+
+/* ===== Background ===== */
+
+body{
+
+margin:0;
+font-family:sans-serif;
+
+background:linear-gradient(270deg,#0f172a,#1e3a8a,#020617);
+
+background-size:600% 600%;
+
+animation:bgmove 15s ease infinite;
+
+color:white;
+
+}
+
+@keyframes bgmove{
+
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+
+}
+
+/* ===== Navbar ===== */
+
+nav{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:15px 30px;
+
+background:rgba(0,0,0,0.4);
+
+backdrop-filter:blur(10px);
+
+}
+
+nav ul{
+
+display:flex;
+gap:20px;
+list-style:none;
+
+}
+
+nav a{
+
+color:white;
+text-decoration:none;
+
+}
+
+/* ===== Container ===== */
+
+.container{
+
+max-width:1100px;
+margin:auto;
+padding:20px;
+
+}
+
+/* ===== Card UI ===== */
+
+.card{
+
+background:rgba(255,255,255,0.08);
+
+padding:25px;
+
+border-radius:15px;
+
+margin:30px 0;
+
+backdrop-filter:blur(10px);
+
+}
+
+/* ===== Button ===== */
+
+button{
+
+background:#22c55e;
+
+border:none;
+
+padding:12px 20px;
+
+border-radius:8px;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+/* ===== Inputs ===== */
+
+input,select{
+
+width:100%;
+padding:10px;
+
+margin:8px 0;
+
+border-radius:8px;
+
+border:none;
+
+}
+
+/* ===== Warning ===== */
+
+.warning{
+
+background:#dc2626;
+
+padding:15px;
+
+text-align:center;
+
+font-weight:bold;
+
+}
+
+/* ===== Steps ===== */
+
+.steps{
+
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+
+}
+
+.step{
+
+background:rgba(255,255,255,0.1);
+padding:15px;
+border-radius:10px;
+
+}
+
+/* ===== Footer ===== */
+
+footer{
+
+text-align:center;
+padding:40px;
+opacity:0.7;
+
+}
+
+/* ===== Mobile ===== */
+
+@media(max-width:700px){
+
+.steps{
+grid-template-columns:1fr;
+}
+
+nav ul{
+flex-direction:column;
+}
+
+}
+
+</style>
 
 </head>
 
 <body>
 
+<div class="warning">
+
+🚨 รับโอนเฉพาะบัญชีชื่อ นายพีระพัฒน์ ทองระมุน เท่านั้น ห้ามโอนบัญชีอื่น
+
+</div>
+
 <nav>
 
-<h2>ถุงทองแลกเปลี่ยน</h2>
+<h2>💰 ถุงทองแลกเปลี่ยน</h2>
 
 <ul>
 
-<li><a href="index.html">หน้าแรก</a></li>
-<li><a href="exchange.html">แลกเงิน</a></li>
-<li><a href="rates.html">อัตราแลก</a></li>
-<li><a href="banks.html">ธนาคาร</a></li>
-<li><a href="security.html">ความปลอดภัย</a></li>
-<li><a href="contact.html">ติดต่อ</a></li>
+<li><a href="#home">หน้าแรก</a></li>
+<li><a href="#exchange">แลกเงิน</a></li>
+<li><a href="#steps">ขั้นตอน</a></li>
+<li><a href="#security">ความปลอดภัย</a></li>
+<li><a href="#contact">ติดต่อ</a></li>
 
 </ul>
 
 </nav>
 
-<section>
+<div class="container">
+
+<section id="home" class="card">
 
 <h1>แพลตฟอร์มแลกเงินออนไลน์</h1>
 
 <p>
 
-รองรับ 9 ประเทศ  
-สิงคโปร์ เวียดนาม มาเลเซีย อินโดนีเซีย  
-กัมพูชา ฮ่องกง ลาว เกาหลีใต้ และจีน
+แพลตฟอร์มสำหรับแลกเปลี่ยนสกุลเงินต่างประเทศ  
+ออกแบบมาเพื่อให้การทำธุรกรรมเป็นไปอย่างสะดวก รวดเร็ว และปลอดภัย
+
+</p>
+
+<h3>รองรับ 9 ประเทศ</h3>
+
+<p>
+
+🇸🇬 สิงคโปร์  
+🇻🇳 เวียดนาม  
+🇲🇾 มาเลเซีย  
+🇮🇩 อินโดนีเซีย  
+🇰🇭 กัมพูชา  
+🇭🇰 ฮ่องกง  
+🇱🇦 ลาว  
+🇰🇷 เกาหลีใต้  
+🇨🇳 จีน
 
 </p>
 
 </section>
+
+<section id="exchange" class="card">
+
+<h2>ระบบแลกเงิน</h2>
+
+<label>ชื่อบัญชี</label>
+<input type="text">
+
+<label>เลขบัญชี</label>
+<input type="text">
+
+<label>ธนาคาร</label>
+
+<select>
+
+<option>กสิกรไทย</option>
+<option>กรุงไทย</option>
+<option>ไทยพาณิชย์</option>
+<option>กรุงเทพ</option>
+
+</select>
+
+<label>ประเทศ</label>
+
+<select>
+
+<option>สิงคโปร์</option>
+<option>เวียดนาม</option>
+<option>มาเลเซีย</option>
+<option>อินโดนีเซีย</option>
+<option>กัมพูชา</option>
+<option>ฮ่องกง</option>
+<option>ลาว</option>
+<option>เกาหลีใต้</option>
+<option>จีน</option>
+
+</select>
+
+<label>จำนวนเงิน</label>
+
+<input type="number">
+
+<button>คำนวณอัตราแลก</button>
+
+</section>
+
+<section id="steps" class="card">
+
+<h2>ขั้นตอนการแลกเงิน</h2>
+
+<div class="steps">
+
+<div class="step">
+1️⃣ กรอกข้อมูลบัญชี
+</div>
+
+<div class="step">
+2️⃣ เลือกประเทศและจำนวนเงิน
+</div>
+
+<div class="step">
+3️⃣ สร้างรายการแลกเงิน
+</div>
+
+<div class="step">
+4️⃣ โอนเงินตามบัญชีที่ระบบระบุ
+</div>
+
+<div class="step">
+5️⃣ ส่งใบเสร็จให้เจ้าหน้าที่ตรวจสอบ
+</div>
+
+<div class="step">
+6️⃣ รับเงินเข้าบัญชี
+</div>
+
+</div>
+
+</section>
+
+<section id="security" class="card">
+
+<h2>ระบบความปลอดภัย</h2>
+
+<ul>
+
+<li>Transaction ID ทุกธุรกรรม</li>
+<li>ใบเสร็จมี Watermark ป้องกันปลอม</li>
+<li>ตรวจสอบข้อมูลก่อนทำธุรกรรม</li>
+<li>ระบบแจ้งเตือนบัญชีปลอม</li>
+
+</ul>
+
+</section>
+
+<section id="contact" class="card">
+
+<h2>ติดต่อเจ้าหน้าที่</h2>
+
+<p>
+
+หากต้องการสอบถามรายละเอียดเพิ่มเติม  
+สามารถติดต่อผ่าน Facebook
+
+</p>
+
+<a href="https://www.facebook.com/share/1GYjXk6h8M/">
+
+<button>ติดต่อผ่าน Facebook</button>
+
+</a>
+
+</section>
+
+</div>
+
+<footer>
+
+© 2026 ถุงทองแลกเปลี่ยน FinTech Platform
+
+</footer>
 
 </body>
 
